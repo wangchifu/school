@@ -21,9 +21,18 @@
         </thead>
         <tbody>
         @foreach($meetings as $meeting)
+            <?php
+            $open_date = str_replace('-','',$meeting->open_date);
+            $die_line = (date('Ymd') > $open_date)?"1":"0";
+            ?>
             <tr>
                 <td>{{ $meeting->open_date }} {{ get_chinese_weekday($meeting->open_date) }}</td>
-                <td><a href="{{ route('meetings.show',$meeting->id) }}">{{ $meeting->name }}</a></td>
+                <td>
+                    @if($die_line)
+                        <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-lock"></i></a>
+                    @endif
+                    <a href="{{ route('meetings.show',$meeting->id) }}">{{ $meeting->name }}</a>
+                </td>
                 <td>{{ $meeting->reports->count() }}</td>
                 <td>
                     @can('update',$meeting)

@@ -71,10 +71,14 @@ class MeetingController extends Controller
             $has_report = (auth()->user()->id == $report->user_id)?"1":"0";
         }
 
+        $open_date = str_replace('-','',$meeting->open_date);
+        $die_line = (date('Ymd') > $open_date)?"1":"0";
+
         $data = [
             'meeting'=>$meeting,
             'reports'=>$reports,
             'has_report'=>$has_report,
+            'die_line'=>$die_line,
         ];
         return view('meetings.show',$data);
     }
