@@ -6,7 +6,7 @@
 <br><br><br>
 <div class="container">
     <h1><i class="fas fa-wrench"></i> 報修系統</h1>
-        <a href="{{ route('fixes.create') }}" class="btn btn-success btn-sm"><i class="fas fa-plus"></i> 新增報修項目</a>
+        <a href="{{ route('fixes.index') }}" class="btn btn-secondary btn-sm"><i class="fas fa-backward"></i> 返回列表</a>
     <br><br>
     <table class="table table-striped">
         <thead class="thead-light">
@@ -30,7 +30,7 @@
                       '3'=>'<i class="fas fa-phone-square text-danger"></i>'
                   ];
                   ?>
-                  {!! $icon[$fix->situation] !!} <a href="{{ route('fixes.search',$fix->situation) }}">{{ $situation[$fix->situation] }}</a>
+                {!! $icon[$fix->situation] !!} {{ $situation[$fix->situation] }}
               </td>
               <td>
                   {{ substr($fix->created_at,0,10) }}

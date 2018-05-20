@@ -162,6 +162,7 @@ Route::group(['middleware' => 'auth'],function() {
 
     //報修系統
     Route::get('fixes', 'FixController@index')->name('fixes.index');
+    Route::get('fixes_search/{situation}/type', 'FixController@search')->name('fixes.search');
     Route::get('fixes/{fix}' , 'FixController@show')->where('fix', '[0-9]+')->name('fixes.show');
     Route::get('fixes/create', 'FixController@create')->name('fixes.create');
     Route::post('fixes', 'FixController@store')->name('fixes.store');

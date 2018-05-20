@@ -21,6 +21,14 @@ class FixController extends Controller
             ->paginate(20);
         return view('fixes.index',compact('fixes'));
     }
+    public function search($situation)
+    {
+        $fixes = Fix::where('type','1')
+            ->where('situation',$situation)
+            ->orderBy('id','DESC')
+            ->paginate(20);
+        return view('fixes.search',compact('fixes'));
+    }
 
     /**
      * Show the form for creating a new resource.
