@@ -13,7 +13,7 @@ class FixRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,24 @@ class FixRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'title' => 'required',
+            'content' => 'required',
+        ];
+    }
+
+    public function attributes()
+    {
+        return [
+            'title' => '標題',
+            'content' => '內容',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'title.required' => ':attribute 不可空白',
+            'content.required' => ':attribute 不可空白',
         ];
     }
 }

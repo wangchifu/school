@@ -62,12 +62,12 @@
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
               <a class="nav-link" href="{{ route('posts.index') }}">
-                <i class="fas fa-newspaper"></i> 本校公告
+                <i class="fas fa-bullhorn"></i> 本校公告
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{{ route('open_files.index') }}">
-                <i class="far fa-file"></i> 公開文件
+                <i class="fas fa-box-open"></i> 公開文件
               </a>
             </li>
             <li class="nav-item dropdown">
@@ -75,9 +75,9 @@
                 <i class="fas fa-inbox"></i> 校內行政
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <a class="dropdown-item" href="{{ route('meetings.index') }}">1_會議文稿</a>
-                <a class="dropdown-item" href="{{ route('school_plans.index') }}">2_校務計畫</a>
-                <a class="dropdown-item" href="#">3_報修系統</a>
+                <a class="dropdown-item" href="{{ route('meetings.index') }}"><i class="fas fa-comments"></i> 會議文稿</a>
+                <a class="dropdown-item" href="{{ route('school_plans.index') }}"><i class="fas fa-book"></i> 校務計畫</a>
+                <a class="dropdown-item" href="{{ route('fixes.index') }}"><i class="fas fa-wrench"></i> 報修系統</a>
                 <a class="dropdown-item" href="#">4_問卷系統x</a>
                 <a class="dropdown-item" href="#">5_教室預約x</a>
                 <a class="dropdown-item" href="#">6_午餐系統x</a>
@@ -128,12 +128,12 @@
                     <i class="fas fa-cogs"></i> 系統設定
                   </a>
                   <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="{{ route('users.index') }}">1_帳號管理</a>
-                    <a class="dropdown-item" href="{{ route('groups.index') }}">2_群組管理</a>
+                    <a class="dropdown-item" href="{{ route('users.index') }}"><i class="fas fa-user"></i> 帳號管理</a>
+                    <a class="dropdown-item" href="{{ route('groups.index') }}"><i class="fas fa-users"></i> 群組管理</a>
                     <a class="dropdown-item" href="#">3_學生管理x</a>
-                    <a class="dropdown-item" href="{{ route('contents.index') }}">4_內容管理</a>
-                    <a class="dropdown-item" href="{{ route('links.index') }}">5_連結管理</a>
-                    <a class="dropdown-item" href="{{ route('funs.index') }}">6_指定管理</a>
+                    <a class="dropdown-item" href="{{ route('contents.index') }}"><i class="fas fa-file-alt"></i> 內容管理</a>
+                    <a class="dropdown-item" href="{{ route('links.index') }}"><i class="fas fa-link"></i> 連結管理</a>
+                    <a class="dropdown-item" href="{{ route('funs.index') }}"><i class="fas fa-trophy"></i> 指定管理</a>
                     <a class="dropdown-item" href="#">7_網站設定</a>
                   </div>
                 </li>

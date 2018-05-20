@@ -5,7 +5,7 @@
 @section('content')
 <br><br><br>
 <div class="container">
-    <h1>會議列表</h1>
+    <h1><i class="fas fa-comments"></i> 會議列表</h1>
     @can('create',\App\Meeting::class)
         <a href="{{ route('meetings.create') }}" class="btn btn-success btn-sm"><i class="fas fa-plus"></i> 新增會議</a>
     @endcan

@@ -5,7 +5,7 @@
 @section('content')
 <br><br><br>
 <div class="container">
-    <h1>使用者-群組列表 [ {{ $group->name }} ]</h1>
+    <h1><i class="fas fa-users"></i> 使用者-群組列表 [ {{ $group->name }} ]</h1>
     <a href="{{ route('groups.index') }}" class="btn btn-secondary btn-sm"><i class="fas fa-backward"></i> 返回</a>
     <br><br>
     <div class="row justify-content-center">

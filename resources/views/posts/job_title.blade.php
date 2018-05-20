@@ -57,7 +57,7 @@
 </style>
 <br><br><br>
 <div class="container">
-    <h1>{{ $job_title }}公告</h1>
+    <h1><i class="fas fa-bullhorn"></i> {{ $job_title }}公告</h1>
     <a href="{{ route('posts.index') }}" class="btn btn-secondary btn-sm"><i class="fas fa-backward"></i> 返回</a>
     <div class="row">
         <div class="col-md-4 col-md-offset-3">

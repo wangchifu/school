@@ -5,7 +5,7 @@
 @section('content')
 <br><br><br>
 <div class="container">
-    <h1>使用者列表</h1>
+    <h1><i class="fas fa-user"></i> 使用者列表</h1>
     <a href="{{ route('users.allEdit') }}" class="btn btn-info btn-sm"><i class="fas fa-edit"></i> 大量修改</a>
     <a href="{{ route('users.create') }}" class="btn btn-success btn-sm"><i class="fas fa-plus"></i> 新增使用者</a>
     <br><br>

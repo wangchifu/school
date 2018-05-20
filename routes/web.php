@@ -100,6 +100,7 @@ Route::group(['middleware' => 'admin'],function(){
     Route::patch('meetings/{meeting}' , 'MeetingController@update')->name('meetings.update');
     Route::delete('meetings/{meeting}', 'MeetingController@destroy')->name('meetings.destroy');
 
+
 });
 
 //行政人員
@@ -158,5 +159,14 @@ Route::group(['middleware' => 'auth'],function() {
     //校務計畫
     Route::get('school_plans/{path?}' , 'SchoolPlanController@index')->name('school_plans.index');
     Route::get('school_plans_download/{path}' , 'SchoolPlanController@download')->name('school_plans.download');
+
+    //報修系統
+    Route::get('fixes', 'FixController@index')->name('fixes.index');
+    Route::get('fixes/{fix}' , 'FixController@show')->where('fix', '[0-9]+')->name('fixes.show');
+    Route::get('fixes/create', 'FixController@create')->name('fixes.create');
+    Route::post('fixes', 'FixController@store')->name('fixes.store');
+    Route::delete('fixes/{fix}', 'FixController@destroy')->name('fixes.destroy');
+    Route::patch('fixes/{fix}', 'FixController@update')->name('fixes.update');
+
 });
 

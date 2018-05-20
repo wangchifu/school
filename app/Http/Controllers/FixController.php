@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Fix;
+use App\Fun;
+use App\Http\Requests\FixRequest;
 use Illuminate\Http\Request;
 
 class FixController extends Controller
@@ -13,7 +16,10 @@ class FixController extends Controller
      */
     public function index()
     {
-        //
+        $fixes = Fix::where('type','1')
+            ->orderBy('id','DESC')
+            ->paginate(20);
+        return view('fixes.index',compact('fixes'));
     }
 
     /**
@@ -23,7 +29,7 @@ class FixController extends Controller
      */
     public function create()
     {
-        //
+        return view('fixes.create');
     }
 
     /**
@@ -32,9 +38,17 @@ class FixController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(FixRequest $request)
     {
-        //
+        $att['type'] = $request->input('type');
+        $att['user_id'] = auth()->user()->id;
+        $att['title'] = $request->input('title');
+        $att['content'] = $request->input('content');
+        $att['situation'] = "3";
+
+        Fix::create($att);
+
+        return redirect()->route('fixes.index');
     }
 
     /**
@@ -43,9 +57,18 @@ class FixController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Fix $fix)
     {
-        //
+        //type=1是報修系統
+        $check_admin = Fun::where('user_id',auth()->user()->id)
+            ->where('type','1')
+            ->first();
+        $fix_admin = (empty($check_admin))?"0":"1";
+        $data = [
+            'fix'=>$fix,
+            'fix_admin'=>$fix_admin,
+        ];
+        return view('fixes.show',$data);
     }
 
     /**
@@ -66,9 +89,10 @@ class FixController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Fix $fix)
     {
-        //
+        $fix->update($request->all());
+        return redirect()->route('fixes.show',$fix->id);
     }
 
     /**
@@ -77,8 +101,9 @@ class FixController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Fix $fix)
     {
-        //
+        $fix->delete();
+        return redirect()->route('fixes.index');
     }
 }

@@ -5,7 +5,7 @@
 @section('content')
 <br><br><br>
 <div class="container">
-    <h1>新增內容</h1>
+    <h1><i class="fas fa-file-alt"></i> 新增內容</h1>
     <a href="{{ route('contents.index') }}" class="btn btn-secondary btn-sm"><i class="fas fa-backward"></i> 返回</a>
     <br><br>
     <div class="row justify-content-center">

@@ -63,7 +63,7 @@ class MeetingController extends Controller
     public function show(Meeting $meeting)
     {
         $reports = Report::where('meeting_id',$meeting->id)
-            ->orderBy('order')
+            ->orderBy('order_by')
             ->get();
 
         $has_report = 0;

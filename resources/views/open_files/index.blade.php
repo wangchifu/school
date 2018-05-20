@@ -5,7 +5,7 @@
 @section('content')
 <br><br><br>
 <div class="container">
-    <h1>公開文件</h1>
+    <h1><i class="fas fa-box-open"></i> 公開文件</h1>
     <br><br>
     <?php
     $final = end($folder_path);

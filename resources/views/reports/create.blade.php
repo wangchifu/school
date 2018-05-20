@@ -5,7 +5,7 @@
 @section('content')
 <br><br><br>
 <div class="container">
-    <h1>新增報告</h1>
+    <h1><i class="fas fa-comment"></i> 新增報告</h1>
     {{ Form::open(['route' => 'meetings_reports.store', 'method' => 'POST','id'=>'setup', 'files' => true,'onsubmit'=>'return false;']) }}
     <div class="card my-4">
         <h3 class="card-header">{{ $meeting->open_date }} {{ $meeting->name }} 報告資料</h3>

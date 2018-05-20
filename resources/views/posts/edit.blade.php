@@ -5,7 +5,7 @@
 @section('content')
 <br><br><br>
 <div class="container">
-    <h1>修改公告</h1>
+    <h1><i class="fas fa-bullhorn"></i> 修改公告</h1>
     {{ Form::model($post,['route' => ['posts.update',$post->id], 'method' => 'PATCH','id'=>'setup', 'files' => true,'onsubmit'=>'return false;']) }}
     <div class="card my-4">
         <h3 class="card-header">公告資料</h3>

@@ -5,7 +5,7 @@
 @section('content')
 <br><br><br>
 <div class="container">
-    <h1 class="text-danger">校務計畫</h1>
+    <h1 class="text-danger"><i class="fas fa-book"></i> 校務計畫</h1>
     <br><br>
     <?php
     $final = end($folder_path);

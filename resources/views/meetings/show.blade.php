@@ -8,7 +8,7 @@
 
         <div class="row">
             <div class="col-lg-9">
-                <h1 class="mt-4">{{ $meeting->open_date }} {{ get_chinese_weekday($meeting->open_date) }} {{ $meeting->name }}<a href="#" class="btn btn-primary"><i class="fas fa-download"></i> 報告內容下載</a></h1>
+                <h1 class="mt-4"><i class="fas fa-comments"></i> {{ $meeting->open_date }} {{ get_chinese_weekday($meeting->open_date) }} {{ $meeting->name }}<a href="#" class="btn btn-primary"><i class="fas fa-download"></i> 報告內容下載</a></h1>
                 <a href="{{ route('meetings.index') }}" class="btn btn-secondary btn-sm"><i class="fas fa-backward"></i> 返回</a>
                 @can('create',\App\Meeting::class)
                     @if($has_report=="0")

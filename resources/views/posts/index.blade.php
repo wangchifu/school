@@ -57,7 +57,7 @@
 </style>
 <br><br><br>
 <div class="container">
-    <h1>本校公告</h1>
+    <h1><i class="fas fa-bullhorn"></i> 本校公告</h1>
     @can('create',\App\Post::class)
         <a href="{{ route('posts.create') }}" class="btn btn-success btn-sm"><i class="fas fa-plus"></i> 新增公告</a>
     @endcan

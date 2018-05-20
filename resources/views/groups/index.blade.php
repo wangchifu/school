@@ -5,7 +5,7 @@
 @section('content')
 <br><br><br>
 <div class="container">
-    <h1>群組列表</h1>
+    <h1><i class="fas fa-users"></i> 群組列表</h1>
     <a href="{{ route('groups.create') }}" class="btn btn-success btn-sm"><i class="fas fa-plus"></i> 新增群組</a>
     <br><br>
     <table class="table table-striped">

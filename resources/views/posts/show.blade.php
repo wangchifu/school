@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('page-title', '新增公告 | 和東國小')
+@section('page-title', '公告內容 | 和東國小')
 
 @section('content')
 <br><br>
@@ -30,9 +30,9 @@
             };
             ?>
             @if($can_see)
-                <h1 class="mt-4">{{ $post->title }}</h1>
+                <h1 class="mt-4"><i class="fas fa-bullhorn"></i> {{ $post->title }}</h1>
             @else
-                <h1 class="mt-4 text-danger">校內文件</h1>
+                <h1 class="mt-4 text-danger"><i class="fas fa-ban"></i> 校內文件</h1>
             @endif
 
             <a href="{{ route('posts.index') }}" class="btn btn-secondary btn-sm"><i class="fas fa-backward"></i> 回列表</a>
@@ -45,7 +45,7 @@
 
             <br><br>
             <p class="lead">
-                張貼
+                張貼者
                 <a href="{{ route('posts.job_title',$post->job_title) }}">{{ $post->job_title }}</a>　　　
                 @can('update',$post)
                 <a href="{{ route('posts.edit',$post->id) }}" class="btn btn-info btn-sm"><i class="fas fa-edit"></i> 修改</a>

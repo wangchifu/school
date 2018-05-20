@@ -5,7 +5,7 @@
 @section('content')
 <br><br><br>
 <div class="container">
-    <h1>修改報告</h1>
+    <h1><i class="fas fa-comment"></i> 修改報告</h1>
     {{ Form::model($report,['route' => ['meetings_reports.update',$report->id], 'method' => 'PATCH','id'=>'setup', 'files' => true,'onsubmit'=>'return false;']) }}
     <div class="card my-4">
         <h3 class="card-header">{{ $report->meeting->open_date }} {{ $report->meeting->name }} 報告資料</h3>

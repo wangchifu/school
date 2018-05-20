@@ -5,7 +5,7 @@
 @section('content')
 <br><br><br>
 <div class="container">
-    <h1>大量修改使用者</h1>
+    <h1><i class="fas fa-user"></i> 大量修改使用者</h1>
     {{ Form::open(['route' => 'users.allUpdate', 'method' => 'PATCH','id'=>'setup','onsubmit'=>'return false;']) }}
     <a href="{{ route('users.index') }}" class="btn btn-secondary btn-sm"><i class="fas fa-backward"></i> 返回</a>
     <a href="#" class="btn btn-primary btn-sm" onclick="bbconfirm_Form('setup','確定儲存嗎？')"><i class="fas fa-save"></i> 送出修改</a>
