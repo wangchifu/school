@@ -77,11 +77,12 @@
               <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                 <a class="dropdown-item" href="{{ route('meetings.index') }}"><i class="fas fa-comments"></i> 會議文稿</a>
                 <a class="dropdown-item" href="{{ route('school_plans.index') }}"><i class="fas fa-book"></i> 校務計畫</a>
-                <a class="dropdown-item" href="{{ route('fixes.index') }}"><i class="fas fa-wrench"></i> 報修系統</a>
                 <a class="dropdown-item" href="#"><i class="far fa-check-square"></i> 問卷系統x</a>
                 <a class="dropdown-item" href="#"><i class="fas fa-list-ol"></i> 教室預約x</a>
-                <a class="dropdown-item" href="#"><i class="fas fa-utensils"></i> 午餐系統x</a>
-                <a class="dropdown-item" href="#}"><i class="fas fa-football-ball"></i> 運動會報名系統x</a>
+                <a class="dropdown-item" href="{{ route('fixes.index') }}"><i class="fas fa-wrench"></i> 報修系統*</a>
+                <a class="dropdown-item" href="{{ route('students.index') }}"><i class="fas fa-child"></i> 學生系統*</a>
+                <a class="dropdown-item" href="#"><i class="fas fa-utensils"></i> 午餐系統x*</a>
+                <a class="dropdown-item" href="#}"><i class="fas fa-football-ball"></i> 運動會報名系統x*</a>
               </div>
             </li>
               <?php
@@ -130,7 +131,6 @@
                   <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                     <a class="dropdown-item" href="{{ route('users.index') }}"><i class="fas fa-user"></i> 帳號管理</a>
                     <a class="dropdown-item" href="{{ route('groups.index') }}"><i class="fas fa-users"></i> 群組管理</a>
-                    <a class="dropdown-item" href="#"><i class="fas fa-child"></i> 學生管理x</a>
                     <a class="dropdown-item" href="{{ route('contents.index') }}"><i class="fas fa-file-alt"></i> 內容管理</a>
                     <a class="dropdown-item" href="{{ route('links.index') }}"><i class="fas fa-link"></i> 連結管理</a>
                     <a class="dropdown-item" href="{{ route('funs.index') }}"><i class="fas fa-trophy"></i> 指定管理</a>

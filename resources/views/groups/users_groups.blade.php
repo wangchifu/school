@@ -58,7 +58,7 @@
 
         <div class="col-md-3">
             {{ Form::open(['route' => 'users_groups.store', 'method' => 'POST','id'=>'add','onsubmit'=>'return false;']) }}
-            {{ Form::select('user_id[]', $user_menu,null, ['id' => 'user_id', 'class' => 'form-control','multiple'=>'multiple', 'placeholder' => '---可多選---']) }}
+            {{ Form::select('user_id[]', $user_menu,null, ['id' => 'user_id', 'class' => 'form-control','multiple'=>'multiple','size'=>'20', 'placeholder' => '---可多選---']) }}
             <br>
             <a href="#" class="btn btn-success" onclick="bbconfirm_Form('add','確定加入？')"><i class="fas fa-plus"></i> 加入使用者</a>
             <input type="hidden" name="group_id" value="{{ $group->id }}">

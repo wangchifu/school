@@ -253,8 +253,8 @@ gj.core = {
     messages: {
         'en-us': {
             monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-            monthShortNames: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
-            weekDaysMin: ['日', '一', '二', '三', '四', '五', '六'],
+            monthShortNames: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            weekDaysMin: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
             weekDaysShort: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
             weekDays: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
             am: 'AM',
@@ -14006,7 +14006,7 @@ gj.datepicker.config = {
          *    });
          * </script>
          */
-        locale: 'en-us',
+        locale: 'zh-TW',
 
         icons: {
             /** datepicker icon definition.

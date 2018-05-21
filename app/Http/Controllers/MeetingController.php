@@ -41,8 +41,7 @@ class MeetingController extends Controller
      */
     public function store(MeetingRequest $request)
     {
-        $date = explode('/',$request->input('open_date'));
-        $att['open_date'] = $date[2].'-'.$date[0].'-'.$date[1];
+        $att['open_date'] = $request->input('open_date');
         $att['name'] = $request->input('name');
         $check_meeting = Meeting::where('open_date',$att['open_date'])->where('name',$att['name'])->first();
         if(!empty($check_meeting)){
@@ -103,10 +102,7 @@ class MeetingController extends Controller
      */
     public function update(MeetingRequest $request, Meeting $meeting)
     {
-        $date = explode('/',$request->input('open_date'));
-        $att['open_date'] = $date[2].'-'.$date[0].'-'.$date[1];
-        $att['name'] = $request->input('name');
-        $meeting->update($att);
+        $meeting->update($request->all());
         return redirect()->route('meetings.index');
     }
 

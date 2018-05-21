@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateFunsTable extends Migration
+class CreateSemesterStudentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,13 @@ class CreateFunsTable extends Migration
      */
     public function up()
     {
-        Schema::create('funs', function (Blueprint $table) {
+        Schema::create('semester_students', function (Blueprint $table) {
             $table->increments('id');
-            $table->tinyInteger('type');//1是維修,2學生管理,3是午餐,4是運動會,
-            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('semester');
+            $table->unsignedInteger('student_id');
+            $table->unsignedInteger('year_class_id');
+            $table->string('num');
+            $table->unsignedInteger('at_school')->nullable();
             $table->timestamps();
         });
     }
@@ -28,6 +31,6 @@ class CreateFunsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('funs');
+        Schema::dropIfExists('semester_students');
     }
 }

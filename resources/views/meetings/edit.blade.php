@@ -12,8 +12,7 @@
         <div class="col-md-12">
             @include('layouts.alert')
             <?php
-            $date = explode('-',$meeting->open_date);
-            $default_date = $date[1]."/".$date[2]."/".$date[0];
+            $default_date = $meeting->open_date;
             $default_name=$meeting->name;
             ?>
             {{ Form::model($meeting,['route' => ['meetings.update',$meeting->id], 'method' => 'PATCH','id'=>'setup','onsubmit'=>'return false;']) }}

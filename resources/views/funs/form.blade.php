@@ -3,7 +3,7 @@
     <div class="card-body">
         <div class="form-group">
             <label for="type">類別*</label>
-            <?php $types=['1'=>'報修系統','2'=>'午餐系統','3'=>'運動會報名系統']; ?>
+            <?php $types=['1'=>'報修系統','2'=>'學生系統','3'=>'午餐系統','4'=>'運動會報名系統']; ?>
             {{ Form::select('type', $types,null, ['id' => 'type', 'class' => 'form-control']) }}
         </div>
         <div class="form-group">

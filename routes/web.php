@@ -169,5 +169,18 @@ Route::group(['middleware' => 'auth'],function() {
     Route::delete('fixes/{fix}', 'FixController@destroy')->name('fixes.destroy');
     Route::patch('fixes/{fix}', 'FixController@update')->name('fixes.update');
 
+    //學生管理
+    Route::get('students', 'StudentController@index')->name('students.index');
+    Route::get('students/create', 'StudentController@create')->name('students.create');
+    Route::get('students/{student}' , 'StudentController@show')->where('student', '[0-9]+')->name('students.show');
+    Route::post('students', 'StudentController@store')->name('students.store');
+    Route::delete('students/{student}', 'StudentController@destroy')->name('students.destroy');
+    Route::get('students/{student}/edit', 'StudentController@edit')->name('students.edit');
+    Route::patch('students/{student}', 'StudentController@update')->name('students.update');
+
+    //新增學期
+    Route::get('year_class/create', 'YearClassController@create')->name('year_classes.create');
+    Route::post('year_class/store', 'YearClassController@store')->name('year_classes.store');
+
 });
 

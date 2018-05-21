@@ -27,9 +27,14 @@
                <td>
                    @if($fun->type == "1")
                        <p class="text-primary">報修系統</p>
-                   @elseif($fun->type == "2")
+                   @endif
+                   @if($fun->type == "2")
+                       <p class="text-secondary">學生系統</p>
+                   @endif
+                   @if($fun->type == "3")
                        <p class="text-info">午餐系統</p>
-                   @else
+                   @endif
+                   @if($fun->type == "4")
                        <p class="text-success">運動會報名系統</p>
                    @endif
                </td>

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateFunsTable extends Migration
+class CreateYearClassesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,12 @@ class CreateFunsTable extends Migration
      */
     public function up()
     {
-        Schema::create('funs', function (Blueprint $table) {
+        Schema::create('year_classes', function (Blueprint $table) {
             $table->increments('id');
-            $table->tinyInteger('type');//1是維修,2學生管理,3是午餐,4是運動會,
-            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('semester');
+            $table->unsignedInteger('year_class');
+            $table->string('name');
+            $table->unsignedInteger('user_id')->nullable();
             $table->timestamps();
         });
     }
@@ -28,6 +30,6 @@ class CreateFunsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('funs');
+        Schema::dropIfExists('year_classes');
     }
 }

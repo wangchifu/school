@@ -12,8 +12,7 @@
         <div class="col-md-12">
             @include('layouts.alert')
             <?php
-            $date = explode('-',date('Y-m-d'));
-            $default_date = $date[1]."/".$date[2]."/".$date[0];
+            $default_date = date('Y-m-d');
             $default_name="教師晨會";
             ?>
             {{ Form::open(['route' => 'meetings.store', 'method' => 'POST','id'=>'setup','onsubmit'=>'return false;']) }}
