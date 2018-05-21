@@ -36,7 +36,6 @@ class YearClassController extends Controller
      */
     public function store(YearClassRequest $request)
     {
-        $att = [];
         $r = $request->all();
 
         $check = YearClass::where('semester',$r['semester'])->first();
@@ -45,14 +44,18 @@ class YearClassController extends Controller
             return view('layouts.error',compact('words'));
         }
 
-
+        $all = [];
         if($r['class1'] > 0){
             for ( $i=1 ; $i<=$r['class1'] ; $i++ ) {
                 $att['semester'] = $r['semester'];
                 $att['year_class'] = "1".sprintf("%02s",$i);
                 $att['name'] = "一年".$i."班";
-                YearClass::create($att);
-
+                $one = [
+                    'semester'=>$att['semester'],
+                    'year_class'=>$att['year_class'],
+                    'name'=>$att['name']
+                ];
+                array_push($all,$one);
             }
         }
         if($r['class2'] > 0){
@@ -60,8 +63,12 @@ class YearClassController extends Controller
                 $att['semester'] = $r['semester'];
                 $att['year_class'] = "2".sprintf("%02s",$i);
                 $att['name'] = "二年".$i."班";
-                YearClass::create($att);
-
+                $one = [
+                    'semester'=>$att['semester'],
+                    'year_class'=>$att['year_class'],
+                    'name'=>$att['name']
+                ];
+                array_push($all,$one);
             }
         }
         if($r['class3'] > 0){
@@ -69,8 +76,12 @@ class YearClassController extends Controller
                 $att['semester'] = $r['semester'];
                 $att['year_class'] = "3".sprintf("%02s",$i);
                 $att['name'] = "三年".$i."班";
-                YearClass::create($att);
-
+                $one = [
+                    'semester'=>$att['semester'],
+                    'year_class'=>$att['year_class'],
+                    'name'=>$att['name']
+                ];
+                array_push($all,$one);
             }
         }
         if($r['class4'] > 0){
@@ -78,8 +89,12 @@ class YearClassController extends Controller
                 $att['semester'] = $r['semester'];
                 $att['year_class'] = "4".sprintf("%02s",$i);
                 $att['name'] = "四年".$i."班";
-                YearClass::create($att);
-
+                $one = [
+                    'semester'=>$att['semester'],
+                    'year_class'=>$att['year_class'],
+                    'name'=>$att['name']
+                ];
+                array_push($all,$one);
             }
         }
         if($r['class5'] > 0){
@@ -87,8 +102,12 @@ class YearClassController extends Controller
                 $att['semester'] = $r['semester'];
                 $att['year_class'] = "5".sprintf("%02s",$i);
                 $att['name'] = "五年".$i."班";
-                YearClass::create($att);
-
+                $one = [
+                    'semester'=>$att['semester'],
+                    'year_class'=>$att['year_class'],
+                    'name'=>$att['name']
+                ];
+                array_push($all,$one);
             }
         }
         if($r['class6'] > 0){
@@ -96,8 +115,12 @@ class YearClassController extends Controller
                 $att['semester'] = $r['semester'];
                 $att['year_class'] = "6".sprintf("%02s",$i);
                 $att['name'] = "六年".$i."班";
-                YearClass::create($att);
-
+                $one = [
+                    'semester'=>$att['semester'],
+                    'year_class'=>$att['year_class'],
+                    'name'=>$att['name']
+                ];
+                array_push($all,$one);
             }
         }
         if($r['class9'] > 0){
@@ -105,10 +128,16 @@ class YearClassController extends Controller
                 $att['semester'] = $r['semester'];
                 $att['year_class'] = "9".sprintf("%02s",$i);
                 $att['name'] = "特教".$i."班";
-                YearClass::create($att);
-
+                $one = [
+                    'semester'=>$att['semester'],
+                    'year_class'=>$att['year_class'],
+                    'name'=>$att['name']
+                ];
+                array_push($all,$one);
             }
         }
+
+        YearClass::insert($all);
 
         return redirect()->route('students.index');
 

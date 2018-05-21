@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Fun;
+use App\YearClass;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
@@ -20,8 +21,15 @@ class StudentController extends Controller
             ->first();
         $student_admin = (empty($check_admin))?"0":"1";
 
+
+        $semesters = YearClass::groupBy('semester')
+            ->pluck('semester', 'semester')->toArray();
+        $semester = get_semester();
+
         $data = [
             'student_admin'=>$student_admin,
+            'semesters'=>$semesters,
+            'semester'=>$semester,
         ];
         return view('students.index',$data);
     }
