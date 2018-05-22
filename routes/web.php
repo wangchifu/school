@@ -171,6 +171,9 @@ Route::group(['middleware' => 'auth'],function() {
 
     //學生管理
     Route::any('students', 'StudentController@index')->name('students.index');
+    Route::post('students_import', 'StudentController@import')->name('students.import');
+    Route::get('students/{semester}/clear_students', 'StudentController@clear_students')->name('students.clear_students');
+    Route::get('students/{semester}/clear_all', 'StudentController@clear_all')->name('students.clear_all');
     Route::get('students/create', 'StudentController@create')->name('students.create');
     Route::get('students/{student}' , 'StudentController@show')->where('student', '[0-9]+')->name('students.show');
     Route::post('students_store', 'StudentController@store')->name('students.store');

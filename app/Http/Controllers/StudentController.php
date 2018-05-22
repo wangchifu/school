@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Fun;
+use App\SemesterStudent;
+use App\Student;
 use App\YearClass;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class StudentController extends Controller
 {
@@ -26,10 +29,9 @@ class StudentController extends Controller
 
 
         $semesters = [];
-        $year_class = [];
         $all_student = 0;
-        $stud_num = "";
-
+        $students_data = [];
+        $out_students = [];
 
         //統計班級數
         $year_class = [
@@ -69,9 +71,7 @@ class StudentController extends Controller
                         $girl = 0;
 
                         //列出指定班級的資料
-                        if($YearClass->semester_students->count() == 0){
-
-                        }else{
+                        if($YearClass->semester_students->count() != 0){
                             foreach ($YearClass->semester_students as $semester_student) {
                                 if ($semester_student->at_school == "1") {
                                     $all_student++;
@@ -84,13 +84,11 @@ class StudentController extends Controller
                             }
                         }
 
-/**
-                        $stud_num[$YearClass->id] = [
+                        $students_data[$YearClass->id] = [
                             'num'=>$num,
                             'boy'=>$boy,
                             'girl'=>$girl,
                         ];
-**/
 
                     }
                 }
@@ -106,9 +104,93 @@ class StudentController extends Controller
             'semester'=>$semester,
             'year_class'=>$year_class,
             'all_student'=>$all_student,
+            'students_data'=>$students_data,
+            'out_students'=>$out_students,
+            'YearClasses'=>$YearClasses,
         ];
         return view('students.index',$data);
     }
+
+
+    public function import(Request $request)
+    {
+        $this->check_admin();
+
+        if($request->hasFile('csv')) {
+            $filePath = $request->file('csv')->getRealPath();
+            $data = Excel::load($filePath, function ($reader) {
+            })->get();
+
+            $create_ss = [];
+            foreach ($data as $key => $value) {
+                $stud_class = $value['年級'].sprintf("%02s",$value['班級']);
+                $year_class = YearClass::where('semester','=',$value['學期'])
+                    ->where('year_class','=',$stud_class)
+                    ->first();
+
+                //無此班級跳過
+                if($year_class) {
+                    //更新學生
+
+                    $att['name'] = $value['姓名'];
+                    $att['sex'] = $value['性別'];
+
+                    $has_student = Student::where('sn', '=', $value['學號'])->first();
+                    if ($has_student) {
+                        $has_student->update($att);
+                        $id = $has_student->id;
+                    } else {
+                        $att['sn'] = $value['學號'];
+                        $student = Student::create($att);
+                        $id = $student->id;
+                    }
+
+
+                    $att2['semester'] = $value['學期'];
+                    $att2['student_id'] = $id;
+                    $att2['year_class_id'] = $year_class->id;
+                    $att2['num'] = sprintf("%02s", $value['座號']);
+                    $att2['at_school'] = 1;
+
+                    $new_one = [
+                        'semester'=>$att2['semester'],
+                        'student_id'=>$att2['student_id'],
+                        'year_class_id'=>$att2['year_class_id'],
+                        'num'=>$att2['num'],
+                        'at_school'=>1,
+                    ];
+                    array_push($create_ss, $new_one);
+                }
+
+            }
+            SemesterStudent::insert($create_ss);
+
+        }else{
+            $words = "你沒有選到CSV檔案！";
+            return view('layouts.error',compact('words'));
+        }
+
+        return redirect()->route('students.index');
+
+    }
+
+    public function clear_students($semester)
+    {
+        $this->check_admin();
+        SemesterStudent::where('semester',$semester)->delete();
+        return redirect()->route('students.index');
+    }
+
+    public function clear_all($semester)
+    {
+        $this->check_admin();
+        SemesterStudent::where('semester',$semester)->delete();
+
+        YearClass::where('semester',$semester)->delete();
+
+        return redirect()->route('students.index');
+    }
+
 
     /**
      * Show the form for creating a new resource.
@@ -175,4 +257,18 @@ class StudentController extends Controller
     {
         //
     }
+
+    public function check_admin()
+    {
+        //type=2是學生系統
+        $check_admin = Fun::where('user_id',auth()->user()->id)
+            ->where('type','2')
+            ->first();
+        $student_admin = (empty($check_admin))?"0":"1";
+        if($student_admin == "0"){
+            $words = "你不是管理者！";
+            return view('layouts.error',compact('words'));
+        }
+    }
+
 }
