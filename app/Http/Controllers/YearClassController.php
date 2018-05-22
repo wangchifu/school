@@ -53,7 +53,10 @@ class YearClassController extends Controller
                 $one = [
                     'semester'=>$att['semester'],
                     'year_class'=>$att['year_class'],
-                    'name'=>$att['name']
+                    'name'=>$att['name'],
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'updated_at' => date('Y-m-d H:i:s'),
+
                 ];
                 array_push($all,$one);
             }
@@ -66,7 +69,10 @@ class YearClassController extends Controller
                 $one = [
                     'semester'=>$att['semester'],
                     'year_class'=>$att['year_class'],
-                    'name'=>$att['name']
+                    'name'=>$att['name'],
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'updated_at' => date('Y-m-d H:i:s'),
+
                 ];
                 array_push($all,$one);
             }
@@ -79,7 +85,10 @@ class YearClassController extends Controller
                 $one = [
                     'semester'=>$att['semester'],
                     'year_class'=>$att['year_class'],
-                    'name'=>$att['name']
+                    'name'=>$att['name'],
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'updated_at' => date('Y-m-d H:i:s'),
+
                 ];
                 array_push($all,$one);
             }
@@ -92,7 +101,10 @@ class YearClassController extends Controller
                 $one = [
                     'semester'=>$att['semester'],
                     'year_class'=>$att['year_class'],
-                    'name'=>$att['name']
+                    'name'=>$att['name'],
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'updated_at' => date('Y-m-d H:i:s'),
+
                 ];
                 array_push($all,$one);
             }
@@ -105,7 +117,10 @@ class YearClassController extends Controller
                 $one = [
                     'semester'=>$att['semester'],
                     'year_class'=>$att['year_class'],
-                    'name'=>$att['name']
+                    'name'=>$att['name'],
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'updated_at' => date('Y-m-d H:i:s'),
+
                 ];
                 array_push($all,$one);
             }
@@ -118,7 +133,10 @@ class YearClassController extends Controller
                 $one = [
                     'semester'=>$att['semester'],
                     'year_class'=>$att['year_class'],
-                    'name'=>$att['name']
+                    'name'=>$att['name'],
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'updated_at' => date('Y-m-d H:i:s'),
+
                 ];
                 array_push($all,$one);
             }
@@ -131,7 +149,10 @@ class YearClassController extends Controller
                 $one = [
                     'semester'=>$att['semester'],
                     'year_class'=>$att['year_class'],
-                    'name'=>$att['name']
+                    'name'=>$att['name'],
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'updated_at' => date('Y-m-d H:i:s'),
+
                 ];
                 array_push($all,$one);
             }
