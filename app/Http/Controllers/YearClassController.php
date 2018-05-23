@@ -170,7 +170,7 @@ class YearClassController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(YearClass $year_class)
     {
         //
     }
@@ -193,9 +193,17 @@ class YearClassController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $class_tea = $request->input('class_tea');
+        foreach($class_tea as $k =>$v){
+            if(!empty($v)){
+                $att['user_id'] = $v;
+                YearClass::where('id','=',$k)
+                    ->update($att);
+            }
+        }
+        return redirect()->route('students.index');
     }
 
     /**

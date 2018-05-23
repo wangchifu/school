@@ -105,6 +105,13 @@ class HomeController extends Controller
         return response()->download($file);
     }
 
+    public function getPublicFile($file)
+    {
+        $file = str_replace('&','/',$file);
+        $file = public_path($file);
+        return response()->download($file);
+    }
+
 
 
 }

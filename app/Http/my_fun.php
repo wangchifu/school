@@ -103,3 +103,29 @@ if(! function_exists('get_semester')){
 
     }
 }
+
+//指定學期的班級選單array
+if(! function_exists('get_class_menu')){
+    function get_class_menu($semester){
+        $classes = \App\YearClass::where('semester',$semester)
+            ->orderBy('year_class')
+            ->pluck('year_class', 'year_class')->toArray();
+        return $classes;
+    }
+}
+
+//檢查是不是該模組的管理者
+if(! function_exists('check_admin')){
+    function check_admin($type){
+        $check_admin = \App\Fun::where('user_id',auth()->user()->id)
+            ->where('type',$type)
+            ->first();
+        $admin = (empty($check_admin))?"0":"1";
+        if($admin == "0"){
+            $words = "你不是管理者！";
+            return view('layouts.error',compact('words'));
+        }else{
+            return true;
+        }
+    }
+}

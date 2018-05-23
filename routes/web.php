@@ -43,6 +43,8 @@ Route::get('img/{path}', 'HomeController@getImg');
 
 //下載上傳的檔案
 Route::get('file/{file}', 'HomeController@getFile');
+//下載public的檔案
+Route::get('public_file/{file}', 'HomeController@getPublicFile');
 
 
 //管理員
@@ -143,6 +145,14 @@ Route::group(['middleware' => 'exec'],function(){
     //刪檔案
     Route::get('open_files/{file}/fileDel' , 'OpenFileController@fileDel')->name('open_files.fileDel');
 
+    //連結管理
+    Route::get('tests', 'TestController@index')->name('tests.index');
+    Route::get('tests/create', 'TestController@create')->name('tests.create');
+    Route::post('tests', 'TestController@store')->name('tests.store');
+    Route::delete('tests/{test}', 'TestController@destroy')->name('tests.destroy');
+    Route::get('tests/{test}/edit', 'TestController@edit')->name('tests.edit');
+    Route::patch('tests/{test}', 'TestController@update')->name('tests.update');
+
 });
 
 //註冊會員
@@ -174,16 +184,18 @@ Route::group(['middleware' => 'auth'],function() {
     Route::post('students_import', 'StudentController@import')->name('students.import');
     Route::get('students/{semester}/clear_students', 'StudentController@clear_students')->name('students.clear_students');
     Route::get('students/{semester}/clear_all', 'StudentController@clear_all')->name('students.clear_all');
-    Route::get('students/create', 'StudentController@create')->name('students.create');
-    Route::get('students/{student}' , 'StudentController@show')->where('student', '[0-9]+')->name('students.show');
-    Route::post('students_store', 'StudentController@store')->name('students.store');
-    Route::delete('students/{student}', 'StudentController@destroy')->name('students.destroy');
-    Route::get('students/{student}/edit', 'StudentController@edit')->name('students.edit');
-    Route::patch('students/{student}', 'StudentController@update')->name('students.update');
+    Route::get('students/{year_class}' , 'StudentController@show')->where('year_class', '[0-9]+')->name('students.show');
+
+    Route::patch('students/update', 'StudentController@update')->name('students.update');
+    Route::get('students_out/{semester_student}' , 'StudentController@out')->name('students.out');
+    Route::get('students_rein/{semester_student}' , 'StudentController@rein')->name('students.rein');
+    Route::post('students/add_stud', 'StudentController@add_stud')->name('students.add_stud');
+
 
     //新增學期
     Route::get('year_class/create', 'YearClassController@create')->name('year_classes.create');
     Route::post('year_class/store', 'YearClassController@store')->name('year_classes.store');
+    Route::patch('year_class/update', 'YearClassController@update')->name('year_classes.update');
 
 });
 
