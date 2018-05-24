@@ -151,6 +151,7 @@ Route::group(['middleware' => 'exec'],function(){
     Route::delete('tests/{test}', 'TestController@destroy')->name('tests.destroy');
     Route::get('tests/{test}/edit', 'TestController@edit')->name('tests.edit');
     Route::patch('tests/{test}', 'TestController@update')->name('tests.update');
+    Route::get('questions', 'QuestionController@create')->name('questions.create');
 
 });
 
@@ -196,7 +197,7 @@ Route::group(['middleware' => 'auth'],function() {
     Route::post('year_class/store', 'YearClassController@store')->name('year_classes.store');
     Route::patch('year_class/update', 'YearClassController@update')->name('year_classes.update');
 
-    //連結管理
+    //問卷系統
     Route::get('tests', 'TestController@index')->name('tests.index');
 
 });

@@ -1,11 +1,11 @@
 @extends('layouts.master')
 
-@section('page-title', '新增問卷 | 和東國小')
+@section('page-title', '新增問卷題目 | 和東國小')
 
 @section('content')
 <br><br><br>
 <div class="container">
-    <h1><i class="fas fa-check-square"></i> 新增問卷</h1>
+    <h1><i class="fas fa-check-square"></i> 新增問卷題目</h1>
     <a href="{{ route('tests.index') }}" class="btn btn-secondary btn-sm"><i class="fas fa-backward"></i> 返回</a>
     <br><br>
     <div class="row justify-content-center">

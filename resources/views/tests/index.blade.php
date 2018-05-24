@@ -49,9 +49,9 @@
                     </td>
                     <td>
                         @if($test->disable)
-                            <p class="text-info">啟用</p>
-                        @else
                             <p class="text-danger">停用</p>
+                        @else
+                            <p class="text-info">啟用</p>
                         @endif
                     </td>
                     <td>
@@ -61,15 +61,19 @@
                         {{ $test->user->name }}
                     </td>
                     <td>
-                        @if(str_replace('-','',$test->unpublished_at) > date('Ymd'))
+                        @if(str_replace('-','',$test->unpublished_at) >= date('Ymd'))
+                            @if($test->disable == null)
                             <a href="#" class="btn btn-success btn-sm"><i class="fas fa-edit"></i> 填寫</a>
+                            @else
+                            <a href="#" class="btn btn-dark btn-sm"><i class="fas fa-times-circle"></i> 停用</a>
+                            @endif
                         @else
                             <a href="#" class="btn btn-dark btn-sm"><i class="fas fa-times-circle"></i> 逾期</a>
                         @endif
                         @if($test->user_id == auth()->user()->id)
                             <a href="{{ route('tests.edit',$test->id) }}" class="btn btn-info btn-sm"><i class="fas fa-pen-square"></i> 修改</a>
                             <a href="#" class="btn btn-danger btn-sm" onclick="bbconfirm_Form('delete{{ $test->id }}','確定刪除？')"><i class="fas fa-trash"></i> 刪除</a>
-                            @if($test->disable == null)
+                            @if($test->disable == "1")
                             <a href="#" class="btn btn-secondary btn-sm"><i class="fas fa-plus"></i> 增加題庫</a>
                             @endif
                             {{ Form::open(['route' => ['tests.destroy',$test->id], 'method' => 'DELETE','id'=>'delete'.$test->id,'onsubmit'=>'return false;']) }}
