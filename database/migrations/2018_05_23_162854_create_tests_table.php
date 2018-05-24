@@ -17,9 +17,9 @@ class CreateTestsTable extends Migration
             $table->increments('id');
             $table->tinyInteger('disable')->nullable();
             $table->string('name');
-            $table->string('do')->nullable();
+            $table->unsignedInteger('do');
             $table->unsignedInteger('user_id');
-            $table->string('unpublished_at')->nullable();
+            $table->string('unpublished_at');
             $table->timestamps();
         });
     }

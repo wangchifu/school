@@ -13,7 +13,7 @@ class TestRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,16 @@ class TestRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => 'required',
+            'unpublished_at' => 'required',
+        ];
+    }
+
+    public function attributes()
+    {
+        return [
+            'name'=>'名稱',
+            'unpublished_at'=>'截止日期',
         ];
     }
 }

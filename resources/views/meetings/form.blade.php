@@ -4,7 +4,7 @@
     <h3 class="card-header">會議資料</h3>
     <div class="card-body">
         <div class="form-group">
-            <label for="title">會議日期(西元/月/日)*</label>
+            <label for="datepicker">會議日期(西元/月/日)*</label>
             <input id="datepicker" width="276" name="open_date" value="{{ $default_date }}">
             <script src="{{ asset('gijgo/js/messages/messages.zh-TW.js') }}"></script>
             <script>

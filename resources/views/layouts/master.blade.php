@@ -77,7 +77,7 @@
               <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                 <a class="dropdown-item" href="{{ route('meetings.index') }}"><i class="fas fa-comments"></i> 會議文稿</a>
                 <a class="dropdown-item" href="{{ route('school_plans.index') }}"><i class="fas fa-book"></i> 校務計畫</a>
-                <a class="dropdown-item" href="#"><i class="far fa-check-square"></i> 問卷系統</a>
+                <a class="dropdown-item" href="{{ route('tests.index') }}"><i class="far fa-check-square"></i> 問卷系統</a>
                 <a class="dropdown-item" href="#"><i class="fas fa-list-ol"></i> 教室預約x</a>
                 <a class="dropdown-item" href="{{ route('fixes.index') }}"><i class="fas fa-wrench"></i> 報修系統</a>
                 <a class="dropdown-item" href="{{ route('students.index') }}"><i class="fas fa-child"></i> 學生系統</a>

@@ -145,8 +145,7 @@ Route::group(['middleware' => 'exec'],function(){
     //刪檔案
     Route::get('open_files/{file}/fileDel' , 'OpenFileController@fileDel')->name('open_files.fileDel');
 
-    //連結管理
-    Route::get('tests', 'TestController@index')->name('tests.index');
+    //問卷系統
     Route::get('tests/create', 'TestController@create')->name('tests.create');
     Route::post('tests', 'TestController@store')->name('tests.store');
     Route::delete('tests/{test}', 'TestController@destroy')->name('tests.destroy');
@@ -196,6 +195,9 @@ Route::group(['middleware' => 'auth'],function() {
     Route::get('year_class/create', 'YearClassController@create')->name('year_classes.create');
     Route::post('year_class/store', 'YearClassController@store')->name('year_classes.store');
     Route::patch('year_class/update', 'YearClassController@update')->name('year_classes.update');
+
+    //連結管理
+    Route::get('tests', 'TestController@index')->name('tests.index');
 
 });
 

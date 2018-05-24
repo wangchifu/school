@@ -16,7 +16,7 @@
                 {{ Form::text('job_title',auth()->user()->job_title,['id'=>'job_title','class' => 'form-control', 'readonly' => 'readonly']) }}
             </div>
             <div class="form-group">
-                <label for="content">2.校內文件?</label>
+                <label for="insite">2.校內文件?</label>
                 <div class="form-check">
                     {{ Form::checkbox('insite', '1',null,['id'=>'insite','class'=>'form-check-input']) }}
                     <label class="form-check-label" for="insite"><span class="btn btn-info btn-sm">設定</span></label>
