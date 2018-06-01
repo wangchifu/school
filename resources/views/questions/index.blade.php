@@ -16,34 +16,50 @@
     @can('create',\App\Test::class)
     <a href="{{ route('questions.create',$test->id) }}" class="btn btn-success btn-sm"><i class="fas fa-plus"></i> 新增題目</a>
     @endcan
-    <br><br>
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>題號</th>
+                <th width="80">題號</th>
                 <th>題目</th>
-                <th>作答選項</th>
+                <th width="500">作答選項</th>
             </tr>
         </thead>
         <tbody>
         @foreach($questions as $question)
         <tr>
             <td>
-                {{ $question->order }}
+                <h2>{{ $question->order_by }}</h2>
             </td>
             <td>
-                <dt> {{ $question->title }}</dt><br>
-                <div class="text-primary">({{ $question->description }})</div>
+                <dt> {{ $question->title }}</dt>
+                <small class="text-primary">({{ $question->description }})</small>
             </td>
             <td>
                 @if($question->type == "text")
                     <input name="Q{{ $question->id }}" type="{{ $question->type }}" class="form-control">
-                @elseif($question->type == "radio" or  $question->type == "checkbox")
+                @elseif($question->type == "radio")
                     <?php
-                    $items = explode("\r\n",$question->content);
+                    $items = unserialize($question->content);
                     ?>
                     @foreach($items as $k=>$v)
-                        <input name="Q{{ $question->id }}[]" type="{{ $question->type }}" style="zoom:150%;"> {{ $v }}<br>
+                        <div class="form-group">
+                            <div class="form-check">
+                                <input id="q{{ $question->id }}{{ $k }}" class="form-check-input" name="Q{{ $question->id }}" type="radio" value="1">
+                                <label class="form-check-label" for="q{{ $question->id }}{{ $k }}">{{ $v }}</label>
+                            </div>
+                        </div>
+                    @endforeach
+                @elseif($question->type == "checkbox")
+                    <?php
+                    $items = unserialize($question->content);
+                    ?>
+                    @foreach($items as $k=>$v)
+                        <div class="form-group">
+                            <div class="form-check">
+                                <input id="q{{ $question->id }}{{ $k }}" class="form-check-input" name="Q{{ $question->id }}[]" type="checkbox" value="1">
+                                <label class="form-check-label" for="q{{ $question->id }}{{ $k }}">{{ $v }}</label>
+                            </div>
+                        </div>
                     @endforeach
                 @elseif($question->type == "textarea")
                     <textarea name="Q{{ $question->id }}" class="form-control"></textarea>

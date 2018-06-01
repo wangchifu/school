@@ -51,7 +51,15 @@ class QuestionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $att['order_by'] = $request->input('order_by');
+        $att['title'] = $request->input('title');
+        $att['description'] = $request->input('description');
+        $att['type'] = $request->input('type');
+        $att['test_id'] = $request->input('test_id');
+        $att['content'] = serialize($request->input('option'));
+
+        Question::create($att);
+        return redirect()->route('questions.index',$request->input('test_id'));
     }
 
     /**

@@ -153,7 +153,7 @@ Route::group(['middleware' => 'exec'],function(){
     Route::patch('tests/{test}', 'TestController@update')->name('tests.update');
     Route::get('questions/{test}/index', 'QuestionController@index')->where('test', '[0-9]+')->name('questions.index');
     Route::get('questions/{test}/create', 'QuestionController@create')->where('test', '[0-9]+')->name('questions.create');
-    Route::post('questions', 'QuestionsController@store')->name('questions.store');
+    Route::post('questions', 'QuestionController@store')->name('questions.store');
 
 });
 

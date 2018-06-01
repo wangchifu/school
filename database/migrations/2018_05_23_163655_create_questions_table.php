@@ -17,10 +17,10 @@ class CreateQuestionsTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('order_by');
             $table->string('title');
-            $table->string('description');
+            $table->string('description')->nullable();
             $table->string('type');
             $table->unsignedInteger('test_id');
-            $table->string('content')->nullable();
+            $table->text('content')->nullable();
             $table->timestamps();
         });
     }

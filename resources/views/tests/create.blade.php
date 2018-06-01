@@ -13,7 +13,6 @@
             <li class="breadcrumb-item active" aria-current="page">新增問卷</li>
         </ol>
     </nav>
-    <a href="{{ route('tests.index') }}" class="btn btn-secondary btn-sm"><i class="fas fa-backward"></i> 返回</a>
     <div class="row justify-content-center">
         <div class="col-md-12">
             <?php

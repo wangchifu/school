@@ -53,10 +53,14 @@
                         {{ $groups[$test->do] }}
                     </td>
                     <td>
-                        @if($test->disable)
-                            <p class="text-danger">停用</p>
+                        @if(str_replace('-','',$test->unpublished_at) >= date('Ymd'))
+                            @if($test->disable == null)
+                                <a href="#" class="btn btn-success btn-sm"><i class="fas fa-edit"></i> 填寫</a>
+                            @else
+                                <a href="#" class="btn btn-dark btn-sm"><i class="fas fa-times-circle"></i> 停用</a>
+                            @endif
                         @else
-                            <p class="text-info">啟用</p>
+                            <a href="#" class="btn btn-dark btn-sm"><i class="fas fa-times-circle"></i> 逾期</a>
                         @endif
                     </td>
                     <td>
@@ -66,15 +70,6 @@
                         {{ $test->user->name }}
                     </td>
                     <td>
-                        @if(str_replace('-','',$test->unpublished_at) >= date('Ymd'))
-                            @if($test->disable == null)
-                            <a href="#" class="btn btn-success btn-sm"><i class="fas fa-edit"></i> 填寫</a>
-                            @else
-                            <a href="#" class="btn btn-dark btn-sm"><i class="fas fa-times-circle"></i> 停用</a>
-                            @endif
-                        @else
-                            <a href="#" class="btn btn-dark btn-sm"><i class="fas fa-times-circle"></i> 逾期</a>
-                        @endif
                         @if($test->user_id == auth()->user()->id)
                             @if($test->disable == "1")
                                 <a href="{{ route('questions.index',$test->id) }}" class="btn btn-secondary btn-sm"><i class="fas fa-plus-circle"></i> 題目</a>
