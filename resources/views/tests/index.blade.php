@@ -6,10 +6,15 @@
 <br><br><br>
 <div class="container">
     <h1><i class="far fa-check-square"></i> 問卷系統</h1>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ route('index') }}">首頁</a></li>
+            <li class="breadcrumb-item active" aria-current="page">問卷系統</li>
+        </ol>
+    </nav>
     @can('create',\App\Test::class)
     <a href="{{ route('tests.create') }}" class="btn btn-success btn-sm"><i class="fas fa-plus"></i> 新增問卷</a>
     @endcan
-    <br><br>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -71,11 +76,11 @@
                             <a href="#" class="btn btn-dark btn-sm"><i class="fas fa-times-circle"></i> 逾期</a>
                         @endif
                         @if($test->user_id == auth()->user()->id)
+                            @if($test->disable == "1")
+                                <a href="{{ route('questions.index',$test->id) }}" class="btn btn-secondary btn-sm"><i class="fas fa-plus-circle"></i> 題目</a>
+                            @endif
                             <a href="{{ route('tests.edit',$test->id) }}" class="btn btn-info btn-sm"><i class="fas fa-pen-square"></i> 修改</a>
                             <a href="#" class="btn btn-danger btn-sm" onclick="bbconfirm_Form('delete{{ $test->id }}','確定刪除？')"><i class="fas fa-trash"></i> 刪除</a>
-                            @if($test->disable == "1")
-                            <a href="#" class="btn btn-secondary btn-sm"><i class="fas fa-plus"></i> 增加題庫</a>
-                            @endif
                             {{ Form::open(['route' => ['tests.destroy',$test->id], 'method' => 'DELETE','id'=>'delete'.$test->id,'onsubmit'=>'return false;']) }}
                             {{ Form::close() }}
                         @endif

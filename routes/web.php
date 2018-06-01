@@ -151,7 +151,9 @@ Route::group(['middleware' => 'exec'],function(){
     Route::delete('tests/{test}', 'TestController@destroy')->name('tests.destroy');
     Route::get('tests/{test}/edit', 'TestController@edit')->name('tests.edit');
     Route::patch('tests/{test}', 'TestController@update')->name('tests.update');
-    Route::get('questions', 'QuestionController@create')->name('questions.create');
+    Route::get('questions/{test}/index', 'QuestionController@index')->where('test', '[0-9]+')->name('questions.index');
+    Route::get('questions/{test}/create', 'QuestionController@create')->where('test', '[0-9]+')->name('questions.create');
+    Route::post('questions', 'QuestionsController@store')->name('questions.store');
 
 });
 

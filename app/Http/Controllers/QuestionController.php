@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Question;
+use App\Test;
 use Illuminate\Http\Request;
 
 class QuestionController extends Controller
@@ -11,9 +13,16 @@ class QuestionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Test $test)
     {
-        //
+        $questions = Question::where('test_id',$test->id)
+        ->orderBy('order_by')
+            ->get();
+        $data = [
+            'test'=>$test,
+            'questions'=>$questions,
+        ];
+        return view('questions.index',$data);
     }
 
     /**
@@ -21,9 +30,17 @@ class QuestionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Test $test)
     {
-        //
+        if($test->user_id != auth()->user()->id){
+            $words = "這不是你的問卷！";
+            return view('error',compact('words'));
+        }
+
+        $data = [
+            'test'=>$test,
+        ];
+        return view('questions.create',$data);
     }
 
     /**

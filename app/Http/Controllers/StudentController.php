@@ -137,11 +137,14 @@ class StudentController extends Controller
         //級任選單
         $teas = UserGroup::where('group_id','2')
             ->get();
+        $tea_order = [];
         foreach($teas as $tea){
             $tea_order[$tea->user->order_by]['id'] = $tea->user_id;
             $tea_order[$tea->user->order_by]['name'] = $tea->user->job_title."-".$tea->user->name;
         }
         ksort($tea_order);
+
+        $tea_menu = [];
         foreach($tea_order as $k=>$v){
             $tea_menu[$v['id']] = $v['name'];
         }
