@@ -40,6 +40,10 @@
                     $has_right = "1";
                 }
                 if($test->user_id == auth()->user()->id) $has_right = "1";
+
+                $answer_done = \App\Answer::where('user_id',auth()->user()->id)->where('test_id',$test->id)->first();
+                $has_done = (empty($answer_done))?"0":"1";
+
                 ?>
                 @if($has_right)
                 <tr>
@@ -56,8 +60,7 @@
                         @if(str_replace('-','',$test->unpublished_at) >= date('Ymd'))
                             @if($test->disable == null)
                                 <?php
-                                    $answer_done = \App\Answer::where('user_id',auth()->user()->id)->where('test_id',$test->id)->first();
-                                    $has_done = (empty($answer_done))?"0":"1";
+
                                 ?>
                                 @if($has_done)
                                     <a href="{{ route('tests.re_input',$test->id) }}" class="btn btn-outline-primary btn-sm"><i class="fas fa-edit"></i> 已填寫</a>
@@ -68,7 +71,12 @@
                                 <a href="#" class="btn btn-dark btn-sm"><i class="fas fa-times-circle"></i> 停用</a>
                             @endif
                         @else
-                            <a href="#" class="btn btn-dark btn-sm"><i class="fas fa-times-circle"></i> 逾期</a>
+                            @if($has_done)
+                                <a href="#" class="btn btn-outline-dark btn-sm"><i class="fab fa-telegram-plane"></i> 已交</a>
+                            @else
+                                <a href="#" class="btn btn-dark btn-sm"><i class="fas fa-times-circle"></i> 逾期</a>
+                            @endif
+
                         @endif
                     </td>
                     <td>
