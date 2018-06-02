@@ -147,6 +147,7 @@ Route::group(['middleware' => 'exec'],function(){
 
     //問卷系統
     Route::get('tests/create', 'TestController@create')->name('tests.create');
+    Route::get('tests/{test}/copy', 'TestController@copy')->where('test', '[0-9]+')->name('tests.copy');
     Route::post('tests', 'TestController@store')->name('tests.store');
     Route::delete('tests/{test}', 'TestController@destroy')->name('tests.destroy');
     Route::get('tests/{test}/edit', 'TestController@edit')->name('tests.edit');
@@ -202,6 +203,10 @@ Route::group(['middleware' => 'auth'],function() {
 
     //問卷系統
     Route::get('tests', 'TestController@index')->name('tests.index');
+    Route::get('tests/{test}/input', 'TestController@input')->where('test', '[0-9]+')->name('tests.input');
+    Route::get('tests/{test}/re_input', 'TestController@re_input')->where('test', '[0-9]+')->name('tests.re_input');
+    Route::post('answers/store', 'AnswerController@store')->name('answers.store');
+    Route::patch('answers/update', 'AnswerController@update')->name('answers.update');
 
 });
 

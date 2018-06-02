@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Answer;
+use App\Http\Requests\AnswerRequest;
+use App\Question;
 use Illuminate\Http\Request;
 
 class AnswerController extends Controller
@@ -32,9 +35,31 @@ class AnswerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AnswerRequest $request)
     {
-        //
+        $att= [];
+        $create = [];
+        foreach($request->input('answer') as $k=>$v){
+            $question = Question::where('id','=',$k)->first();
+            if($question->type =="checkbox"){
+                foreach($v as $k1=>$v1){
+                    $att['answer'] .= $v1.",";
+                }
+                $att['answer'] = substr($att['answer'],0,-1);
+            }else{
+                $att['answer'] = $v;
+            }
+
+            $att['question_id'] = $k;
+            $att['user_id'] = auth()->user()->id;
+            $att['test_id'] = $request->input('test_id');
+            array_push($create,$att);
+
+            $att['answer'] = "";
+        }
+        Answer::insert($create);
+
+        return redirect()->route('tests.index');
     }
 
     /**
@@ -66,9 +91,34 @@ class AnswerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(AnswerRequest $request)
     {
-        //
+        $att= [];
+
+        foreach($request->input('answer') as $k=>$v){
+            $question = Question::where('id','=',$k)->first();
+            if($question->type =="checkbox"){
+                foreach($v as $k1=>$v1){
+                    $att['answer'] .= $v1.",";
+                }
+                $att['answer'] = substr($att['answer'],0,-1);
+            }else{
+                $att['answer'] = $v;
+            }
+
+            $att['question_id'] = $k;
+            $att['user_id'] = auth()->user()->id;
+            $att['test_id'] = $request->input('test_id');
+
+            $answer = Answer::where('question_id',$k)
+                ->where('user_id',auth()->user()->id)
+                ->first();
+            $answer->update($att);
+            $att['answer'] = "";
+
+        }
+
+        return redirect()->route('tests.index');
     }
 
     /**

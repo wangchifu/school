@@ -13,7 +13,7 @@ class AnswerRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,18 @@ class AnswerRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'answer.*' => 'required',
+            //'answer[]' => 'required',
         ];
+    }
+
+    public function attributes()
+    {
+        $att = [
+            'answer.*' => '文字題的答案',
+            //'answer[]' => '選擇題的答案',
+        ];
+
+        return $att;
     }
 }

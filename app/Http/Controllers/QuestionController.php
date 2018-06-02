@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Answer;
 use App\Http\Requests\QuestionRequest;
 use App\Question;
 use App\Test;
@@ -117,6 +118,8 @@ class QuestionController extends Controller
             $words = "這不是你的問卷！";
             return view('error',compact('words'));
         }
+        Answer::where('question_id',$question->id)->delete();
+
         $question->delete();
         return redirect()->route('questions.index',$question->test_id);
     }

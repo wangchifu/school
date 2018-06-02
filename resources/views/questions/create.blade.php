@@ -35,7 +35,7 @@
                                 {{ Form::text('title', null, ['id' => 'title', 'class' => 'form-control', 'placeholder' => '請輸入題目','required'=>'required']) }}
                             </td>
                             <td>
-                                {{ Form::text('description', null, ['id' => 'description', 'class' => 'form-control', 'placeholder' => '請輸入題目說明']) }}
+                                {{ Form::text('description', null, ['id' => 'description', 'class' => 'form-control', 'placeholder' => '選填']) }}
                             </td>
                             <td>
                                 <?php
@@ -69,7 +69,7 @@
                         </tr>
                         </tbody>
                     </table>
-                    <div><button class="btn btn-success" onclick="bbconfirm_Form('store','確定新增題目？')">新增題目</button></div>
+                    <div><button class="btn btn-success" onclick="bbconfirm_Form('store','確定新增題目？')"><i class="fas fa-save"></i> 儲存</button></div>
                     {{ Form::close() }}
                 </div>
             </div>

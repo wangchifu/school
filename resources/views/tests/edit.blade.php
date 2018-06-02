@@ -5,7 +5,7 @@
 @section('content')
 <br><br><br>
 <div class="container">
-    <h1><i class="fas fa-check-square"></i> 修改問卷</h1>
+    <h1><i class="far fa-check-square"></i> 修改問卷</h1>
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('index') }}">首頁</a></li>

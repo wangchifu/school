@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Answer;
 use App\Group;
 use App\Http\Requests\TestRequest;
+use App\Question;
 use App\Test;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class TestController extends Controller
@@ -41,6 +44,45 @@ class TestController extends Controller
         return view('tests.create',compact('groups'));
     }
 
+    public function copy(Test $test)
+    {
+        if($test->user_id != auth()->user()->id){
+            $words = "這不是你的問卷！";
+            return view('error',compact('words'));
+        }
+
+        $att['disable'] = 1;
+        $att['name'] = $test->name;
+        $att['do'] = $test->do;
+        $att['user_id'] = $test->user_id;
+        $date = Carbon::now()->addDays(7);
+
+        $att['unpublished_at'] = $date->toDateString();
+        $new_test = Test::create($att);
+        $create = [];
+        foreach($test->questions as $question){
+            $att2['order_by'] = $question->order_by;
+            $att2['title'] = $question->title;
+            $att2['description'] = $question->description;
+            $att2['type'] = $question->type;
+            $att2['test_id'] = $new_test->id;
+            $att2['content'] = $question->content;
+            $one=[
+                'order_by'=>$att2['order_by'],
+                'title'=>$att2['title'],
+                'description'=>$att2['description'],
+                'type'=>$att2['type'],
+                'test_id'=>$att2['test_id'],
+                'content'=>$att2['content'],
+            ];
+            array_push($create,$one);
+        }
+        Question::insert($create);
+        return redirect()->route('tests.index');
+
+
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -54,6 +96,45 @@ class TestController extends Controller
         return redirect()->route('tests.index');
     }
 
+    public function input(Test $test)
+    {
+        foreach($test->questions as $q){
+            $questions[$q->order_by]['id'] = $q->id;
+            $questions[$q->order_by]['title'] = $q->title;
+            $questions[$q->order_by]['description'] = $q->description;
+            $questions[$q->order_by]['type'] = $q->type;
+            $questions[$q->order_by]['content'] = $q->content;
+        }
+        ksort($questions);
+        $data = [
+            'test'=>$test,
+            'questions'=>$questions,
+        ];
+        return view('tests.input',$data);
+    }
+
+    public function re_input(Test $test)
+    {
+        foreach($test->questions as $q){
+            $questions[$q->order_by]['id'] = $q->id;
+            $questions[$q->order_by]['title'] = $q->title;
+            $questions[$q->order_by]['description'] = $q->description;
+            $questions[$q->order_by]['type'] = $q->type;
+            $questions[$q->order_by]['content'] = $q->content;
+            $a = Answer::where('user_id',auth()->user()->id)
+                ->where('question_id',$q->id)
+                ->first();
+            $questions[$q->order_by]['answer'] = $a->answer;
+            $questions[$q->order_by]['answer_id'] = $a->id;
+        }
+        ksort($questions);
+        $data = [
+            'test'=>$test,
+            'questions'=>$questions,
+        ];
+        return view('tests.re_input',$data);
+    }
+
     /**
      * Display the specified resource.
      *
@@ -62,7 +143,7 @@ class TestController extends Controller
      */
     public function show($id)
     {
-        //
+
     }
 
     /**
@@ -114,6 +195,8 @@ class TestController extends Controller
             $words = "你不是問卷的主人！";
             return view('layouts.error',compact('words'));
         }
+        Answer::where('test_id',$test->id)->delete();
+        Question::where('test_id',$test->id)->delete();
         $test->delete();
 
         return redirect()->route('tests.index');
