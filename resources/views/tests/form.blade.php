@@ -4,7 +4,7 @@
     <h3 class="card-header">問卷資料</h3>
     <div class="card-body">
         <div class="form-group">
-            <label for="disable">停用？</label>
+            <label for="disable">停用？停用才能增加題目。</label>
             <div class="form-check">
                 {{ Form::checkbox('disable', '1',$disable ,['id'=>'disable','class'=>'form-check-input']) }}
                 <label class="form-check-label" for="disable"><span class="btn btn-info btn-sm">設定</span></label>

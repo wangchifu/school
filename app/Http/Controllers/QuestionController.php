@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\QuestionRequest;
 use App\Question;
 use App\Test;
 use Illuminate\Http\Request;
@@ -34,7 +35,7 @@ class QuestionController extends Controller
     {
         if($test->user_id != auth()->user()->id){
             $words = "這不是你的問卷！";
-            return view('error',compact('words'));
+            return view('layouts.error',compact('words'));
         }
 
         $data = [
@@ -49,8 +50,16 @@ class QuestionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(QuestionRequest $request)
     {
+        if($request->input('type')=='radio' or $request->input('type')=='checkbox'){
+                foreach($request->input('option') as $v){
+                    if(empty($v)){
+                        $words = "你有選項是空的！";
+                        return view('layouts.error',compact('words'));
+                    }
+                }
+        }
         $att['order_by'] = $request->input('order_by');
         $att['title'] = $request->input('title');
         $att['description'] = $request->input('description');
@@ -102,8 +111,13 @@ class QuestionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Question $question)
     {
-        //
+        if($question->test->user_id != auth()->user()->id){
+            $words = "這不是你的問卷！";
+            return view('error',compact('words'));
+        }
+        $question->delete();
+        return redirect()->route('questions.index',$question->test_id);
     }
 }

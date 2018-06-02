@@ -13,7 +13,7 @@ class QuestionRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,10 +21,22 @@ class QuestionRequest extends FormRequest
      *
      * @return array
      */
+
     public function rules()
     {
         return [
-            //
+            'order_by' => 'required',
+            'title' => 'required',
+            'type' => 'required',
+        ];
+    }
+
+    public function attributes()
+    {
+        return [
+            'order_by' => '題號',
+            'title' => '題目',
+            'type' => '題型',
         ];
     }
 }

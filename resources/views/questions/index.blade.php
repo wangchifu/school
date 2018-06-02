@@ -16,10 +16,10 @@
     @can('create',\App\Test::class)
     <a href="{{ route('questions.create',$test->id) }}" class="btn btn-success btn-sm"><i class="fas fa-plus"></i> 新增題目</a>
     @endcan
-    <table class="table table-striped">
+    <table class="table table-light">
         <thead>
             <tr>
-                <th width="80">題號</th>
+                <th width="120">題號</th>
                 <th>題目</th>
                 <th width="500">作答選項</th>
             </tr>
@@ -28,19 +28,26 @@
         @foreach($questions as $question)
         <tr>
             <td>
-                <h2>{{ $question->order_by }}</h2>
+                <p>第 {{ $question->order_by }} 題</p>
+                {{ Form::open(['route' => ['questions.destroy',$question->id], 'method' => 'DELETE','id'=>'delete'.$question->id,'onsubmit'=>'return false;']) }}
+                <a href="#" class="btn btn-danger btn-sm" onclick="bbconfirm_Form('delete{{ $question->id }}','刪除題目[ {{ $question->order_by }} ]？')"><i class="fas fa-minus-square"></i></a>
+                {{ Form::close() }}
             </td>
             <td>
-                <dt> {{ $question->title }}</dt>
+                <p> {{ $question->title }}</p>
+                @if($question->description)
                 <small class="text-primary">({{ $question->description }})</small>
+                @endif
             </td>
             <td>
                 @if($question->type == "text")
-                    <input name="Q{{ $question->id }}" type="{{ $question->type }}" class="form-control">
+                    <strong>單行文字：</strong>
+                    <input name="Q{{ $question->id }}" type="{{ $question->type }}" class="form-control" placeholder="單行文字">
                 @elseif($question->type == "radio")
                     <?php
                     $items = unserialize($question->content);
                     ?>
+                    <strong>單選：</strong>
                     @foreach($items as $k=>$v)
                         <div class="form-group">
                             <div class="form-check">
@@ -53,6 +60,7 @@
                     <?php
                     $items = unserialize($question->content);
                     ?>
+                    <strong>多選：</strong>
                     @foreach($items as $k=>$v)
                         <div class="form-group">
                             <div class="form-check">
@@ -62,7 +70,8 @@
                         </div>
                     @endforeach
                 @elseif($question->type == "textarea")
-                    <textarea name="Q{{ $question->id }}" class="form-control"></textarea>
+                    <strong>多行文字：</strong>
+                    <textarea name="Q{{ $question->id }}" class="form-control" placeholder="第一行&#X0a;第二行"></textarea>
                 @endif
             </td>
         </tr>
