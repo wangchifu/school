@@ -157,6 +157,7 @@ Route::group(['middleware' => 'exec'],function(){
     Route::post('questions', 'QuestionController@store')->name('questions.store');
     Route::delete('questions/{question}', 'QuestionController@destroy')->where('question', '[0-9]+')->name('questions.destroy');
     Route::get('answers/{test}/show', 'AnswerController@show')->where('test', '[0-9]+')->name('answers.show');
+    Route::get('tests/{test}/type/{type}','TestController@download')->name('tests.download');
 
 });
 

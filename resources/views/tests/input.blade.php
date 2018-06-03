@@ -15,48 +15,44 @@
     </nav>
     {{ Form::open(['route' => 'answers.store', 'method' => 'POST','id'=>'store','onsubmit'=>'return false;']) }}
     @include('layouts.alert')
-    <table class="table table-light">
-        @foreach($questions as $k=>$v)
-            <tr>
-                <td>
-                    <dt>{{ $k }}. {{ $v['title'] }}</dt>
-                    @if(!empty($v['description']))
-                        <small class="text-primary">({{ $v['description'] }})</small>
-                    @endif
-                </td>
-                <td>
-                    @if($v['type']=="radio")
-                        <?php $radio = unserialize($v['content']); ?>
-                        @foreach($radio as $k2=>$v2)
-                            <div class="form-group">
-                                <div class="form-check">
-                                    {{ Form::radio('answer['.$v['id'].']',$v2,null,['class'=>'form-check-input','id'=>'answer'.$k.'-'.$k2]) }}
-                                    <label class="form-check-label" for="answer{{ $k }}-{{$k2}}"><span class="btn btn-info btn-sm">{{ $v2 }}</span></label>
-                                </div>
-                            </div>
-                        @endforeach
-                    @endif
-                    @if($v['type']=="checkbox")
-                        <?php $checkbox = unserialize($v['content']); ?>
-                        @foreach($checkbox as $k2=>$v2)
-                            <div class="form-group">
-                                <div class="form-check">
-                                    {{ Form::checkbox('answer['.$v['id'].'][]',$v2,null,['class'=>'form-check-input','id'=>'answer'.$k.'-'.$k2]) }}
-                                    <label class="form-check-label" for="answer{{ $k }}-{{$k2}}"><span class="btn btn-info btn-sm">{{ $v2 }}</span></label>
-                                </div>
-                            </div>
-                        @endforeach
-                    @endif
-                    @if($v['type']=="text")
-                        {{ Form::text('answer['.$v['id'].']',null,['class' => 'form-control']) }}
-                    @endif
-                    @if($v['type']=="textarea")
-                        {{ Form::textarea('answer['.$v['id'].']',null,['class' => 'form-control']) }}
-                    @endif
-                </td>
-            </tr>
-        @endforeach
-    </table>
+    @foreach($questions as $k=>$v)
+    <div class="form-group">
+        <label for="answer{{ $k }}">
+            <strong>{{ $k }}. {{ $v['title'] }}</strong>
+            @if(!empty($v['description']))
+                <small class="text-primary">({{ $v['description'] }})</small>
+            @endif
+        </label>
+        @if($v['type']=="radio")
+            <?php $radio = unserialize($v['content']); ?>
+            @foreach($radio as $k2=>$v2)
+                <div class="form-group">
+                    <div class="form-check">
+                        {{ Form::radio('answer['.$v['id'].']',$v2,null,['class'=>'form-check-input','id'=>'answer'.$k.'-'.$k2]) }}
+                        <label class="form-check-label" for="answer{{ $k }}-{{$k2}}"><span class="btn btn-info btn-sm">{{ $v2 }}</span></label>
+                    </div>
+                </div>
+            @endforeach
+        @endif
+        @if($v['type']=="checkbox")
+            <?php $checkbox = unserialize($v['content']); ?>
+            @foreach($checkbox as $k2=>$v2)
+                <div class="form-group">
+                    <div class="form-check">
+                        {{ Form::checkbox('answer['.$v['id'].'][]',$v2,null,['class'=>'form-check-input','id'=>'answer'.$k.'-'.$k2]) }}
+                        <label class="form-check-label" for="answer{{ $k }}-{{$k2}}"><span class="btn btn-info btn-sm">{{ $v2 }}</span></label>
+                    </div>
+                </div>
+            @endforeach
+        @endif
+        @if($v['type']=="text")
+            {{ Form::text('answer['.$v['id'].']',null,['class' => 'form-control','id'=>'answer'.$k]) }}
+        @endif
+        @if($v['type']=="textarea")
+            {{ Form::textarea('answer['.$v['id'].']',null,['class' => 'form-control','id'=>'answer'.$k]) }}
+        @endif
+    </div>
+    @endforeach
     <input type="hidden" name="test_id" value="{{ $test->id }}">
     {{ Form::close() }}
     <a href="#" class="btn btn-primary" onclick="bbconfirm_Form('store','確定送出？')"><i class="fas fa-save"></i> 儲存答案</a>

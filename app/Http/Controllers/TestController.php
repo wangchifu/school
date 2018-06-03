@@ -8,7 +8,7 @@ use App\Http\Requests\TestRequest;
 use App\Question;
 use App\Test;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
+use Excel;
 
 class TestController extends Controller
 {
@@ -200,5 +200,44 @@ class TestController extends Controller
         $test->delete();
 
         return redirect()->route('tests.index');
+    }
+
+    public function download(Test $test,$type)
+    {
+
+        if($test->user_id == auth()->user()->id){
+
+            $questions = Question::where('test_id','=',$test->id)
+                ->orderBy('order_by')
+                ->get();
+
+            $row1 = array('作答者');
+            foreach($questions as $question){
+                array_push($row1,$question->title);
+                foreach($question->answers as $answer){
+                    if(!isset($user_data[$answer->user->order_by])){
+                        $user_data[$answer->user->order_by][0] = $answer->user->name;
+                        array_push($user_data[$answer->user->order_by],$answer->answer);
+                    }else {
+                        array_push($user_data[$answer->user->order_by],$answer->answer);
+                    }
+                }
+            }
+
+            ksort($user_data);
+
+            $cellData = array($row1);
+            foreach($user_data as $k=>$v){
+                array_push($cellData,$v);
+            }
+
+            Excel::create($test->name,function($excel) use ($cellData){
+                $excel->sheet('score', function($sheet) use ($cellData){
+                    $sheet->rows($cellData);
+                });
+            })->export($type);
+        }else{
+            return redirect()->route('tests.index');
+        }
     }
 }

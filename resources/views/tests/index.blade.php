@@ -25,7 +25,7 @@
                 <th nowrap width="110">截止日期</th>
                 <th nowrap>建立者</th>
                 <th nowrap>使用者動作</th>
-                <th nowrap width="300">管理動作<small>(停用才能增加題目)</small></th>
+                <th nowrap width="300">管理動作</th>
             </tr>
         </thead>
         <tbody>

@@ -26,6 +26,8 @@
             <li class="breadcrumb-item active" aria-current="page">問卷結果</li>
         </ol>
     </nav>
+    <a href="{{ route('tests.download',['test'=>$test->id,'type'=>'csv']) }}" class="btn btn-primary btn-xs"><i class="fas fa-download"></i> 下載結果 [CSV] </a>
+    <a href="{{ route('tests.download',['test'=>$test->id,'type'=>'xls']) }}" class="btn btn-primary btn-xs"><i class="fas fa-download"></i> 下載結果 [EXCEL] </a>
     <table class="table table-striped">
         <thead>
         <tr>
@@ -33,9 +35,9 @@
             <?php $i =1; ?>
             @foreach($question as $k1=>$v1)
                 <th>
-                    <button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover" data-placement="bottom" data-content="{{ $v1['title'] }}">
-                        第 {{ $i }} 題
-                    </button>
+                    <a href="#" data-container="body" data-toggle="popover" data-placement="bottom" data-content="{{ $v1['title'] }}">
+                        題{{ $i }}
+                    </a>
                 </th>
                 <?php $i++ ?>
             @endforeach
@@ -44,12 +46,15 @@
         <tbody>
         @foreach($user as $k2=>$v2)
         <tr>
-            <td>
-                {{ $v2 }}
+            <td nowrap>
+                <?php $user = explode('-',$v2); ?>
+                <a href="#" data-container="body" data-toggle="popover" data-placement="bottom" data-content="{{ $user[0]}}">
+                    {{ $user[1] }}
+                </a>
             </td>
             @foreach($question as $k3=>$v3)
                 <td>
-                    {{ $answer[$k2][$v3['id']] }}
+                    {!! nl2br($answer[$k2][$v3['id']]) !!}
                 </td>
             @endforeach
         </tr>
