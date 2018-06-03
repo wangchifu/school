@@ -19,7 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('name');
             $table->string('job_title')->nullable();
-            $table->unsignedInteger('order_by')->nullable();
+            $table->unsignedInteger('order_by')->unique();
             $table->string('email')->nullable();
             $table->string('website')->nullable();
             $table->tinyInteger('admin')->nullable();//管理員？

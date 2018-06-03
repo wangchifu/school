@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Answer;
 use App\Http\Requests\AnswerRequest;
 use App\Question;
+use App\Test;
 use Illuminate\Http\Request;
 
 class AnswerController extends Controller
@@ -68,9 +69,36 @@ class AnswerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Test $test)
     {
-        //
+        if($test->user_id != auth()->user()->id){
+            $words = "你不是問卷的主人！";
+            return view('layouts.error',compact('words'));
+        }
+
+        $question = [];
+        $answer = [];
+        $user = [];
+        foreach($test->questions as $q){
+            $question[$q->order_by]['id'] = $q->id;
+            $question[$q->order_by]['title'] = $q->title;
+            foreach($q->answers as $a){
+                $answer[$a->user->order_by][$q->id] = $a->answer;
+                $user[$a->user->order_by] = $a->user->job_title."-".$a->user->name;
+            }
+        }
+        ksort($question);
+        ksort($user);
+
+
+
+        $data = [
+            'test'=>$test,
+            'question'=>$question,
+            'answer'=>$answer,
+            'user'=>$user,
+        ];
+        return view('tests.show',$data);
     }
 
     /**
