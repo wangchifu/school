@@ -102,6 +102,14 @@ Route::group(['middleware' => 'admin'],function(){
     Route::patch('meetings/{meeting}' , 'MeetingController@update')->name('meetings.update');
     Route::delete('meetings/{meeting}', 'MeetingController@destroy')->name('meetings.destroy');
 
+    //教室預約
+    Route::get('classrooms','ClassroomController@index')->name('classrooms.index');
+    Route::get('classrooms/create','ClassroomController@create')->name('classrooms.create');
+    Route::post('classrooms', 'ClassroomController@store')->name('classrooms.store');
+    Route::get('classrooms/{classroom}/edit' , 'ClassroomController@edit')->name('classrooms.edit');
+    Route::patch('classrooms/{classroom}' , 'ClassroomController@update')->name('classrooms.update');
+    Route::delete('classrooms/{classroom}', 'ClassroomController@destroy')->name('classrooms.destroy');
+
 
 });
 
@@ -209,6 +217,9 @@ Route::group(['middleware' => 'auth'],function() {
     Route::get('tests/{test}/re_input', 'TestController@re_input')->where('test', '[0-9]+')->name('tests.re_input');
     Route::post('answers/store', 'AnswerController@store')->name('answers.store');
     Route::patch('answers/update', 'AnswerController@update')->name('answers.update');
+
+    //教室預約
+    Route::get('classroom_order', 'ClassroomOrderController@index')->name('classroom_orders.index');
 
 });
 
