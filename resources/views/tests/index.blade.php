@@ -21,8 +21,7 @@
                 <th nowrap width="60">序號</th>
                 <th nowrap>問 卷 名 稱</th>
                 <th nowrap width="100">對 象</th>
-                <th nowrap>狀態</th>
-                <th nowrap width="110">截止日期</th>
+                <th nowrap>截止日期</th>
                 <th nowrap>建立者</th>
                 <th nowrap>使用者動作</th>
                 <th nowrap width="300">管理動作</th>
@@ -58,13 +57,6 @@
                         {{ $groups[$test->do] }}
                     </td>
                     <td>
-                        @if($test->disable == null)
-                            <p class="text-success">啟用</p>
-                        @else
-                            <p class="text-danger">停用</p>
-                        @endif
-                    </td>
-                    <td>
                         @if(str_replace('-','',$test->unpublished_at) < date('Ymd'))
                             <p class="text-danger">{{ $test->unpublished_at }}</p>
                         @else
@@ -75,17 +67,26 @@
                         {{ $test->user->name }}
                     </td>
                     <td>
-                        @if(str_replace('-','',$test->unpublished_at) < date('Ymd') or $test->disable != null)
+                        @if(str_replace('-','',$test->unpublished_at) < date('Ymd'))
                             @if($has_done)
                                 <a href="{{ route('tests.re_input',$test->id) }}" class="btn btn-outline-primary btn-sm"><i class="fas fa-edit"></i> 已填</a>
                             @else
-                                <a href="#" class="btn btn-dark btn-sm"><i class="fas fa-times-circle"></i> 禁止</a>
+                                @if($test->disable != null)
+                                    <a href="#" class="btn btn-dark btn-sm"><i class="fas fa-times-circle"></i> 停用</a>
+                                @else
+                                    <a href="#" class="btn btn-dark btn-sm"><i class="fas fa-times-circle"></i> 逾期</a>
+                                @endif
+
                             @endif
                         @else
                             @if($has_done)
                                 <a href="{{ route('tests.re_input',$test->id) }}" class="btn btn-outline-primary btn-sm"><i class="fas fa-edit"></i> 已填</a>
                             @else
-                                <a href="{{ route('tests.input',$test->id) }}" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i> 填寫</a>
+                                @if($test->disable != null)
+                                    <a href="#" class="btn btn-dark btn-sm"><i class="fas fa-times-circle"></i> 停用</a>
+                                @else
+                                    <a href="{{ route('tests.input',$test->id) }}" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i> 填寫</a>
+                                @endif
                             @endif
                         @endif
                     </td>

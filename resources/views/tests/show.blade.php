@@ -31,7 +31,7 @@
     <table class="table table-striped">
         <thead>
         <tr>
-            <th nowrap width="60"> -- </th>
+            <th nowrap width="60"> # </th>
             <?php $i =1; ?>
             @foreach($question as $k1=>$v1)
                 <th>

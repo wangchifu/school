@@ -98,6 +98,7 @@ class TestController extends Controller
 
     public function input(Test $test)
     {
+        $questions = [];
         foreach($test->questions as $q){
             $questions[$q->order_by]['id'] = $q->id;
             $questions[$q->order_by]['title'] = $q->title;

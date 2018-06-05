@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Classroom;
+use App\ClassroomOrder;
 use App\Http\Requests\ClassroomRequest;
 use Illuminate\Http\Request;
 
@@ -46,7 +47,10 @@ class ClassroomController extends Controller
 
         $att['close_sections']="";
         foreach($close_section as $k=>$v){
-            $att['close_sections'] .= $k.",";
+            foreach($v as $k1 => $v1){
+                $att['close_sections'] .= $k."-".$k1.",";
+            }
+
         }
         $att['close_sections'] = substr($att['close_sections'],0,-1);
         Classroom::create($att);
@@ -94,8 +98,10 @@ class ClassroomController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Classroom $classroom)
     {
-        //
+        ClassroomOrder::where('classroom_id',$classroom->id)->delete();
+        $classroom->delete();
+        return redirect()->route('classrooms.index');
     }
 }

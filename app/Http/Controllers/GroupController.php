@@ -19,7 +19,7 @@ class GroupController extends Controller
         //宣告
         $user_group_data = [];
 
-        $groups = Group::orderBy('disable')->get();
+        $groups = Group::orderBy('id')->get();
         $users_groups = UserGroup::all();
 
         //使用者和群組的矩陣，如 $user_group_data[1] = [1,2,3];
