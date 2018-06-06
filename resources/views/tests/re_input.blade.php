@@ -13,6 +13,7 @@
             <li class="breadcrumb-item active" aria-current="page">填寫問卷</li>
         </ol>
     </nav>
+    <a href="{{ route('answers.destroy',$test->id) }}" class="btn btn-danger btn-sm" id="destroy" onclick="bbconfirm_Link('destroy','要刪除？當你沒填？')"><i class="fas fa-trash"></i> 刪除此份答案</a>
     {{ Form::open(['route' => 'answers.update', 'method' => 'PATCH','id'=>'update','onsubmit'=>'return false;']) }}
     @include('layouts.alert')
     @foreach($questions as $k=>$v)
@@ -33,7 +34,6 @@
                     <small class="text-primary">({{ $v['description'] }})</small>
                 @endif
             </label>
-
         @if($v['type']=="radio")
             <?php
             $radio = unserialize($v['content']); ?>
@@ -74,7 +74,7 @@
     <input type="hidden" name="test_id" value="{{ $test->id }}">
     {{ Form::close() }}
     @if(!$readonly)
-    <a href="#" class="btn btn-primary" onclick="bbconfirm_Form('update','確定修改？')"><i class="fas fa-save"></i> 儲存答案</a>
+    <a href="#" class="btn btn-primary btn-sm" onclick="bbconfirm_Form('update','確定修改？')"><i class="fas fa-save"></i> 儲存答案</a>
     @endif
 </div>
 @endsection

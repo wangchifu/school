@@ -155,8 +155,11 @@ class AnswerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Test $test)
     {
-        //
+        Answer::where('user_id',auth()->user()->id)
+            ->where('test_id',$test->id)
+            ->delete();
+        return redirect()->route('tests.index');
     }
 }

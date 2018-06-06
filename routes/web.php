@@ -217,6 +217,7 @@ Route::group(['middleware' => 'auth'],function() {
     Route::get('tests/{test}/re_input', 'TestController@re_input')->where('test', '[0-9]+')->name('tests.re_input');
     Route::post('answers/store', 'AnswerController@store')->name('answers.store');
     Route::patch('answers/update', 'AnswerController@update')->name('answers.update');
+    Route::get('answers/{test}/destroy', 'AnswerController@destroy')->where('test', '[0-9]+')->name('answers.destroy');
 
     //教室預約
     Route::get('classroom_order', 'ClassroomOrderController@index')->name('classroom_orders.index');
