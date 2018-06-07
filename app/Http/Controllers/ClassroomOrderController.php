@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Classroom;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ClassroomOrderController extends Controller
@@ -13,7 +15,11 @@ class ClassroomOrderController extends Controller
      */
     public function index()
     {
-        return view('classroom_orders.index');
+        $classrooms = Classroom::where('disable','=',null)->get();
+        $data = [
+            'classrooms'=>$classrooms,
+        ];
+        return view('classroom_orders.index',$data);
     }
 
     /**
@@ -43,9 +49,30 @@ class ClassroomOrderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Classroom $classroom)
     {
-        //
+        if(date('w') =="0"){
+            $sunday = new Carbon('this Sunday');
+        }else{
+            $sunday = new Carbon('last Sunday');
+        }
+
+
+        $week = [
+            '日'=>$sunday->toDateString(),
+            '一'=>$sunday->addDay()->toDateString(),
+            '二'=>$sunday->addDay()->toDateString(),
+            '三'=>$sunday->addDay()->toDateString(),
+            '四'=>$sunday->addDay()->toDateString(),
+            '五'=>$sunday->addDay()->toDateString(),
+            '六'=>$sunday->addDay()->toDateString(),
+        ];
+
+        $data = [
+            'classroom'=>$classroom,
+            'week'=>$week,
+        ];
+        return view('classroom_orders.show',$data);
     }
 
     /**

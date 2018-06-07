@@ -3,7 +3,7 @@
     <div class="card-body">
         <div class="form-group">
             <label for="name">名稱*</label>
-            {{ Form::text('name',null,['id'=>'name','class' => 'form-control', 'placeholder' => '名稱']) }}
+            {{ Form::text('name',$name,['id'=>'name','class' => 'form-control', 'placeholder' => '名稱']) }}
         </div>
         <div class="form-group">
             <label for="disable">停用？</label>
@@ -14,103 +14,60 @@
         </div>
         <div class="card my-4">
             <div class="card-header">
-                <label for="disable">不開放節次</label>
+                <label for="disable">不開放節次打勾</label>
             </div>
             <div class="card-body">
                 <table class="table table-bordered">
                     <tr>
                         <td>星期日</td><td>星期一</td><td>星期二</td><td>星期三</td><td>星期四</td><td>星期五</td><td>星期六</td>
                     </tr>
+                    <?php $ws = ['0'=>'晨　間','1'=>'第一節','2'=>'第二節','3'=>'第三節','4'=>'第四節','45'=>'午　休','5'=>'第五節','6'=>'第六節','7'=>'第七節']; ?>
+                    @foreach($ws as $w=>$v)
                     <tr>
                         @for($i=0;$i<7;$i++)
+                            <?php
+                                if($v=="午　休"){
+                                    $btn1 = "btn btn-info btn-sm";
+                                    $btn2 = "btn btn-outline-info btn-sm";
+                                }elseif($v=="晨　間"){
+                                    $btn1 = "btn btn-warning btn-sm";
+                                    $btn2 = "btn btn-outline-warning btn-sm";
+                                }else{
+                                    $btn1 = "btn btn-success btn-sm";
+                                    $btn2 = "btn btn-outline-success btn-sm";
+                                }
+
+                            ?>
+                        <script>
+                            function change_b{{ $i }}{{ $w }}(){
+                                if($("#s{{ $i }}{{ $w }}").prop("checked")){
+                                    $("#b{{ $i }}{{ $w }}").removeAttr('class');
+                                    $("#b{{ $i }}{{ $w }}").attr('class', '{{ $btn1 }}');
+                                }else {
+                                    $("#b{{ $i }}{{ $w }}").removeAttr('class');
+                                    $("#b{{ $i }}{{ $w }}").attr('class', '{{ $btn2 }}');
+                                };
+                            }
+                        </script>
+                                <?php
+                                if($v=="午　休"){
+                                    $btn = ($close[$i][$w])?"btn btn-outline-info btn-sm":"btn btn-info btn-sm";
+                                }elseif($v=="晨　間"){
+                                    $btn = ($close[$i][$w])?"btn btn-outline-warning btn-sm":"btn btn-warning btn-sm";
+                                }else{
+                                    $btn = ($close[$i][$w])?"btn btn-outline-success btn-sm":"btn btn-success btn-sm";
+                                }
+
+                                ?>
                             <td>
                                 <div class="form-check">
-                                    {{ Form::checkbox('close_section['.$i.'][0]', null,$close[$i][0] ,['id'=>'s'.$i.'0','class'=>'form-check-input']) }}
-                                    <label class="form-check-label" for="s{{ $i }}0"><span class="btn btn-success btn-sm">晨間</span></label>
+                                    {{ Form::checkbox('close_section['.$i.']['.$w.']', null,$close[$i][$w] ,['id'=>'s'.$i.$w,'class'=>'form-check-input']) }}
+                                    <label class="form-check-label" for="s{{ $i }}{{ $w }}"><span class="{{ $btn }}" id="b{{$i}}{{ $w }}" onclick="change_b{{ $i }}{{ $w }}()">{{ $v }}</span></label>
                                 </div>
                             </td>
                         @endfor
                     </tr>
-                    <tr>
-                        @for($i=0;$i<7;$i++)
-                            <td>
-                                <div class="form-check">
-                                    {{ Form::checkbox('close_section['.$i.'][1]', null,$close[$i][1] ,['id'=>'s'.$i.'1','class'=>'form-check-input']) }}
-                                    <label class="form-check-label" for="s{{ $i }}1"><span class="btn btn-info btn-sm">第一節</span></label>
-                                </div>
-                            </td>
-                        @endfor
-                    </tr>
-                    <tr>
-                        @for($i=0;$i<7;$i++)
-                            <td>
-                                <div class="form-check">
-                                    {{ Form::checkbox('close_section['.$i.'][2]', null,$close[$i][2] ,['id'=>'s'.$i.'2','class'=>'form-check-input']) }}
-                                    <label class="form-check-label" for="s{{ $i }}2"><span class="btn btn-info btn-sm">第二節</span></label>
-                                </div>
-                            </td>
-                        @endfor
-                    </tr>
-                    <tr>
-                        @for($i=0;$i<7;$i++)
-                            <td>
-                                <div class="form-check">
-                                    {{ Form::checkbox('close_section['.$i.'][3]', null,$close[$i][3] ,['id'=>'s'.$i.'3','class'=>'form-check-input']) }}
-                                    <label class="form-check-label" for="s{{ $i }}3"><span class="btn btn-info btn-sm">第三節</span></label>
-                                </div>
-                            </td>
-                        @endfor
-                    </tr>
-                    <tr>
-                        @for($i=0;$i<7;$i++)
-                            <td>
-                                <div class="form-check">
-                                    {{ Form::checkbox('close_section['.$i.'][4]', null,$close[$i][4] ,['id'=>'s'.$i.'4','class'=>'form-check-input']) }}
-                                    <label class="form-check-label" for="s{{ $i }}4"><span class="btn btn-info btn-sm">第四節</span></label>
-                                </div>
-                            </td>
-                        @endfor
-                    </tr>
-                    <tr>
-                        @for($i=0;$i<7;$i++)
-                            <td>
-                                <div class="form-check">
-                                    {{ Form::checkbox('close_section['.$i.'][45]', null,$close[$i][45] ,['id'=>'s'.$i.'45','class'=>'form-check-input']) }}
-                                    <label class="form-check-label" for="s{{ $i }}45"><span class="btn btn-warning btn-sm">午休</span></label>
-                                </div>
-                            </td>
-                        @endfor
-                    </tr>
-                    <tr>
-                        @for($i=0;$i<7;$i++)
-                            <td>
-                                <div class="form-check">
-                                    {{ Form::checkbox('close_section['.$i.'][5]', null,$close[$i][5] ,['id'=>'s'.$i.'5','class'=>'form-check-input']) }}
-                                    <label class="form-check-label" for="s{{ $i }}5"><span class="btn btn-info btn-sm">第五節</span></label>
-                                </div>
-                            </td>
-                        @endfor
-                    </tr>
-                    <tr>
-                        @for($i=0;$i<7;$i++)
-                            <td>
-                                <div class="form-check">
-                                    {{ Form::checkbox('close_section['.$i.'][6]', null,$close[$i][6] ,['id'=>'s'.$i.'6','class'=>'form-check-input']) }}
-                                    <label class="form-check-label" for="s{{ $i }}6"><span class="btn btn-info btn-sm">第六節</span></label>
-                                </div>
-                            </td>
-                        @endfor
-                    </tr>
-                    <tr>
-                        @for($i=0;$i<7;$i++)
-                            <td>
-                                <div class="form-check">
-                                    {{ Form::checkbox('close_section['.$i.'][7]', null,$close[$i][7] ,['id'=>'s'.$i.'7','class'=>'form-check-input']) }}
-                                    <label class="form-check-label" for="s{{ $i }}7"><span class="btn btn-info btn-sm">第七節</span></label>
-                                </div>
-                            </td>
-                        @endfor
-                    </tr>
+                    @endforeach
                 </table>
             </div>
         </div>

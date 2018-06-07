@@ -17,7 +17,7 @@ class CreateClassroomsTable extends Migration
             $table->increments('id');
             $table->tinyInteger('disable')->nullable();
             $table->string('name');
-            $table->string('close_sections')->nullable();
+            $table->text('close_sections')->nullable();
             $table->timestamps();
         });
     }

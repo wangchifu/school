@@ -106,9 +106,9 @@ Route::group(['middleware' => 'admin'],function(){
     Route::get('classrooms','ClassroomController@index')->name('classrooms.index');
     Route::get('classrooms/create','ClassroomController@create')->name('classrooms.create');
     Route::post('classrooms', 'ClassroomController@store')->name('classrooms.store');
-    Route::get('classrooms/{classroom}/edit' , 'ClassroomController@edit')->name('classrooms.edit');
+    Route::get('classrooms/{classroom}' , 'ClassroomController@edit')->where('classroom', '[0-9]+')->name('classrooms.edit');
     Route::patch('classrooms/{classroom}' , 'ClassroomController@update')->name('classrooms.update');
-    Route::delete('classrooms/{classroom}', 'ClassroomController@destroy')->name('classrooms.destroy');
+    Route::delete('classrooms/{classroom}', 'ClassroomController@destroy')->where('classroom', '[0-9]+')->name('classrooms.destroy');
 
 
 });
@@ -221,6 +221,7 @@ Route::group(['middleware' => 'auth'],function() {
 
     //教室預約
     Route::get('classroom_order', 'ClassroomOrderController@index')->name('classroom_orders.index');
+    Route::get('classroom_order/{classroom}/show', 'ClassroomOrderController@show')->name('classroom_orders.show');
 
 });
 

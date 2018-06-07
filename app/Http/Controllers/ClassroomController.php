@@ -48,7 +48,7 @@ class ClassroomController extends Controller
         $att['close_sections']="";
         foreach($close_section as $k=>$v){
             foreach($v as $k1 => $v1){
-                $att['close_sections'] .= $k."-".$k1.",";
+                $att['close_sections'] .= "'".$k."-".$k1."',";
             }
 
         }
@@ -75,9 +75,12 @@ class ClassroomController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Classroom $classroom)
     {
-        //
+        $data = [
+            'classroom'=>$classroom,
+        ];
+        return view('classrooms.edit',$data);
     }
 
     /**
@@ -87,9 +90,22 @@ class ClassroomController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ClassroomRequest $request, Classroom $classroom)
     {
-        //
+        $att['name'] = $request->input('name');
+        $att['disable'] = $request->input('disable');
+        $close_section = $request->input('close_section');
+
+        $att['close_sections']="";
+        foreach($close_section as $k=>$v){
+            foreach($v as $k1 => $v1){
+                $att['close_sections'] .= "'".$k."-".$k1."',";
+            }
+
+        }
+        $att['close_sections'] = substr($att['close_sections'],0,-1);
+        $classroom->update($att);
+        return redirect()->route('classrooms.index');
     }
 
     /**
