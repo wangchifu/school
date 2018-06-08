@@ -14,17 +14,22 @@
     </nav>
     {{ Form::open(['route' => 'setups.add_img', 'method' => 'post','id'=>'setup', 'files' => true,'onsubmit'=>'return false;']) }}
     <div class="card my-4">
-        <h3 class="card-header">首頁標頭照片</h3>
+        <h3 class="card-header">首頁標頭固定照片</h3>
         <div class="card-body">
             @include('layouts.alert')
             <div class="form-group">
-                <label for="files[]">圖片( 不大於5MB )</label>
-                {{ Form::file('files[]', ['class' => 'form-control','multiple'=>'multiple']) }}
+                <label for="files[]">圖檔(  )</label>
+                {{ Form::file('file', ['class' => 'form-control']) }}
             </div>
             <div class="form-group">
                 <button type="submit" class="btn btn-primary" onclick="bbconfirm_Form('setup','確定儲存嗎？')">
                     <i class="fas fa-save"></i> 儲存設定
                 </button>
+                @if(file_exists(storage_path('app/public/title_image/title_image.jpg')))
+                <a href="{{ route('setups.del_img') }}" class="btn btn-danger" id="del_title_image" onclick="bbconfirm_Link('del_title_image','確定移除嗎？')">
+                    <i class="fas fa-trash"></i> 移除固定
+                </a>
+                @endif
             </div>
         </div>
     </div>

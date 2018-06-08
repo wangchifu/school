@@ -25,12 +25,48 @@ class SetupController extends Controller
 
     public function add_img(Request $request)
     {
-        
+
+        //新增使用者的上傳目錄
+        $new_path = 'public/title_image';
+
+
+        //處理檔案上傳
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+
+                $info = [
+                    //'mime-type' => $file->getMimeType(),
+                    'original_filename' => $file->getClientOriginalName(),
+                    'extension' => $file->getClientOriginalExtension(),
+                    'size' => $file->getClientSize(),
+                ];
+
+
+                $file->storeAs($new_path, "title_image.jpg");
+
+                $att['title_image'] = "1";
+
+                $setup = Setup::first();
+                $setup->update($att);
+
+        }else{
+            $words = "你沒有挑選檔案！！";
+            return view('layouts.error',compact('words'));
+        }
+
+
+
+        return redirect()->route('setups.index');
     }
 
     public function del_img()
     {
-        
+        $att['title_image'] = null;
+
+        $setup = Setup::first();
+        $setup->update($att);
+        unlink(storage_path('app/public/title_image/title_image.jpg'));
+        return redirect()->route('setups.index');
     }
 
     /**

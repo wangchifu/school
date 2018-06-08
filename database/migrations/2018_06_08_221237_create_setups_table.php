@@ -15,7 +15,7 @@ class CreateSetupsTable extends Migration
     {
         Schema::create('setups', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('title_image')->nullable();
+            $table->tinyInteger('title_image')->nullable();
             $table->text('modules')->nullable();
             $table->unsignedInteger('views');
             $table->timestamps();
