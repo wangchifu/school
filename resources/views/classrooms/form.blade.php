@@ -19,10 +19,11 @@
             <div class="card-body">
                 <table class="table table-bordered">
                     <tr>
-                        <td>星期日</td><td>星期一</td><td>星期二</td><td>星期三</td><td>星期四</td><td>星期五</td><td>星期六</td>
+                    @foreach(config("app.cht_week") as $v)
+                        <td>{{ $v }}</td>
+                    @endforeach
                     </tr>
-                    <?php $ws = ['0'=>'晨　間','1'=>'第一節','2'=>'第二節','3'=>'第三節','4'=>'第四節','45'=>'午　休','5'=>'第五節','6'=>'第六節','7'=>'第七節']; ?>
-                    @foreach($ws as $w=>$v)
+                    @foreach(config("app.class_sections") as $w=>$v)
                     <tr>
                         @for($i=0;$i<7;$i++)
                             <?php

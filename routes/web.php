@@ -222,6 +222,8 @@ Route::group(['middleware' => 'auth'],function() {
     //教室預約
     Route::get('classroom_order', 'ClassroomOrderController@index')->name('classroom_orders.index');
     Route::get('classroom_order/{classroom}/show', 'ClassroomOrderController@show')->name('classroom_orders.show');
+    Route::get('classroom_order/{classroom_id}/{section}/{order_date}/select', 'ClassroomOrderController@select')->name('classroom_orders.select');
+    Route::delete('classroom_order', 'ClassroomOrderController@destroy')->name('classroom_orders.destroy');
 
 });
 

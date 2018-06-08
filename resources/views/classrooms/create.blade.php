@@ -19,12 +19,12 @@
             <?php
                 $name=null;
                 $disable=null;
-                $sections = array('0','1','2','3','4','45','5','6','7');
+                $sections = config("app.class_sections");
                 for($i=0;$i<7;$i++){
-                    foreach($sections as $v){
-                        $close[$i][$v] = null;
-                        if($v=="45" or $v=="0" or $i=="0" or $i=="6"){
-                            $close[$i][$v] = 1;
+                    foreach($sections as $k=>$v){
+                        $close[$i][$k] = null;
+                        if($k=="45" or $k=="0" or $i=="0" or $i=="6"){
+                            $close[$i][$k] = 1;
                         }
                     }
                 }

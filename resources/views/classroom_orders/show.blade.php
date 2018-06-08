@@ -16,6 +16,10 @@
             </ol>
         </nav>
         <h2>{{ $classroom->name }}</h2>
+        <?php
+        $cht_week = config("app.cht_week");
+        $class_sections = config("app.class_sections");
+        ?>
         <table class="table table-striped">
             <thead>
             <tr>
@@ -26,17 +30,17 @@
                     <?php
                         $font="";
                         $bg="";
-                    if($k=="日"){
+                    if($k=="0"){
                         $font="text-danger";
                         $bg = "red";
                     }
-                    if($k=="六"){
+                    if($k=="6"){
                         $font="text-success";
                         $bg = "green";
                     }
                     ?>
                 <th>
-                    <span class="{{ $font }}">{{ $k }}</span>
+                    <span class="{{ $font }}">{{ $cht_week[$k] }}</span>
                 </th>
                 @endforeach
                 <th>
@@ -52,10 +56,10 @@
                 @foreach($week as $k => $v)
                     <?php
                     $font="";
-                    if($k=="日"){
+                    if($k=="0"){
                         $font="text-danger";
                     }
-                    if($k=="六"){
+                    if($k=="6"){
                         $font="text-success";
                     }
                     ?>
@@ -67,13 +71,31 @@
                 <td>
                 </td>
             </tr>
-            <?php $ws = ['0'=>'晨　間','1'=>'第一節','2'=>'第二節','3'=>'第三節','4'=>'第四節','45'=>'午　休','5'=>'第五節','6'=>'第六節','7'=>'第七節']; ?>
-            @foreach($ws as $k=>$v)
+            @foreach($class_sections as $k1=>$v1)
             <tr>
-                <td>{{ $v }}</td>
-                @foreach($week as $k => $v)
+                <td>{{ $v1 }}</td>
+                @foreach($week as $k2 => $v2)
                 <td>
-                    <a href="#" class="btn btn-success btn-sm">預約</a>
+                    @if(empty($has_order[$v2][$k1]['id']))
+                        @if(strpos($classroom->close_sections, "'".$k2."-".$k1."'") !== false)
+                            -
+                        @else
+                            <a href="{{ route('classroom_orders.select',['classroom_id'=>$classroom->id,'section'=>$k1,'order_date'=>$v2]) }}"
+                               class="btn btn-secondary btn-sm"
+                               id="s{{ $k1 }}{{ $k2 }}" onclick="bbconfirm_Link('s{{ $k1 }}{{ $k2 }}','確定預約{{ $classroom->name }} {{ $v2 }} {{ $v1 }}')">
+                                <i class="fas fa-check-circle"></i> 選我</a>
+                        @endif
+                    @else
+                        {{ $has_order[$v2][$k1]['user_name'] }}
+                        @if(auth()->user()->id == $has_order[$v2][$k1]['id'])
+                            <a href="#" onclick="bbconfirm_Form('delete{{ $k1 }}{{ $k2 }}','確定刪除 {{ $classroom->name }} {{ $v2 }} {{ $v1 }} 的預約？')"><i class="fas fa-times-circle text-danger"></i></a>
+                            {{ Form::open(['route' => 'classroom_orders.destroy', 'method' => 'DELETE','id'=>'delete'.$k1.$k2,'onsubmit'=>'return false;']) }}
+                            <input type="hidden" name="classroom_id" value="{{ $classroom->id }}">
+                            <input type="hidden" name="order_date" value="{{ $v2 }}">
+                            <input type="hidden" name="section" value="{{ $k1 }}">
+                            {{ Form::close() }}
+                        @endif
+                    @endif
                 </td>
                 @endforeach
                 <td></td>

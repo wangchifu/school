@@ -20,12 +20,12 @@
                 $name=$classroom->name;
                 $disable=$classroom->disable;
 
-                $sections = array('0','1','2','3','4','45','5','6','7');
+                $sections = config("app.class_sections");
                 for($i=0;$i<7;$i++){
-                    foreach($sections as $v){
-                        $close[$i][$v] = null;
-                        if(strpos($classroom->close_sections, "'".$i."-".$v."'") !== false){
-                            $close[$i][$v] = 1;
+                    foreach($sections as $k=>$v){
+                        $close[$i][$k] = null;
+                        if(strpos($classroom->close_sections, "'".$i."-".$k."'") !== false){
+                            $close[$i][$k] = 1;
                         }
                     }
                 }
