@@ -29,7 +29,9 @@ class StudentController extends Controller
         $semester = (!empty($request->input('semester')))?$request->input('semester'):get_semester();
 
 
-        $semesters = [];
+        //取學期選單
+        $semesters = get_semester_menu();
+
         $all_student = 0;
         $students_data = [];
         $out_students = [];
@@ -65,8 +67,6 @@ class StudentController extends Controller
             }else{
 
                 foreach ($YearClasses as $YearClass) {
-                    //學期選單
-                    $semesters[$YearClass->semester] = $YearClass->semester;
                     //列出指定學期的班級資料
                     if ($YearClass->semester == $semester) {
                         if (substr($YearClass->year_class, 0, 1) == 1){
@@ -131,7 +131,7 @@ class StudentController extends Controller
 
         }
 
-        if(empty($semesters[$semester])) $semester = "";
+        //if(empty($semesters[$semester])) $semester = "";
 
 
         //級任選單

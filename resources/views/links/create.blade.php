@@ -6,8 +6,13 @@
 <br><br><br>
 <div class="container">
     <h1><i class="fas fa-link"></i> 新增連結</h1>
-    <a href="{{ route('links.index') }}" class="btn btn-secondary btn-sm"><i class="fas fa-backward"></i> 返回</a>
-    <br><br>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ route('index') }}">首頁</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('links.index') }}">內容列表</a></li>
+            <li class="breadcrumb-item active" aria-current="page">新增連結</li>
+        </ol>
+    </nav>
     <div class="row justify-content-center">
         <div class="col-md-12">
             @include('layouts.alert')

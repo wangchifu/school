@@ -85,16 +85,17 @@
             @endif
 
             <!-- Post Content -->
-            <p style="font-size: 1.2rem;">
-                @if($can_see)
-                    <?php $content = str_replace(chr(13) . chr(10), '<br>', $post->content);?>
-                    {!! $content !!}
-                @else
-                <p class="text-danger">[校內文件]請在校內或是登入後觀看！</p>
-                @endif
+            <div style="border:2px #ccc solid;border-radius:10px;background-color:#eee;padding:10px;">
+                <p style="font-size: 1.2rem;">
+                    @if($can_see)
+                        <?php $content = str_replace(chr(13) . chr(10), '<br>', $post->content);?>
+                        {!! $content !!}
+                    @else
+                    <p class="text-danger">[校內文件]請在校內或是登入後觀看！</p>
+                    @endif
 
-            </p>
-
+                </p>
+            </div>
             <hr>
             @if(!empty($files) and $can_see)
             <div class="card my-4">

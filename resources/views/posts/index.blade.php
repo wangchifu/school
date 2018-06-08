@@ -15,24 +15,26 @@
     @can('create',\App\Post::class)
         <a href="{{ route('posts.create') }}" class="btn btn-success btn-sm"><i class="fas fa-plus"></i> 新增公告</a>
     @endcan
-    <form action="{{ route('posts.search') }}" method="post" class="search-form" id="search_form">
-        {{ csrf_field() }}
-        <table>
-        <tr>
-            <td>
-                <input type="text" class="form-control" name="search" id="search" placeholder="搜尋公告">
-            </td>
-            <td>
-                <input type="radio" name="type" id="title" value="title" class="search-form"> <label for="title">標題</label>　
-                <input type="radio" name="type" id="content" value="content" checked class="search-form"> <label for="content">內文</label>
+    <div align="right">
+        <form action="{{ route('posts.search') }}" method="post" class="search-form" id="search_form">
+            {{ csrf_field() }}
+            <table>
+            <tr>
+                <td>
+                    <input type="text" name="search" id="search" placeholder="搜尋公告">
+                </td>
+                <td>
+                    <input type="radio" name="type" id="title" value="title" class="search-form"> <label for="title">標題</label>　
+                    <input type="radio" name="type" id="content" value="content" checked class="search-form"> <label for="content">內文</label>
 
-            </td>
-            <td>
-                <button class="btn btn-secondary"><i class="fas fa-search"></i></button>
-            </td>
-        </tr>
-    </table>
-    </form>
+                </td>
+                <td>
+                    <button><i class="fas fa-search"></i></button>
+                </td>
+            </tr>
+        </table>
+        </form>
+    </div>
     <table class="table table-striped">
         <thead class="thead-light">
         <tr>

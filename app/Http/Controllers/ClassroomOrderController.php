@@ -50,14 +50,16 @@ class ClassroomOrderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Classroom $classroom)
+    public function show(Classroom $classroom,$select_sunday)
     {
-        if(date('w') =="0"){
-            $sunday = new Carbon('this Sunday');
-        }else{
-            $sunday = new Carbon('last Sunday');
-        }
+        $n = date('w',strtotime($select_sunday));
+        $sunday = new Carbon($select_sunday);
+        $sunday->subDays($n);
 
+        $last_sunday = $sunday->subDays(7)->toDateString();
+        $next_sunday = $sunday->addDays(14)->toDateString();
+
+        $sunday->subDays(7);
 
         $week = [
             '0'=>$sunday->toDateString(),
@@ -81,6 +83,8 @@ class ClassroomOrderController extends Controller
             'classroom'=>$classroom,
             'week'=>$week,
             'has_order'=>$has_order,
+            'last_sunday'=>$last_sunday,
+            'next_sunday'=>$next_sunday,
         ];
         return view('classroom_orders.show',$data);
     }

@@ -6,8 +6,13 @@
 <br><br><br>
 <div class="container">
     <h1><i class="fas fa-users"></i> 使用者-群組列表 [ {{ $group->name }} ]</h1>
-    <a href="{{ route('groups.index') }}" class="btn btn-secondary btn-sm"><i class="fas fa-backward"></i> 返回</a>
-    <br><br>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ route('index') }}">首頁</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('groups.index') }}">帳號列表</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ $group->name }}列表管理</li>
+        </ol>
+    </nav>
     <div class="row justify-content-center">
         <div class="col-md-9">
             <table class="table table-striped">

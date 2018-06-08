@@ -6,8 +6,13 @@
 <br><br><br>
 <div class="container">
     <h1><i class="fas fa-wrench"></i> 報修系統</h1>
-        <a href="{{ route('fixes.index') }}" class="btn btn-secondary btn-sm"><i class="fas fa-backward"></i> 返回列表</a>
-    <br><br>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ route('index') }}">首頁</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('fixes.index') }}">報修列表</a></li>
+            <li class="breadcrumb-item active" aria-current="page">分類搜尋</li>
+        </ol>
+    </nav>
     <table class="table table-striped">
         <thead class="thead-light">
         <tr>

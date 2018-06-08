@@ -6,8 +6,13 @@
 <br><br><br>
 <div class="container">
     <h1><i class="fas fa-file-alt"></i> 內容管理</h1>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ route('index') }}">首頁</a></li>
+            <li class="breadcrumb-item active" aria-current="page">內容列表</li>
+        </ol>
+    </nav>
     <a href="{{ route('contents.create') }}" class="btn btn-success btn-sm"><i class="fas fa-plus"></i> 新增內容</a>
-    <br><br>
     <table class="table table-striped">
         <thead>
         <tr>

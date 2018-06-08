@@ -6,8 +6,13 @@
 <br><br><br>
 <div class="container">
     <h1><i class="fas fa-users"></i> 群組列表</h1>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ route('index') }}">首頁</a></li>
+            <li class="breadcrumb-item active" aria-current="page">帳號列表</li>
+        </ol>
+    </nav>
     <a href="{{ route('groups.create') }}" class="btn btn-success btn-sm"><i class="fas fa-plus"></i> 新增群組</a>
-    <br><br>
     <table class="table table-striped">
         <thead class="thead-light">
         <tr>

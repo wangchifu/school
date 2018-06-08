@@ -29,7 +29,7 @@
                 <td>{{ $i }}</td>
                 <td>{{ $classroom->name }}</td>
                 <td>
-                    <a href="{{ route('classroom_orders.show',$classroom->id) }}" class="btn btn-info btn-sm"><i class="fas fa-check-circle"></i> 預約</a>
+                    <a href="{{ route('classroom_orders.show',['classroom'=>$classroom->id,'select_sunday'=>date('Y-m-d')]) }}" class="btn btn-info btn-sm"><i class="fas fa-check-circle"></i> 預約</a>
                 </td>
                 <?php $i++; ?>
             @endforeach

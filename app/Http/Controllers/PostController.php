@@ -340,8 +340,12 @@ class PostController extends Controller
             $words = "搜尋字元至少要二個字！";
             return view('layouts.error',compact('words'));
         }
+        if($request->input('type')=="content"){
+            $posts = Post::where('content','like','%'.$search.'%')->orderBy('id','DESC')->get();
+        }else{
+            $posts = Post::where('title','like','%'.$search.'%')->orderBy('id','DESC')->get();
+        }
 
-        $posts = Post::where('content','like','%'.$search.'%')->orderBy('id','DESC')->get();
         $data = [
             'posts'=>$posts,
             'search'=>$search,

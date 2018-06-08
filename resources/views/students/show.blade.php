@@ -6,8 +6,13 @@
 <br><br><br>
 <div class="container">
     <h1><i class="fas fa-child"></i> 班級學生</h1>
-    <a href="{{ route('students.index') }}" class="btn btn-secondary btn-sm"><i class="fas fa-backward"></i> 返回</a>
-    <br><br>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ route('index') }}">首頁</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('students.index') }}">學生系統</a></li>
+            <li class="breadcrumb-item active" aria-current="page">班級學生</li>
+        </ol>
+    </nav>
     <div class="card my-4">
         <div class="card-header">班級管理：{{ $year_class->semester }} 學期 {{ $year_class->name }}</div>
         <div class="card-body">

@@ -6,10 +6,15 @@
 <br><br><br>
 <div class="container">
     <h1><i class="fas fa-child"></i> 學生系統</h1>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ route('index') }}">首頁</a></li>
+            <li class="breadcrumb-item active" aria-current="page">學生系統</li>
+        </ol>
+    </nav>
     @if($student_admin)
         <a href="{{ route('year_classes.create') }}" class="btn btn-success btn-sm"><i class="fas fa-plus"></i> 新增學期</a>
     @endif
-    <br><br>
     <div class="card my-4">
         <div class="card-header">查詢學期</div>
         <div class="card-body">

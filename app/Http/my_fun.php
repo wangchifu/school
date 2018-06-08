@@ -114,6 +114,16 @@ if(! function_exists('get_class_menu')){
     }
 }
 
+//列出學期選單array
+if(! function_exists('get_semester_menu')){
+    function get_semester_menu(){
+        $semesters = \App\YearClass::groupBy('semester')->pluck('semester','semester')->toArray();
+        krsort($semesters);
+        return $semesters;
+    }
+}
+
+
 //檢查是不是該模組的管理者
 if(! function_exists('check_admin')){
     function check_admin($type){

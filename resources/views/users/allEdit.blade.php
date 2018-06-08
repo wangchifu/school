@@ -5,9 +5,15 @@
 @section('content')
 <br><br><br>
 <div class="container">
-    <h1><i class="fas fa-user"></i> 大量修改使用者</h1>
+    <h1><i class="fas fa-user"></i> 大量修改帳號</h1>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ route('index') }}">首頁</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('users.index') }}">帳號列表</a></li>
+            <li class="breadcrumb-item active" aria-current="page">大量修改</li>
+        </ol>
+    </nav>
     {{ Form::open(['route' => 'users.allUpdate', 'method' => 'PATCH','id'=>'setup','onsubmit'=>'return false;']) }}
-    <a href="{{ route('users.index') }}" class="btn btn-secondary btn-sm"><i class="fas fa-backward"></i> 返回</a>
     <a href="#" class="btn btn-primary btn-sm" onclick="bbconfirm_Form('setup','確定儲存嗎？')"><i class="fas fa-save"></i> 送出修改</a>
     <br>
     <table class="table table-striped">

@@ -1,14 +1,19 @@
 @extends('layouts.master')
 
-@section('page-title', '使用者列表 | 和東國小')
+@section('page-title', '帳號管理 | 和東國小')
 
 @section('content')
 <br><br><br>
 <div class="container">
-    <h1><i class="fas fa-user"></i> 使用者列表</h1>
+    <h1><i class="fas fa-user"></i> 帳號管理</h1>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ route('index') }}">首頁</a></li>
+            <li class="breadcrumb-item active" aria-current="page">帳號列表</li>
+        </ol>
+    </nav>
     <a href="{{ route('users.allEdit') }}" class="btn btn-info btn-sm"><i class="fas fa-edit"></i> 大量修改</a>
     <a href="{{ route('users.create') }}" class="btn btn-success btn-sm"><i class="fas fa-plus"></i> 新增使用者</a>
-    <br><br>
     <table class="table table-striped">
         <thead class="thead-light">
         <tr>

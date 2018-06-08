@@ -38,10 +38,12 @@
                 張貼日期： {{ $fix->created_at }}　　　
             </p>
             <hr>
-            <p style="font-size: 1.2rem;" >
-                <?php $content = str_replace(chr(13) . chr(10), '<br>', $fix->content);?>
-                    {!! $content !!}
-            </p>
+            <div style="border:2px #ccc solid;border-radius:10px;background-color:#eee;padding:10px;">
+                <p style="font-size: 1.2rem;" >
+                    <?php $content = str_replace(chr(13) . chr(10), '<br>', $fix->content);?>
+                        {!! $content !!}
+                </p>
+            </div>
             <hr>
             @if(!empty($fix->reply))
                     <?php $reply = str_replace(chr(13) . chr(10), '<br>', $fix->reply);?>

@@ -23,9 +23,9 @@
         <table class="table table-striped">
             <thead>
             <tr>
-                <th>
-
-                </th>
+                <td rowspan="2">
+                    <h3><a href="{{ route('classroom_orders.show',['classroom_id'=>$classroom->id,'select_sunday'=>$last_sunday]) }}"><i class="fas fa-arrow-alt-circle-left"></i></a></h3>
+                </td>
                 @foreach($week as $k => $v)
                     <?php
                         $font="";
@@ -39,20 +39,15 @@
                         $bg = "green";
                     }
                     ?>
-                <th>
-                    <span class="{{ $font }}">{{ $cht_week[$k] }}</span>
-                </th>
-                @endforeach
-                <th>
-
-                </th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
                 <td>
-
+                    <span class="{{ $font }}">{{ $cht_week[$k] }}</span>
                 </td>
+                @endforeach
+                <td rowspan="2">
+                    <h3><a href="{{ route('classroom_orders.show',['classroom'=>$classroom->id,'select_sunday'=>$next_sunday]) }}"><i class="fas fa-arrow-alt-circle-right"></i></a></h3>
+                </td>
+            </tr>
+            <tr>
                 @foreach($week as $k => $v)
                     <?php
                     $font="";
@@ -68,9 +63,9 @@
                         <span class="{{ $class }} {{ $font }}">{{ $v }}</span>
                     </td>
                 @endforeach
-                <td>
-                </td>
             </tr>
+            </thead>
+            <tbody>
             @foreach($class_sections as $k1=>$v1)
             <tr>
                 <td>{{ $v1 }}</td>

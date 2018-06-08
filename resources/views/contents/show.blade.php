@@ -3,7 +3,6 @@
 @section('page-title', '顯示內容 | 和東國小')
 
 @section('content')
-<br><br><br>
 <div class="container">
     <br><br>
     <div class="card my-4">
