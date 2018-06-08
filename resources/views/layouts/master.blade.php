@@ -1,3 +1,12 @@
+<?php
+  $setup = \App\Setup::first();
+  $setup_key = "setup".$setup->id;
+if(!session($setup_key)){
+    $att['views'] = $setup->views+1;
+    $setup->update($att);
+}
+session([$setup_key => '1']);
+?>
 <!DOCTYPE html>
 <html lang="zh-TW">
 
@@ -134,7 +143,7 @@
                     <a class="dropdown-item" href="{{ route('contents.index') }}"><i class="fas fa-file-alt"></i> 內容管理</a>
                     <a class="dropdown-item" href="{{ route('links.index') }}"><i class="fas fa-link"></i> 連結管理</a>
                     <a class="dropdown-item" href="{{ route('funs.index') }}"><i class="fas fa-trophy"></i> 指定管理</a>
-                    <a class="dropdown-item" href="#"><i class="fas fa-desktop"></i> 網站設定x</a>
+                    <a class="dropdown-item" href="{{ route('setups.index') }}"><i class="fas fa-desktop"></i> 網站設定</a>
                   </div>
                 </li>
               @endif
@@ -172,7 +181,7 @@
     <!-- Footer -->
     <footer class="py-5 bg-dark">
       <div class="container">
-        <p class="m-0 text-center text-white">Copyright &copy; {{ env('APP_NAME') }} 2018</p>
+        <p class="m-0 text-center text-white">Copyright &copy; {{ env('APP_NAME') }} 自 {{ substr($setup->created_at,0,10) }} 參訪人數：{{ $setup->views }}</p>
       </div>
       <!-- /.container -->
     </footer>

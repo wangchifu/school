@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Setup;
 use Illuminate\Http\Request;
 
 class SetupController extends Controller
@@ -13,7 +14,23 @@ class SetupController extends Controller
      */
     public function index()
     {
-        //
+        $setup = Setup::first();
+        $modules = ($setup->modules)?$setup->modules:"";
+        $data = [
+            'modules'=>$modules,
+            'setup'=>$setup,
+        ];
+        return view('setups.index',$data);
+    }
+
+    public function add_img(Request $request)
+    {
+        
+    }
+
+    public function del_img()
+    {
+        
     }
 
     /**
@@ -66,9 +83,15 @@ class SetupController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Setup $setup)
     {
-        //
+        $check = $request->input('check');
+        $att['modules'] = "";
+        foreach($check as $k=>$v){
+            $att['modules'] .= $k.",";
+        }
+        $setup->update($att);
+        return redirect()->route('setups.index');
     }
 
     /**

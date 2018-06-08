@@ -49,6 +49,7 @@ Route::get('public_file/{file}', 'HomeController@getPublicFile');
 
 //管理員
 Route::group(['middleware' => 'admin'],function(){
+    //帳號管理
     Route::get('users', 'UserController@index')->name('users.index');
     Route::get('users/create', 'UserController@create')->name('users.create');
     Route::post('users', 'UserController@store')->name('users.store');
@@ -110,7 +111,11 @@ Route::group(['middleware' => 'admin'],function(){
     Route::patch('classrooms/{classroom}' , 'ClassroomController@update')->name('classrooms.update');
     Route::delete('classrooms/{classroom}', 'ClassroomController@destroy')->where('classroom', '[0-9]+')->name('classrooms.destroy');
 
-
+    //網站管理
+    Route::get('setups','SetupController@index')->name('setups.index');
+    Route::post('setups/add_img', 'SetupController@add_img')->name('setups.add_img');
+    Route::get('setups/del_img', 'SetupController@del_img')->name('setups.del_img');
+    Route::patch('setups/{setup}', 'SetupController@update')->name('setups.update');
 });
 
 //行政人員

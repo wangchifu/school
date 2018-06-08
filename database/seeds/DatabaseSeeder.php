@@ -12,7 +12,8 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         //登記要執行的seeder
-        //$this->call(UsersTableSeeder::class);
+        $this->call(UsersTableSeeder::class);
         $this->call(GroupsTableSeeder::class);
+        $this->call(SetupsTableSeeder::class);
     }
 }

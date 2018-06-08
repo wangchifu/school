@@ -5,48 +5,96 @@
 @section('content')
 <br><br><br>
 <div class="container">
-    <h1><i class="fas fa-bullhorn"></i> 網站設定</h1>
+    <h1><i class="fas fa-desktop"></i> 網站設定</h1>
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('index') }}">首頁</a></li>
             <li class="breadcrumb-item active" aria-current="page">網站設定</li>
         </ol>
     </nav>
-    {{ Form::open(['route' => 'setups.store', 'method' => 'POST','id'=>'setup', 'files' => true,'onsubmit'=>'return false;']) }}
+    {{ Form::open(['route' => 'setups.add_img', 'method' => 'post','id'=>'setup', 'files' => true,'onsubmit'=>'return false;']) }}
     <div class="card my-4">
-        <h3 class="card-header">公告資料</h3>
+        <h3 class="card-header">首頁標頭照片</h3>
         <div class="card-body">
             @include('layouts.alert')
             <div class="form-group">
-                <label for="job_title"><strong>1.職稱*</strong></label>
-                {{ Form::text('job_title',auth()->user()->job_title,['id'=>'job_title','class' => 'form-control', 'readonly' => 'readonly']) }}
-            </div>
-            <div class="form-group">
-                <label for="insite">2.校內文件?</label>
-                <div class="form-check">
-                    {{ Form::checkbox('insite', '1',null,['id'=>'insite','class'=>'form-check-input']) }}
-                    <label class="form-check-label" for="insite"><span class="btn btn-info btn-sm">設定</span></label>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="content">3.標題圖片</label>
-                {{ Form::file('title_image', ['class' => 'form-control']) }}
-            </div>
-            <div class="form-group">
-                <label for="title"><strong>4.標題*</strong></label>
-                {{ Form::text('title',null,['id'=>'title','class' => 'form-control', 'placeholder' => '請輸入標題']) }}
-            </div>
-            <div class="form-group">
-                <label for="content"><strong>5.內文*</strong></label>
-                {{ Form::textarea('content', null, ['id' => 'content', 'class' => 'form-control', 'rows' => 10, 'placeholder' => '請輸入內容']) }}
-            </div>
-            <div class="form-group">
-                <label for="files[]">6.附件( 不大於5MB )</label>
+                <label for="files[]">圖片( 不大於5MB )</label>
                 {{ Form::file('files[]', ['class' => 'form-control','multiple'=>'multiple']) }}
             </div>
             <div class="form-group">
-                <a href="{{ route('posts.index') }}" class="btn btn-secondary"><i class="fas fa-backward"></i> 返回</a>
                 <button type="submit" class="btn btn-primary" onclick="bbconfirm_Form('setup','確定儲存嗎？')">
+                    <i class="fas fa-save"></i> 儲存設定
+                </button>
+            </div>
+        </div>
+    </div>
+    {{ Form::close() }}
+    {{ Form::open(['route' => ['setups.update',$setup->id], 'method' => 'PATCH','id'=>'update','onsubmit'=>'return false;']) }}
+    <div class="card my-4">
+        <h3 class="card-header">啟用模組</h3>
+        <div class="card-body">
+            <?php
+
+                foreach(config('app.modules') as $v){
+                    if(strpos($modules, $v) !== false){
+                        $check[$v] = "checked";
+                    }else{
+                        $check[$v] = "";
+                    }
+                }
+            ?>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <input type="checkbox" name="check['meetings']" id="meetings" {{ $check['meetings'] }}>
+                    <label class="form-check-label" for="meetings">
+                        <i class="fas fa-comments"></i> 會議文稿
+                    </label>
+                </li>
+                <li class="list-group-item">
+                    <input type="checkbox" name="check['school_plans']" id="school_plans" {{ $check['school_plans'] }}>
+                    <label class="form-check-label" for="school_plans">
+                        <i class="fas fa-book"></i> 校務計畫
+                    </label>
+                </li>
+                <li class="list-group-item">
+                    <input type="checkbox" name="check['tests']" id="tests" {{ $check['tests'] }}>
+                    <label class="form-check-label" for="tests">
+                        <i class="fas fa-check-square"></i> 問卷系統
+                    </label>
+                </li>
+                <li class="list-group-item">
+                    <input type="checkbox" name="check['classroom_orders']" id="classroom_orders" {{ $check['classroom_orders'] }}>
+                    <label class="form-check-label" for="classroom_orders">
+                        <i class="fas fa-list-ol"></i> 教室預約
+                    </label>
+                </li>
+                <li class="list-group-item">
+                    <input type="checkbox" name="check['fixes']" id="fixes" {{ $check['fixes'] }}>
+                    <label class="form-check-label" for="fixes">
+                        <i class="fas fa-wrench"></i> 報修系統
+                    </label>
+                </li>
+                <li class="list-group-item">
+                    <input type="checkbox" name="check['students']" id="students" {{ $check['students'] }}>
+                    <label class="form-check-label" for="students">
+                        <i class="fas fa-child"></i> 學生系統
+                    </label>
+                </li>
+                <li class="list-group-item">
+                    <input type="checkbox" name="check['lunches']" id="lunches" {{ $check['lunches'] }}>
+                    <label class="form-check-label" for="lunches">
+                        <i class="fas fa-utensils"></i> 午餐系統
+                    </label>
+                </li>
+                <li class="list-group-item">
+                    <input type="checkbox" name="check['sports']" id="sports" {{ $check['sports'] }}>
+                    <label class="form-check-label" for="sports">
+                        <i class="fas fa-football-ball"></i> 運動會報名系統
+                    </label>
+                </li>
+            </ul>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary" onclick="bbconfirm_Form('update','確定儲存嗎？')">
                     <i class="fas fa-save"></i> 儲存設定
                 </button>
             </div>

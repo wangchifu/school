@@ -238,4 +238,14 @@ return [
         '6'=>'第六節',
         '7'=>'第七節',
     ],
+    'modules'=>[
+        'meetings',
+        'school_plans',
+        'tests',
+        'classroom_orders',
+        'fixes',
+        'students',
+        'lunches',
+        'sports',
+    ],
 ];
