@@ -6,6 +6,13 @@
 <br><br><br>
 <div class="container">
     <h1><i class="fas fa-wrench"></i> 新增報修項目</h1>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ route('index') }}">首頁</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('fixes.index') }}">報修列表</a></li>
+            <li class="breadcrumb-item active" aria-current="page">新增報修</li>
+        </ol>
+    </nav>
     {{ Form::open(['route' => 'fixes.store', 'method' => 'POST','id'=>'setup', 'files' => true,'onsubmit'=>'return false;']) }}
     <div class="card my-4">
         <h3 class="card-header">報修資料</h3>

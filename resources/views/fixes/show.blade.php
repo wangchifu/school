@@ -8,8 +8,13 @@
     <div class="row">
         <div class="col-lg-12">
             <h1 class="mt-4"><i class="fas fa-wrench"></i> {{ $fix->title }}</h1>
-            <a href="{{ route('fixes.index') }}" class="btn btn-secondary btn-sm"><i class="fas fa-backward"></i> 回列表</a>
-            <br><br>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ route('index') }}">首頁</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('fixes.index') }}">報修列表</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">報修內容</li>
+                </ol>
+            </nav>
             <p class="lead">
                 <?php
                 $s=['1'=>'處理完畢','2'=>'處理中','3'=>'申報中'];
@@ -33,7 +38,7 @@
                 張貼日期： {{ $fix->created_at }}　　　
             </p>
             <hr>
-            <p style="font-size: 1.2rem;">
+            <p style="font-size: 1.2rem;" >
                 <?php $content = str_replace(chr(13) . chr(10), '<br>', $fix->content);?>
                     {!! $content !!}
             </p>

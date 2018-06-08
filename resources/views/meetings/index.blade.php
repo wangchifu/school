@@ -1,15 +1,20 @@
 @extends('layouts.master')
 
-@section('page-title', '會議列表 | 和東國小')
+@section('page-title', '會議文稿 | 和東國小')
 
 @section('content')
 <br><br><br>
 <div class="container">
-    <h1><i class="fas fa-comments"></i> 會議列表</h1>
+    <h1><i class="fas fa-comments"></i> 會議文稿</h1>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ route('index') }}">首頁</a></li>
+            <li class="breadcrumb-item active" aria-current="page">會議列表</li>
+        </ol>
+    </nav>
     @can('create',\App\Meeting::class)
         <a href="{{ route('meetings.create') }}" class="btn btn-success btn-sm"><i class="fas fa-plus"></i> 新增會議</a>
     @endcan
-    <br><br>
     <table class="table table-striped">
         <thead>
         <tr>

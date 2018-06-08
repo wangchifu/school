@@ -6,6 +6,14 @@
 <br><br><br>
 <div class="container">
     <h1><i class="fas fa-comment"></i> 修改報告</h1>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ route('index') }}">首頁</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('meetings.index') }}">會議列表</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('meetings.show',$report->meeting_id) }}">{{ $report->meeting->open_date }} {{ $report->meeting->name }}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">修改報告</li>
+        </ol>
+    </nav>
     {{ Form::model($report,['route' => ['meetings_reports.update',$report->id], 'method' => 'PATCH','id'=>'setup', 'files' => true,'onsubmit'=>'return false;']) }}
     <div class="card my-4">
         <h3 class="card-header">{{ $report->meeting->open_date }} {{ $report->meeting->name }} 報告資料</h3>

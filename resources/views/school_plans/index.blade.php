@@ -6,7 +6,12 @@
 <br><br><br>
 <div class="container">
     <h1 class="text-danger"><i class="fas fa-book"></i> 校務計畫</h1>
-    <br><br>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ route('index') }}">首頁</a></li>
+            <li class="breadcrumb-item active" aria-current="page">計畫列表</li>
+        </ol>
+    </nav>
     <?php
     $final = end($folder_path);
     $final_key = key($folder_path);

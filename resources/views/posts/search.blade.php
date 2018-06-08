@@ -3,74 +3,34 @@
 @section('page-title', '本校公告 | 和東國小')
 
 @section('content')
-<style>
-    .search-form .form-group {
-        float: right !important;
-        transition: all 0.35s, border-radius 0s;
-        width: 32px;
-        height: 32px;
-        background-color: #fff;
-        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
-        border-radius: 25px;
-        border: 1px solid #ccc;
-    }
-    .search-form .form-group input.form-control {
-        padding-right: 20px;
-        border: 0 none;
-        background: transparent;
-        box-shadow: none;
-        display:block;
-    }
-    .search-form .form-group input.form-control::-webkit-input-placeholder {
-        display: none;
-    }
-    .search-form .form-group input.form-control:-moz-placeholder {
-        /* Firefox 18- */
-        display: none;
-    }
-    .search-form .form-group input.form-control::-moz-placeholder {
-        /* Firefox 19+ */
-        display: none;
-    }
-    .search-form .form-group input.form-control:-ms-input-placeholder {
-        display: none;
-    }
-    .search-form .form-group:hover,
-    .search-form .form-group.hover {
-        width: 100%;
-        border-radius: 4px 25px 25px 4px;
-    }
-    .search-form .form-group span.form-control-feedback {
-        position: absolute;
-        top: 0px;
-        right: 13px;
-        z-index: 2;
-        display: block;
-        width: 34px;
-        height: 34px;
-        line-height: 34px;
-        text-align: center;
-        color: #3596e0;
-        left: initial;
-        font-size: 14px;
-    }
-</style>
 <br><br><br>
 <div class="container">
     <h1><i class="fas fa-bullhorn"></i> 搜尋公告 - [ {{ $search }} ]</h1>
-    <a href="{{ route('posts.index') }}" class="btn btn-secondary btn-sm"><i class="fas fa-backward"></i> 返回</a>
-    <div class="row">
-        <div class="col-md-4 col-md-offset-3">
-            <form action="{{ route('posts.search') }}" method="post" class="search-form" id="search_form">
-                {{ csrf_field() }}
-                <div class="form-group has-feedback">
-                    <label for="search" class="sr-only">Search</label>
-                    <input type="text" class="form-control" name="search" id="search" placeholder="搜尋公告內文後，按Enter">
-                    <span class="fas fa-search form-control-feedback"></span>
-                </div>
-            </form>
-        </div>
-    </div>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ route('index') }}">首頁</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('posts.index') }}">公告列表</a></li>
+            <li class="breadcrumb-item active" aria-current="page"> 搜尋結果</li>
+        </ol>
+    </nav>
+    <form action="{{ route('posts.search') }}" method="post" class="search-form" id="search_form">
+        {{ csrf_field() }}
+        <table>
+            <tr>
+                <td>
+                    <input type="text" class="form-control" name="search" id="search" placeholder="搜尋公告">
+                </td>
+                <td>
+                    <input type="radio" name="type" id="title" value="title" class="search-form"> <label for="title">標題</label>　
+                    <input type="radio" name="type" id="content" value="content" checked class="search-form"> <label for="content">內文</label>
+
+                </td>
+                <td>
+                    <button class="btn btn-secondary"><i class="fas fa-search"></i></button>
+                </td>
+            </tr>
+        </table>
+    </form>
     <table class="table table-striped">
         <thead class="thead-light">
         <tr>

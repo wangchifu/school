@@ -6,6 +6,13 @@
 <br><br><br>
 <div class="container">
     <h1><i class="fas fa-bullhorn"></i> 新增公告</h1>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ route('index') }}">首頁</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('posts.index') }}">公告列表</a></li>
+            <li class="breadcrumb-item active" aria-current="page">新增公告</li>
+        </ol>
+    </nav>
     {{ Form::open(['route' => 'posts.store', 'method' => 'POST','id'=>'setup', 'files' => true,'onsubmit'=>'return false;']) }}
     <div class="card my-4">
         <h3 class="card-header">公告資料</h3>

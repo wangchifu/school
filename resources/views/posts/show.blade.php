@@ -35,7 +35,14 @@
                 <h1 class="mt-4 text-danger"><i class="fas fa-ban"></i> 校內文件</h1>
             @endif
 
-            <a href="{{ route('posts.index') }}" class="btn btn-secondary btn-sm"><i class="fas fa-backward"></i> 回列表</a>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ route('index') }}">首頁</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('posts.index') }}">公告列表</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">公告內容</li>
+                </ol>
+            </nav>
+
             @if($last_id)
                 <a href="{{ route('posts.show',$last_id) }}" class="btn btn-secondary btn-sm"><i class="fas fa-arrow-alt-circle-left"></i> 上一則公告</a>
             @endif
