@@ -6,6 +6,15 @@ if(!session($setup_key)){
     $setup->update($att);
 }
 session([$setup_key => '1']);
+
+foreach(config('app.modules') as $v){
+    if(strpos($setup->modules, $v) !== false){
+        $check[$v] = "checked";
+    }else{
+        $check[$v] = "";
+    }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="zh-TW">
@@ -84,14 +93,30 @@ session([$setup_key => '1']);
                 <i class="fas fa-inbox"></i> 校內行政
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <a class="dropdown-item" href="{{ route('meetings.index') }}"><i class="fas fa-comments"></i> 會議文稿</a>
-                <a class="dropdown-item" href="{{ route('school_plans.index') }}"><i class="fas fa-book"></i> 校務計畫</a>
-                <a class="dropdown-item" href="{{ route('tests.index') }}"><i class="far fa-check-square"></i> 問卷系統</a>
-                <a class="dropdown-item" href="{{ route('classroom_orders.index') }}"><i class="fas fa-list-ol"></i> 教室預約</a>
-                <a class="dropdown-item" href="{{ route('fixes.index') }}"><i class="fas fa-wrench"></i> 報修系統</a>
-                <a class="dropdown-item" href="{{ route('students.index') }}"><i class="fas fa-child"></i> 學生系統</a>
-                <a class="dropdown-item" href="#"><i class="fas fa-utensils"></i> 午餐系統x</a>
-                <a class="dropdown-item" href="#}"><i class="fas fa-football-ball"></i> 運動會報名系統x</a>
+                @if($check['meetings'])
+                  <a class="dropdown-item" href="{{ route('meetings.index') }}"><i class="fas fa-comments"></i> 會議文稿</a>
+                @endif
+                @if($check['school_plans'])
+                  <a class="dropdown-item" href="{{ route('school_plans.index') }}"><i class="fas fa-book"></i> 校務計畫</a>
+                @endif
+                @if($check['tests'])
+                  <a class="dropdown-item" href="{{ route('tests.index') }}"><i class="far fa-check-square"></i> 問卷系統</a>
+                @endif
+                @if($check['classroom_orders'])
+                  <a class="dropdown-item" href="{{ route('classroom_orders.index') }}"><i class="fas fa-list-ol"></i> 教室預約</a>
+                @endif
+                @if($check['fixes'])
+                  <a class="dropdown-item" href="{{ route('fixes.index') }}"><i class="fas fa-wrench"></i> 報修系統</a>
+                @endif
+                @if($check['students'])
+                  <a class="dropdown-item" href="{{ route('students.index') }}"><i class="fas fa-child"></i> 學生系統</a>
+                @endif
+                @if($check['lunches'])
+                  <a class="dropdown-item" href="#"><i class="fas fa-utensils"></i> 午餐系統x</a>
+                @endif
+                @if($check['sports'])
+                  <a class="dropdown-item" href="#"><i class="fas fa-football-ball"></i> 運動會報名系統x</a>
+                @endif
               </div>
             </li>
               <?php
