@@ -15,12 +15,15 @@ foreach(config('app.modules') as $v){
     }
 }
 
+$nav_color = (empty($setup->nav_color))?"navbar-dark bg-dark":"navbar-custom";
+$navbar_custom = (empty($setup->nav_color))?['0'=>'','1'=>'','2'=>'','3'=>'']:explode(",",$setup->nav_color);
+
 ?>
 <!DOCTYPE html>
 <html lang="zh-TW">
 
   <head>
-
+    <link rel="Shortcut Icon" type="image/x-icon" href="{{ asset('logo.png') }}" />
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -62,10 +65,29 @@ foreach(config('app.modules') as $v){
     #gotop :hover{
       background:#0099CC;
     }
+
+
+    .navbar-custom {
+      background-color: {{ $navbar_custom[0] }};
+    }
+    /* change the brand and text color */
+    .navbar-custom .navbar-brand,
+    .navbar-custom .navbar-text {
+      color: {{ $navbar_custom[1] }};
+    }
+    /* change the link color */
+    .navbar-custom .navbar-nav .nav-link {
+      color: {{ $navbar_custom[2] }};
+    }
+    /* change the color of active or hovered links */
+    .navbar-custom .nav-item.active .nav-link,
+    .navbar-custom .nav-item:hover .nav-link {
+      color: {{ $navbar_custom[3] }};
+    }
   </style>
 
   <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+    <nav class="navbar navbar-expand-lg {{ $nav_color }} fixed-top" id="mainNav">
       <div class="container">
         <a href="#page-top">
           <img src="{{ asset('img/logo.png') }}" width="30" height="30" class="d-inline-block align-top" alt="">

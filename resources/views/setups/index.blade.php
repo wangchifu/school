@@ -3,6 +3,11 @@
 @section('page-title', '網站設定 | 和東國小')
 
 @section('content')
+    <link rel="stylesheet" type="text/css" href="{{ asset('colorpicker/css/htmleaf-demo.css') }}">
+    <link href="{{ asset('colorpicker/dist/css/bootstrap-colorpicker.css') }}" rel="stylesheet">
+    <style type="text/css">
+        .colorpicker-component{margin-top: 10px;}
+    </style>
 <br><br><br>
 <div class="container">
     <h1><i class="fas fa-desktop"></i> 網站設定</h1>
@@ -12,23 +17,109 @@
             <li class="breadcrumb-item active" aria-current="page">網站設定</li>
         </ol>
     </nav>
-    {{ Form::open(['route' => 'setups.add_img', 'method' => 'post','id'=>'setup', 'files' => true,'onsubmit'=>'return false;']) }}
+    {{ Form::open(['route' => 'setups.add_img', 'method' => 'post','id'=>'img', 'files' => true,'onsubmit'=>'return false;']) }}
     <div class="card my-4">
-        <h3 class="card-header">首頁標頭固定照片</h3>
+        <h3 class="card-header">首頁標頭固定</h3>
         <div class="card-body">
-            @include('layouts.alert')
             <div class="form-group">
-                <label for="files[]">圖檔(  )</label>
+                <label for="file">圖檔( 2000 x 400 )</label>
                 {{ Form::file('file', ['class' => 'form-control']) }}
             </div>
             <div class="form-group">
-                <button type="submit" class="btn btn-primary" onclick="bbconfirm_Form('setup','確定儲存嗎？')">
+                <button type="submit" class="btn btn-primary" onclick="bbconfirm_Form('img','確定儲存嗎？')">
                     <i class="fas fa-save"></i> 儲存設定
                 </button>
-                @if(file_exists(storage_path('app/public/title_image/title_image.jpg')))
-                <a href="{{ route('setups.del_img') }}" class="btn btn-danger" id="del_title_image" onclick="bbconfirm_Link('del_title_image','確定移除嗎？')">
-                    <i class="fas fa-trash"></i> 移除固定
-                </a>
+            </div>
+            @if(file_exists(storage_path('app/public/title_image/title_image.jpg')))
+                <?php
+                $title_image = "title_image/title_image.jpg";
+                $title_image = str_replace('/','&',$title_image);
+                ?>
+                <div style="float:left;padding: 10px;">
+                    <img src="{{ url('img/'.$title_image) }}" width="200">
+                    <a href="{{ route('setups.del_img',['type'=>'title_image','filename'=>'title_image.jpg']) }}" id="del_title_image" onclick="bbconfirm_Link('del_title_image','確定移除嗎？')"><i class="fas fa-times-circle text-danger"></i></a>
+                </div>
+            @endif
+        </div>
+    </div>
+    {{ Form::close() }}
+    {{ Form::open(['route' => 'setups.add_imgs', 'method' => 'post','id'=>'imgs', 'files' => true,'onsubmit'=>'return false;']) }}
+    <div class="card my-4">
+        <h3 class="card-header">輪播照片</h3>
+        <div class="card-body">
+            <div class="form-group">
+                <label for="files[]">圖檔( 2000 x 400 )</label>
+                {{ Form::file('files[]', ['class' => 'form-control','multiple'=>'multiple']) }}
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary" onclick="bbconfirm_Form('imgs','確定儲存嗎？')">
+                    <i class="fas fa-save"></i> 儲存設定
+                </button>
+            </div>
+            @if(!empty($files))
+                @foreach($files as $k=>$v)
+                    <?php
+                    $file = "title_image/random/".$v;
+                    $file = str_replace('/','&',$file);
+                    ?>
+                <div style="float:left;padding: 10px;">
+                    <img src="{{ url('img/'.$file) }}" width="200">
+                    <a href="{{ route('setups.del_img',['type'=>'random','filename'=>$v]) }}" id="del_image{{ $k }}" onclick="bbconfirm_Link('del_image{{ $k }}','確定移除嗎？')"><i class="fas fa-times-circle text-danger"></i></a>
+                </div>
+                @endforeach
+            @endif
+        </div>
+    </div>
+    {{ Form::close() }}
+    {{ Form::open(['route' => ['setups.nav_color',$setup->id], 'method' => 'patch','id'=>'color','onsubmit'=>'return false;']) }}
+    <div class="card my-4">
+        <h3 class="card-header">網站顏色</h3>
+        <div class="card-body">
+            <div id="cp1" class="input-group mb-3 colorpicker-component">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">導覽列顏色</span>
+                </div>
+                <input type="text" class="form-control input-lg" value="#DD0F20" id="nav_color1" name="color[]">
+                <div class="input-group-append">
+                    <span class="input-group-addon btn btn-outline-secondary"><i></i></span>
+                </div>
+            </div>
+            <div id="cp2" class="input-group mb-3 colorpicker-component">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon2">文字顏色</span>
+                </div>
+                <input type="text" class="form-control input-lg" value="#F18A31" id="nav_color2" name="color[]">
+                <div class="input-group-append">
+                    <span class="input-group-addon btn btn-outline-secondary"><i></i></span>
+                </div>
+            </div>
+            <div id="cp3" class="input-group mb-3 colorpicker-component">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon3">連結文字顏色</span>
+                </div>
+                <input type="text" class="form-control input-lg" value="#F8EB48" id="nav_color3" name="color[]">
+                <div class="input-group-append">
+                    <span class="input-group-addon btn btn-outline-secondary"><i></i></span>
+                </div>
+            </div>
+            <div id="cp4" class="input-group mb-3 colorpicker-component">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon4">連結文字移上時顏色</span>
+                </div>
+                <input type="text" class="form-control input-lg" value="#16813D" id="nav_color4" name="color[]">
+                <div class="input-group-append">
+                    <span class="input-group-addon btn btn-outline-secondary"><i></i></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary" onclick="bbconfirm_Form('color','確定儲存嗎？')">
+                    <i class="fas fa-save"></i> 儲存設定
+                </button>
+                @if(!empty($setup->nav_color))
+                    <a href="{{ route('setups.nav_default') }}" class="btn btn-danger" id="default_color" onclick="bbconfirm_Link('default_color','確定還原嗎？')">
+                        <i class="fas fa-trash"></i> 還原預設
+                    </a>
                 @endif
             </div>
         </div>
@@ -107,4 +198,13 @@
     </div>
     {{ Form::close() }}
 </div>
+    <script src="{{ asset('colorpicker/dist/js/bootstrap-colorpicker.js') }}"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#mycp').colorpicker();
+        });
+        $(function () {
+            $('#cp1,#cp2,#cp3,#cp4').colorpicker();
+        });
+    </script>
 @endsection

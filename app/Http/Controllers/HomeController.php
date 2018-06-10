@@ -6,6 +6,7 @@ use App\Content;
 use App\Http\Requests\UserRequest;
 use App\Link;
 use App\Post;
+use App\Setup;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
@@ -41,11 +42,13 @@ class HomeController extends Controller
             $open_contents[$content->title] = $content->content;
         }
 
+        $setup = Setup::first();
 
         $data = [
             'posts'=>$posts,
             'open_contents'=>$open_contents,
             'users'=>$users,
+            'setup'=>$setup,
         ];
         return view('index',$data);
     }

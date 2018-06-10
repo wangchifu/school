@@ -114,8 +114,11 @@ Route::group(['middleware' => 'admin'],function(){
     //網站管理
     Route::get('setups','SetupController@index')->name('setups.index');
     Route::post('setups/add_img', 'SetupController@add_img')->name('setups.add_img');
-    Route::get('setups/del_img', 'SetupController@del_img')->name('setups.del_img');
-    Route::patch('setups/{setup}', 'SetupController@update')->name('setups.update');
+    Route::post('setups/add_imgs', 'SetupController@add_imgs')->name('setups.add_imgs');
+    Route::get('setups/{type}/del_img/{filename}', 'SetupController@del_img')->name('setups.del_img');
+    Route::patch('setups/{setup}', 'SetupController@update')->where('setup', '[0-9]+')->name('setups.update');
+    Route::patch('setups/{setup}/nav_color', 'SetupController@nav_color')->where('setup', '[0-9]+')->name('setups.nav_color');
+    Route::get('setups/nav_default/', 'SetupController@nav_default')->name('setups.nav_default');
 });
 
 //行政人員

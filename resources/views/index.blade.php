@@ -3,12 +3,75 @@
 @section('page-title', '首頁 | 和東國小')
 
 @section('content')
-<header class="bg-primary text-white" style="background:#fff url('https://www.taiwan.net.tw/resources/images/Attractions/0001095.jpg');background-size: 100% 100%;">
-    <div class="container text-center">
-        <h1>歡迎光臨 彰化縣和東國小全球資訊網</h1>
-        <p class="lead">Welcome To ChangHua HoDong Elementary School World Wide Web</p>
-    </div>
-</header>
+    <?php
+    $title_path = "title_image/";
+    //有無附件
+    $path = "title_image/random/";
+    $banners = get_files(storage_path("app/public/".$path));
+    $n = count($banners);
+    ?>
+    <br>
+    <br>
+    @if($setup->title_image == null)
+        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" data-interval="3000">
+            <ol class="carousel-indicators">
+                @for($i=0;$i<$n;$i++)
+                    <?php $active = ($i==0)?"active":""; ?>
+                <li data-target="#carouselExampleIndicators" data-slide-to="{{ $i }}" class="{{ $active }}"></li>
+                @endfor
+            </ol>
+            <div class="carousel-inner">
+                <?php $i=0; ?>
+                @if(!empty($banners))
+                    @foreach($banners as $k=>$v)
+                        <?php
+                        $file = $path.$v;
+                        $file = str_replace('/','&',$file);
+                        $active = ($i==0)?"active":"";
+                        $title1 = explode(".",$v);
+                        $title = explode("-",$title1[0]);
+                        ?>
+                        <div class="carousel-item {{ $active }}">
+                            <img class="d-block w-100" src="{{ url('img/'.$file) }}">
+                            <div class="carousel-caption d-none d-md-block" style="background-color: rgba(255,255,255,0.2);padding: 5px;border-radius:10px;">
+                                <h1 class="text-left"><i class="far fa-keyboard"></i> {{ $title[1] }}</h1>
+                            </div>
+                        </div>
+                        <?php $i++; ?>
+                    @endforeach
+                @endif
+            </div>
+            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+    @else
+        <?php
+        $file = $title_path."title_image.jpg";
+        $file = str_replace('/','&',$file);
+        ?>
+        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" data-interval="3000">
+            <ol class="carousel-indicators">
+
+                <li data-target="#carouselExampleIndicators" data-slide-to="1" class="active"></li>
+
+            </ol>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img class="d-block w-100" src="{{ url('img/'.$file) }}">
+                    <div class="carousel-caption d-none d-md-block" style="background-color: rgba(255,255,255,0.2);padding: 5px">
+                        <h1 class="text-left"><i class="far fa-keyboard"></i> {{ $setup->title_image }}</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+
 
 <div class="container">
     <nav class="navbar navbar-expand-lg navbar-light bg-light" id="nav_menu">
@@ -41,6 +104,7 @@
             </div>
         </div>
     </nav>
+
     <div id="post">
         <h2>最新公告</h2>
         @foreach($posts as $post)
@@ -176,7 +240,5 @@
             {!! $open_contents['聯絡和東'] !!}
         @endif
     </div>
-
-
 </div>
 @endsection

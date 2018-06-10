@@ -16,9 +16,13 @@ class SetupController extends Controller
     {
         $setup = Setup::first();
         $modules = ($setup->modules)?$setup->modules:"";
+        //有無附件
+        $files = get_files(storage_path('app/public/title_image/random'));
+
         $data = [
             'modules'=>$modules,
             'setup'=>$setup,
+            'files'=>$files,
         ];
         return view('setups.index',$data);
     }
@@ -44,7 +48,9 @@ class SetupController extends Controller
 
                 $file->storeAs($new_path, "title_image.jpg");
 
-                $att['title_image'] = "1";
+                $filename = explode('.',$info['original_filename']);
+
+                $att['title_image'] = $filename[0];
 
                 $setup = Setup::first();
                 $setup->update($att);
@@ -59,13 +65,68 @@ class SetupController extends Controller
         return redirect()->route('setups.index');
     }
 
-    public function del_img()
+    public function add_imgs(Request $request)
     {
-        $att['title_image'] = null;
 
-        $setup = Setup::first();
+        //新增使用者的上傳目錄
+        $new_path = 'public/title_image/random';
+
+        $old_files = get_files(storage_path('app/public/title_image/random'));
+
+        $n = count($old_files);
+
+        //處理檔案上傳
+        if ($request->hasFile('files')) {
+            $files = $request->file('files');
+            foreach($files as $file){
+                $n++;
+                $info = [
+                    //'mime-type' => $file->getMimeType(),
+                    'original_filename' => $file->getClientOriginalName(),
+                    'extension' => $file->getClientOriginalExtension(),
+                    'size' => $file->getClientSize(),
+                ];
+                $filename = sprintf("%03s",$n)."-".$info['original_filename'];
+
+                $file->storeAs($new_path, $filename);
+            }
+        }
+
+
+
+        return redirect()->route('setups.index');
+    }
+
+    public function del_img($type,$filename)
+    {
+        if($type=="title_image"){
+            $file = "title_image.jpg";
+            $att['title_image'] = null;
+            $setup = Setup::first();
+            $setup->update($att);
+        }else{
+            $file = "random/".$filename;
+        }
+        unlink(storage_path('app/public/title_image/'.$file));
+        return redirect()->route('setups.index');
+    }
+
+    public function nav_color(Request $request,Setup $setup)
+    {
+        $nav_color = $request->input('color');
+        $att['nav_color'] = "";
+        foreach($nav_color as $v){
+            $att['nav_color'] .= $v.",";
+        }
         $setup->update($att);
-        unlink(storage_path('app/public/title_image/title_image.jpg'));
+        return redirect()->route('setups.index');
+    }
+
+    public function nav_default()
+    {
+        $setup = Setup::first();
+        $att['nav_color'] = null;
+        $setup->update($att);
         return redirect()->route('setups.index');
     }
 

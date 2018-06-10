@@ -15,7 +15,7 @@ class SetupsTableSeeder extends Seeder
 
         \App\Setup::create([
             'modules'=>'meetings,school_plans,tests,classroom_orders,fixes,students,lunches,sports',
-            'views'=>'0'
+            'views'=>'0',
         ]);
     }
 }
