@@ -136,9 +136,9 @@
                         <p>
                             {{ $content }}
                             <br>
-                            <a class="btn btn-primary" href="{{ route('posts.show',$post->id) }}">詳細內容</a>
+                            <a class="btn btn-primary" href="{{ route('posts.show',$post->id) }}"><i class="fas fa-eye"></i> 詳細內容</a>
                         </p>
-                        <a class="btn btn-primary btn-sm" href="{{ route('posts.show',$post->id) }}">詳細內容</a>
+                        <a class="btn btn-primary btn-sm" href="{{ route('posts.show',$post->id) }}"><i class="fas fa-eye"></i>  詳細內容</a>
                     @else
                         <p class='btn btn-danger'>校內文件</p>
                     @endif
@@ -147,7 +147,7 @@
                     <p>
                         {{ $content }}
                         <br>
-                        <a class="btn btn-primary" href="{{ route('posts.show',$post->id) }}">詳細內容</a>
+                        <a class="btn btn-primary" href="{{ route('posts.show',$post->id) }}"><i class="fas fa-eye"></i>  詳細內容</a>
                     </p>
                 @endif
             </div>

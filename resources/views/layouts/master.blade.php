@@ -91,7 +91,7 @@ $navbar_custom = (empty($setup->nav_color))?['0'=>'','1'=>'','2'=>'','3'=>'']:ex
       <div class="container">
         <a href="#page-top">
           <img src="{{ asset('img/logo.png') }}" width="30" height="30" class="d-inline-block align-top" alt="">
-        </a>
+        </a>　
         <a class="navbar-brand js-scroll-trigger" href="{{  route('index') }}">
           {{ env('APP_NAME') }}
         </a>

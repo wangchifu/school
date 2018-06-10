@@ -26,7 +26,7 @@ class ReportRequest extends FormRequest
         return [
             'job_title'=>'required',
             'content' => 'required',
-            'files.*' => 'nullable|max:5120',
+            'files.*' => 'nullable|mimes:jpeg,bmp,png,pdf,odt|max:5120',
         ];
     }
 

@@ -28,7 +28,7 @@ class PostRequest extends FormRequest
             'title' => 'required',
             'content' => 'required',
             'job_title' => 'required',
-            'files.*' => 'nullable|max:5120',
+            'files.*' => 'nullable|mimes:jpeg,bmp,png,pdf,odt|max:5120',
         ];
     }
 

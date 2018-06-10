@@ -43,7 +43,7 @@ class PostController extends Controller
         if ($request->hasFile('title_image')) {
             $title_image = $request->file('title_image');
                 $info = [
-                    //'mime-type' => $file->getMimeType(),
+                    //'mime-type' => $title_image->getMimeType(),
                     //'original_filename' => $title_image->getClientOriginalName(),
                     //'extension' => $title_image->getClientOriginalExtension(),
                     //'size' => $file->getClientSize(),
@@ -145,7 +145,7 @@ class PostController extends Controller
         $files = get_files(storage_path('app/public/posts/'.$post->id));
 
         $hot_posts = Post::orderBy('views','DESC')
-            ->paginate(10);
+            ->paginate(20);
 
         $data = [
             'post'=>$post,

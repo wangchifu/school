@@ -119,7 +119,9 @@
                 <h5 class="card-header">熱門公告</h5>
                 <div class="card-body">
                 @foreach($hot_posts as $hot_post)
-                        <li><a href="{{ route('posts.show',$hot_post->id) }}">{{ $hot_post->title }}</a></li>
+                        <li>{{ substr($hot_post->created_at,0,10) }}<br>
+                            　　<a href="{{ route('posts.show',$hot_post->id) }}">{{ $hot_post->title }}</a>
+                        </li>
                 @endforeach
                 </div>
             </div>
