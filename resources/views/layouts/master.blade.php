@@ -18,12 +18,16 @@ foreach(config('app.modules') as $v){
 $nav_color = (empty($setup->nav_color))?"navbar-dark bg-dark":"navbar-custom";
 $navbar_custom = (empty($setup->nav_color))?['0'=>'','1'=>'','2'=>'','3'=>'']:explode(",",$setup->nav_color);
 
+
+$logo = "title_image/logo.ico";
+$logo = str_replace('/','&',$logo);
+
 ?>
 <!DOCTYPE html>
 <html lang="zh-TW">
 
   <head>
-    <link rel="Shortcut Icon" type="image/x-icon" href="{{ asset('logo.png') }}" />
+    <link rel="Shortcut Icon" type="image/x-icon" href="{{ url('img/'.$logo) }}" />
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -89,9 +93,11 @@ $navbar_custom = (empty($setup->nav_color))?['0'=>'','1'=>'','2'=>'','3'=>'']:ex
   <!-- Navigation -->
     <nav class="navbar navbar-expand-lg {{ $nav_color }} fixed-top" id="mainNav">
       <div class="container">
+      @if(file_exists(storage_path('app/public/title_image/logo.ico')))
         <a href="#page-top">
-          <img src="{{ asset('img/logo.png') }}" width="30" height="30" class="d-inline-block align-top" alt="">
+          <img src="{{ url('img/'.$logo) }}" width="30" height="30" class="d-inline-block align-top" alt="">
         </a>　
+      @endif
         <a class="navbar-brand js-scroll-trigger" href="{{  route('index') }}">
           {{ env('APP_NAME') }}
         </a>

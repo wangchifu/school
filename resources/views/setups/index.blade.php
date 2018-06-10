@@ -17,6 +17,32 @@
             <li class="breadcrumb-item active" aria-current="page">網站設定</li>
         </ol>
     </nav>
+    {{ Form::open(['route' => 'setups.add_logo', 'method' => 'post','id'=>'logo', 'files' => true,'onsubmit'=>'return false;']) }}
+    <div class="card my-4">
+        <h3 class="card-header">網站小圖示</h3>
+        <div class="card-body">
+            <div class="form-group">
+                <label for="file">圖檔( .ico .png )</label>
+                {{ Form::file('logo', ['class' => 'form-control']) }}
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary" onclick="bbconfirm_Form('logo','確定儲存嗎？')">
+                    <i class="fas fa-save"></i> 儲存設定
+                </button>
+            </div>
+            @if(file_exists(storage_path('app/public/title_image/logo.ico')))
+                <?php
+                $logo = "title_image/logo.ico";
+                $logo = str_replace('/','&',$logo);
+                ?>
+                <div style="float:left;padding: 10px;">
+                    <img src="{{ url('img/'.$logo) }}" width="50">
+                    <a href="{{ route('setups.del_img',['type'=>'title_image','filename'=>'logo.ico']) }}" id="del_title_image" onclick="bbconfirm_Link('del_title_image','確定移除嗎？')"><i class="fas fa-times-circle text-danger"></i></a>
+                </div>
+            @endif
+        </div>
+    </div>
+    {{ Form::close() }}
     {{ Form::open(['route' => 'setups.add_img', 'method' => 'post','id'=>'img', 'files' => true,'onsubmit'=>'return false;']) }}
     <div class="card my-4">
         <h3 class="card-header">首頁標頭固定</h3>

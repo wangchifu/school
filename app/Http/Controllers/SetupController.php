@@ -27,6 +27,38 @@ class SetupController extends Controller
         return view('setups.index',$data);
     }
 
+    public function add_logo(Request $request)
+    {
+
+        //新增使用者的上傳目錄
+        $new_path = 'public/title_image';
+
+
+        //處理檔案上傳
+        if ($request->hasFile('logo')) {
+            $logo = $request->file('logo');
+
+            $info = [
+                //'mime-type' => $file->getMimeType(),
+                'original_filename' => $logo->getClientOriginalName(),
+                'extension' => $logo->getClientOriginalExtension(),
+                'size' => $logo->getClientSize(),
+            ];
+
+
+            $logo->storeAs($new_path, 'logo.ico');
+
+
+        }else{
+            $words = "你沒有挑選檔案！！";
+            return view('layouts.error',compact('words'));
+        }
+
+
+
+        return redirect()->route('setups.index');
+    }
+
     public function add_img(Request $request)
     {
 
@@ -100,14 +132,13 @@ class SetupController extends Controller
     public function del_img($type,$filename)
     {
         if($type=="title_image"){
-            $file = "title_image.jpg";
             $att['title_image'] = null;
             $setup = Setup::first();
             $setup->update($att);
         }else{
             $file = "random/".$filename;
         }
-        unlink(storage_path('app/public/title_image/'.$file));
+        unlink(storage_path('app/public/title_image/'.$filename));
         return redirect()->route('setups.index');
     }
 
