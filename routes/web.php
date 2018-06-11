@@ -234,5 +234,11 @@ Route::group(['middleware' => 'auth'],function() {
     Route::get('classroom_order/{classroom_id}/{section}/{order_date}/select', 'ClassroomOrderController@select')->name('classroom_orders.select');
     Route::delete('classroom_order', 'ClassroomOrderController@destroy')->name('classroom_orders.destroy');
 
+
+    //午餐系統
+    Route::get('lunches', 'LunchController@index')->name('lunches.index');
+    Route::get('lunch_setups', 'LunchSetupController@index')->name('lunch_setups.index');
+    Route::get('lunch_setups/create', 'LunchSetupController@create')->name('lunch_setups.create');
+    Route::get('lunch_setups/{lunch_setup}', 'LunchSetupController@show')->where('lunch_setup', '[0-9]+')->name('lunch_setups.show');
 });
 

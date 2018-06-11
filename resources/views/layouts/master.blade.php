@@ -140,7 +140,7 @@ $logo = str_replace('/','&',$logo);
                   <a class="dropdown-item" href="{{ route('students.index') }}"><i class="fas fa-child"></i> 學生系統</a>
                 @endif
                 @if($check['lunches'])
-                  <a class="dropdown-item" href="#"><i class="fas fa-utensils"></i> 午餐系統x</a>
+                  <a class="dropdown-item" href="{{ route('lunches.index') }}"><i class="fas fa-utensils"></i> 午餐系統</a>
                 @endif
                 @if($check['sports'])
                   <a class="dropdown-item" href="#"><i class="fas fa-football-ball"></i> 運動會報名系統x</a>

@@ -257,4 +257,8 @@ return [
         'lunches',
         'sports',
     ],
+    'lunch_page'=>[
+        'teacher',
+        'setup',
+    ],
 ];
