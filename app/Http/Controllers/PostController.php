@@ -64,6 +64,7 @@ class PostController extends Controller
 
         //執行上傳檔案
         if ($request->hasFile('title_image')) {
+
             $title_image->storeAs('public/' . $folder, 'title_image.png');
 
 
@@ -236,7 +237,7 @@ class PostController extends Controller
             $x = 0;
             $y = 0;
 //裁剪区域的宽和高
-            $height = round($width/2);
+            $height = round($width*3/7);
 //最终保存成图片的宽和高，和源要等比例，否则会变形
             $final_width = $width;
             $final_height = $height;
