@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UploadRequest;
+use App\Http\Requests\OpenFileRequest;
 use App\Upload;
 use Illuminate\Http\Request;
 
@@ -159,7 +159,7 @@ class OpenFileController extends Controller
         return redirect()->route('open_files.index',$request->input('path'));
     }
 
-    public function upload_file(UploadRequest $request)
+    public function upload_file(OpenFileRequest $request)
     {
         //新增使用者的上傳目錄
         $new_path = 'public/open_files';

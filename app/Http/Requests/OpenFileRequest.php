@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ReportRequest extends FormRequest
+class OpenFileRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,31 +24,17 @@ class ReportRequest extends FormRequest
     public function rules()
     {
         return [
-            'job_title'=>'required',
-            'content' => 'required',
-            'files.*' => 'nullable|max:5120',
+            'files.*' => 'required|mimes:jpeg,bmp,png,pdf,odt|max:10240',
         ];
     }
 
     public function attributes()
     {
-        $att = [
-            'content' => '內容',
-            'job_title' => '職稱',
-        ];
 
         for($i=0;$i<20;$i++){
             $j = $i+1;
-            $att['files.'.$i] = "附件".$j;
+            $att['files.'.$i] = "檔案".$j;
         }
         return $att;
-    }
-
-    public function messages()
-    {
-        return [
-            'content.required' => ':attribute 不可空白',
-            'job_title.required' => ':attribute 不可空白',
-        ];
     }
 }

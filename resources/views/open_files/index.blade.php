@@ -129,7 +129,7 @@
             {{ Form::open(['route' => 'open_files.upload_file', 'method' => 'POST','id'=>'upload_file','files' => true,'onsubmit'=>'return false;']) }}
             <div class="form-group">
                 @include('layouts.alert')
-                <label for="file"><strong>2.檔案</strong></label>
+                <label for="file"><strong>2.檔案( 若為文字檔，請改為[ <a href="https://www.ndc.gov.tw/cp.aspx?n=d6d0a9e658098ca2" target="_blank">ODF格式</a> ] [ 詳細公文 ] [ 轉檔教學 ]  )</strong></label>
                 {{ Form::file('files[]', ['class' => 'form-control','multiple'=>'multiple']) }}
             </div>
             <div class="form-group">

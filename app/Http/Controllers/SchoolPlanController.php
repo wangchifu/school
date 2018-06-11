@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UploadRequest;
+use App\Http\Requests\SchoolPlanRequest;
 use App\Upload;
 use Illuminate\Http\Request;
 
@@ -159,7 +159,7 @@ class SchoolPlanController extends Controller
         return redirect()->route('school_plans.index',$request->input('path'));
     }
 
-    public function upload_file(UploadRequest $request)
+    public function upload_file(SchoolPlanRequest $request)
     {
         //新增使用者的上傳目錄
         $new_path = 'public/school_plans';

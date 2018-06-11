@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PostRequest;
 use App\Post;
 use Illuminate\Http\Request;
+use Intervention\Image\Facades\Image;
 
 class PostController extends Controller
 {
@@ -69,6 +70,15 @@ class PostController extends Controller
 
 
             $src = storage_path('app/public/'.$folder.'/title_image.png');
+
+// 建立圖片實例
+            $img = Image::make($src);
+
+// 圖片固定圖片比例，縮放至 300x100，並將將超過 300x100 的部分裁切掉
+            $img->fit(1000,429);
+            $img->save();
+
+/**
             $img_file = imagecreatefromstring(file_get_contents($src));
 
             list($width,$height,$type,$attr)=getimagesize($src);
@@ -92,7 +102,7 @@ class PostController extends Controller
 
             imagedestroy($img_file);
             imagedestroy($new_image);
-
+**/
 
         }
 
