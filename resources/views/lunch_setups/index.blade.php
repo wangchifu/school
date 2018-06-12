@@ -27,12 +27,14 @@
         <thead class="thead-light">
         <tr>
             <th>學期</th>
-            <th>教職員收費</th>
-            <th>學生收費</th>
-            <th>學生退費</th>
-            <th>部分補助金額</th>
-            <th>全額補助金額</th>
-            <th>動作</th>
+            <th>教職收</th>
+            <th>學生收</th>
+            <th>學生退</th>
+            <th>部分補</th>
+            <th>全額補</th>
+            <th>教職狀態</th>
+            <th>師生退餐</th>
+            <th>管理動作</th>
         </tr>
         </thead>
         <tbody>
@@ -57,10 +59,15 @@
                     {{ $lunch_setup->support_all_money }}
                 </td>
                 <td>
-                    <a href="{{ route('$lunch_setups.show',$lunch_setup->id) }}" class="btn btn-primary btn-sm"><i class="fas fa-eye"></i> 詳細資料</a>
+                    隨時可
+                </td>
+                <td>
+                    不可退餐
+                </td>
+                <td>
+                    <a href="{{ route('lunch_setups.show',$lunch_setup->id) }}" class="btn btn-primary btn-sm"><i class="fas fa-eye"></i> 詳細資料</a>
                 </td>
             </tr>
-
         @endforeach
         </tbody>
     </table>

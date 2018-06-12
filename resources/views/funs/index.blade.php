@@ -23,7 +23,10 @@
         </tr>
         </thead>
         <tbody>
-        <?php $i=1;?>
+        <?php
+            $i=1;
+            $fun_type = config('app.fun_type');
+        ?>
         @foreach($funs as $fun)
            <tr>
                <td>
@@ -31,16 +34,16 @@
                </td>
                <td>
                    @if($fun->type == "1")
-                       <p class="text-primary">報修系統</p>
+                       <p class="text-primary">{{ $fun_type[1] }}</p>
                    @endif
                    @if($fun->type == "2")
-                       <p class="text-secondary">學生系統</p>
+                       <p class="text-secondary">{{ $fun_type[2] }}</p>
                    @endif
                    @if($fun->type == "3")
-                       <p class="text-info">午餐系統</p>
+                       <p class="text-info">{{ $fun_type[3] }}</p>
                    @endif
                    @if($fun->type == "4")
-                       <p class="text-success">運動會報名系統</p>
+                       <p class="text-success">{{ $fun_type[3] }}</p>
                    @endif
                </td>
                <td>
