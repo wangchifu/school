@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('page-title', '新增群組 | 和東國小')
+@section('page-title', '新增群組')
 
 @section('content')
 <br><br><br>

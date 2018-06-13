@@ -33,7 +33,7 @@ $logo = str_replace('/','&',$logo);
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>@yield('page-title')</title>
+    <title>@yield('page-title') | {{ env('APP_SNAME') }}</title>
 
     <!-- Bootstrap core CSS -->
     <link href="{{ asset('theme/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">

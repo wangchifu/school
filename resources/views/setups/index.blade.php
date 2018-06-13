@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('page-title', '網站設定 | 和東國小')
+@section('page-title', '網站設定')
 
 @section('content')
     <link rel="stylesheet" type="text/css" href="{{ asset('colorpicker/css/htmleaf-demo.css') }}">

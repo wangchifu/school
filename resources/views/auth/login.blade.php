@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('page-title', '登入 | 和東國小')
+@section('page-title', '登入')
 
 @section('content')
 <div class="container">

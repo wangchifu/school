@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('page-title', '錯誤|和東資訊教學網')
+@section('page-title', '錯誤')
 
 @section('content')
 <div class="container">
