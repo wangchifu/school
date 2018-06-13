@@ -237,6 +237,7 @@ Route::group(['middleware' => 'auth'],function() {
 
     //午餐系統
     Route::get('lunches', 'LunchController@index')->name('lunches.index');
+
     Route::get('lunch_setups', 'LunchSetupController@index')->name('lunch_setups.index');
     Route::get('lunch_setups/create', 'LunchSetupController@create')->name('lunch_setups.create');
     Route::post('lunch_setups/store', 'LunchSetupController@store')->name('lunch_setups.store');
@@ -244,6 +245,9 @@ Route::group(['middleware' => 'auth'],function() {
     Route::get('lunch_setups/edit/{lunch_setup}', 'LunchSetupController@edit')->name('lunch_setups.edit');
     Route::patch('lunch_setups/update/{lunch_setup}', 'LunchSetupController@update')->name('lunch_setups.update');
     Route::delete('lunch_setups/destroy/{lunch_setup}', 'LunchSetupController@destroy')->name('lunch_setups.destroy');
+
+    Route::get('lunche_orders/{semester}', 'LunchOrderController@index')->name('lunch_orders.index');
+    Route::post('lunch_orders/store', 'LunchOrderController@store')->name('lunch_orders.store');
 });
 
 

@@ -42,17 +42,18 @@
                     @if($lunch_setup->tea_open)
                     <strong class="text-danger">隨時可訂(請盡速關閉)</strong>
                     @else
-                        <strong class="text-success">上一個月前 {{ $lunch_setup->die_line }} 天</strong>
+                        <strong class="text-success">最晚餐期前 {{ $lunch_setup->die_line }} 天可訂餐</strong>
                     @endif
                 </td>
                 <td>
                     @if($lunch_setup->tea_open)
                         <strong class="text-danger">期末結算，師生停止退餐</strong>
                     @else
-                        <strong class="text-success">前 {{ $lunch_setup->die_line }} 天可退餐</strong>
+                        <strong class="text-success">最晚前 {{ $lunch_setup->die_line }} 天可退餐</strong>
                     @endif
                 </td>
                 <td>
+                    <a href="{{ route('lunch_orders.index',$lunch_setup->semester) }}" class="btn btn-primary btn-sm"><i class="fas fa-calendar-alt"></i> 設定供餐日</a>
                     <a href="{{ route('lunch_setups.edit',$lunch_setup->id) }}" class="btn btn-info btn-sm"><i class="fas fa-edit"></i> 修改</a>
                     <a href="#" class="btn btn-danger btn-sm" onclick="bbconfirm_Form('delete{{ $lunch_setup->id }}','當真要刪除學期設定？')"><i class="fas fa-trash"></i> 刪除</a>
                 </td>
