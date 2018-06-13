@@ -27,13 +27,8 @@
         <thead class="thead-light">
         <tr>
             <th>學期</th>
-            <th>教職收</th>
-            <th>學生收</th>
-            <th>學生退</th>
-            <th>部分補</th>
-            <th>全額補</th>
-            <th>教職狀態</th>
-            <th>師生退餐</th>
+            <th>教職員訂餐設定</th>
+            <th>師生退餐設定</th>
             <th>管理動作</th>
         </tr>
         </thead>
@@ -43,30 +38,26 @@
                 <td>
                     {{ $lunch_setup->semester }}
                 </td>
-                <td>
-                    {{ $lunch_setup->tea_money }}
+                <td nowrap>
+                    @if($lunch_setup->tea_open)
+                    <strong class="text-danger">隨時可訂(請盡速關閉)</strong>
+                    @else
+                        <strong class="text-success">上一個月前 {{ $lunch_setup->die_line }} 天</strong>
+                    @endif
                 </td>
                 <td>
-                    {{ $lunch_setup->stud_money }}
+                    @if($lunch_setup->tea_open)
+                        <strong class="text-danger">期末結算，師生停止退餐</strong>
+                    @else
+                        <strong class="text-success">前 {{ $lunch_setup->die_line }} 天可退餐</strong>
+                    @endif
                 </td>
                 <td>
-                    {{ $lunch_setup->stud_back_money }}
+                    <a href="{{ route('lunch_setups.edit',$lunch_setup->id) }}" class="btn btn-info btn-sm"><i class="fas fa-edit"></i> 修改</a>
+                    <a href="#" class="btn btn-danger btn-sm" onclick="bbconfirm_Form('delete{{ $lunch_setup->id }}','當真要刪除學期設定？')"><i class="fas fa-trash"></i> 刪除</a>
                 </td>
-                <td>
-                    {{ $lunch_setup->support_part_money }}
-                </td>
-                <td>
-                    {{ $lunch_setup->support_all_money }}
-                </td>
-                <td>
-                    隨時可
-                </td>
-                <td>
-                    不可退餐
-                </td>
-                <td>
-                    <a href="{{ route('lunch_setups.show',$lunch_setup->id) }}" class="btn btn-primary btn-sm"><i class="fas fa-eye"></i> 詳細資料</a>
-                </td>
+                {{ Form::open(['route' => ['lunch_setups.destroy',$lunch_setup->id], 'method' => 'DELETE','id'=>'delete'.$lunch_setup->id,'onsubmit'=>'return false;']) }}
+                {{ Form::close() }}
             </tr>
         @endforeach
         </tbody>

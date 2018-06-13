@@ -241,5 +241,9 @@ Route::group(['middleware' => 'auth'],function() {
     Route::get('lunch_setups/create', 'LunchSetupController@create')->name('lunch_setups.create');
     Route::post('lunch_setups/store', 'LunchSetupController@store')->name('lunch_setups.store');
     Route::get('lunch_setups/{lunch_setup}', 'LunchSetupController@show')->where('lunch_setup', '[0-9]+')->name('lunch_setups.show');
+    Route::get('lunch_setups/edit/{lunch_setup}', 'LunchSetupController@edit')->name('lunch_setups.edit');
+    Route::patch('lunch_setups/update/{lunch_setup}', 'LunchSetupController@update')->name('lunch_setups.update');
+    Route::delete('lunch_setups/destroy/{lunch_setup}', 'LunchSetupController@destroy')->name('lunch_setups.destroy');
 });
+
 

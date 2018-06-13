@@ -16,6 +16,22 @@
     </nav>
     <div class="row justify-content-center">
         <div class="col-md-12">
+            <?php
+            $att = [
+                "semester" => "",
+                "tea_money" => "",
+                "stud_money" => "",
+                "stud_back_money" => "",
+                "support_part_money" => "",
+                "support_all_money" => "",
+                "die_line" => "",
+                "stud_gra_date" => "",
+                "tea_open" => "",
+                "disable" => "",
+            ];
+            $factory[0] = "";
+            $place[0]="";
+            ?>
             @include('layouts.alert')
             {{ Form::open(['route' => 'lunch_setups.store', 'method' => 'POST','id'=>'setup','onsubmit'=>'return false;']) }}
             @include('lunch_setups.form')

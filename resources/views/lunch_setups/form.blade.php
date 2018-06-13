@@ -3,57 +3,73 @@
     <div class="card-body">
         <div class="form-group">
             <label for="semester"><strong>學期*</strong><small class="text-danger">(如 1062)</small></label>
-            {{ Form::text('semester',null,['id'=>'semester','class' => 'form-control', 'maxlength'=>'4','placeholder'=>'4碼數字']) }}
+            {{ Form::text('semester',$att['semester'],['id'=>'semester','class' => 'form-control', 'maxlength'=>'4','placeholder'=>'4碼數字']) }}
         </div>
         <div class="form-group">
             <label for="tea_money"><strong>教職員工收費*</strong></label>
-            {{ Form::text('tea_money',null,['id'=>'tea_money','class' => 'form-control', 'maxlength'=>'5']) }}
+            {{ Form::text('tea_money',$att['tea_money'],['id'=>'tea_money','class' => 'form-control', 'maxlength'=>'5']) }}
         </div>
         <div class="form-group">
             <label for="stud_money"><strong>學生收費*</strong></label>
-            {{ Form::text('stud_money',null,['id'=>'stud_money','class' => 'form-control', 'maxlength'=>'5']) }}
+            {{ Form::text('stud_money',$att['stud_money'],['id'=>'stud_money','class' => 'form-control', 'maxlength'=>'5']) }}
         </div>
         <div class="form-group">
             <label for="stud_back_money"><strong class="text-danger">學生退費*</strong></label>
-            {{ Form::text('stud_back_money',null,['id'=>'stud_back_money','class' => 'form-control', 'maxlength'=>'5']) }}
+            {{ Form::text('stud_back_money',$att['stud_back_money'],['id'=>'stud_back_money','class' => 'form-control', 'maxlength'=>'5']) }}
         </div>
         <div class="form-group">
             <label for="support_part_money"><strong>部分補助*</strong></label>
-            {{ Form::text('support_part_money',null,['id'=>'support_part_money','class' => 'form-control', 'maxlength'=>'5']) }}
+            {{ Form::text('support_part_money',$att['support_part_money'],['id'=>'support_part_money','class' => 'form-control', 'maxlength'=>'5']) }}
         </div>
         <div class="form-group">
             <label for="support_all_money"><strong>全額補助*</strong></label>
-            {{ Form::text('support_all_money',null,['id'=>'support_all_money','class' => 'form-control', 'maxlength'=>'5']) }}
+            {{ Form::text('support_all_money',$att['support_all_money'],['id'=>'support_all_money','class' => 'form-control', 'maxlength'=>'5']) }}
         </div>
         <div class="form-group">
             <label for="die_line"><strong>允許師生最慢幾天前退餐*</strong></label>
-            {{ Form::text('die_line',null,['id'=>'die_line','class' => 'form-control', 'maxlength'=>'1']) }}
+            {{ Form::text('die_line',$att['die_line'],['id'=>'die_line','class' => 'form-control', 'maxlength'=>'1']) }}
         </div>
         <div class="form-group" id="show_factory">
-            <label for="factory1"><strong>廠商1*</strong></label>
-            <input type='text' class='form-control' name='factory[]' id='factory1'>
-            <i class='fas fa-plus-circle text-success' onclick="add_fac()"></i>
+            @foreach($factory as $k=>$v)
+            <p>
+            <label for="factory{{ $k+1 }}"><strong>廠商{{ $k+1 }}*</strong></label>
+            <input type='text' class='form-control' name='factory[{{ $k+1 }}]' id='factory{{ $k+1 }}' value="{{ $v }}">
+                @if($k==0)
+                    <i class='fas fa-plus-circle text-success' onclick="add_fac()"></i>
+                @else
+                    <i class='fas fa-trash text-danger' onclick='remove_fac(this)'></i>
+                @endif
+            </p>
+            @endforeach
         </div>
         <div class="form-group" id="show_place">
-            <label for="place"><strong>教師供餐地點*</strong></label>
-            <input type='text' class='form-control' name='place[]' id='place1'>
-            <i class='fas fa-plus-circle text-success' onclick="add_place()"></i>
+            @foreach($place as $k=>$v)
+                <p>
+                    <label for="place{{ $k+1 }}"><strong>教師供餐地點{{ $k+1 }}*</strong></label>
+                    <input type='text' class='form-control' name='place[{{ $k+1 }}]' id='place{{ $k+1 }}' value="{{ $v }}">
+                    @if($k==0)
+                        <i class='fas fa-plus-circle text-success' onclick="add_place()"></i>
+                    @else
+                        <i class='fas fa-trash text-danger' onclick='remove_place(this)'></i>
+                    @endif
+                </p>
+            @endforeach
         </div>
         <div class="form-group">
             <label for="stud_gra_date">學生畢業日<small class="text-danger">(如 2018-06-20，該日不供餐)</small></label>
-            {{ Form::text('stud_gra_date',null,['id'=>'stud_gra_date','class' => 'form-control','maxlength'=>'10','placeholdr'=>'10碼']) }}
+            {{ Form::text('stud_gra_date',$att['stud_gra_date'],['id'=>'stud_gra_date','class' => 'form-control','maxlength'=>'10','placeholdr'=>'10碼']) }}
         </div>
         <div class="form-group">
             <label for="tea_open">教師隨時可訂餐<small class="text-danger">(僅供暫時開放，切記關閉它)</small></label>
             <div class="form-check">
-                {{ Form::checkbox('tea_open', null,null,['id'=>'tea_open','class'=>'form-check-input']) }}
+                {{ Form::checkbox('tea_open', null,$att['tea_open'],['id'=>'tea_open','class'=>'form-check-input']) }}
                 <label class="form-check-label" for="tea_open"><span class="btn btn-danger btn-sm">打勾為隨時可訂</span></label>
             </div>
         </div>
         <div class="form-group">
             <label for="disable">師生停止退餐<small class="text-danger">(僅供學期末計費時使用)</small></label>
             <div class="form-check">
-                {{ Form::checkbox('disable', null,null,['id'=>'disable','class'=>'form-check-input']) }}
+                {{ Form::checkbox('disable',null, $att['disable'],['id'=>'disable','class'=>'form-check-input']) }}
                 <label class="form-check-label" for="disable"><span class="btn btn-danger btn-sm">打勾為全面停止退餐</span></label>
             </div>
         </div>
