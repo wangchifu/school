@@ -214,6 +214,12 @@
                         <i class="fas fa-football-ball"></i> 運動會報名系統
                     </label>
                 </li>
+                <li class="list-group-item">
+                    <input type="checkbox" name="check['rewards']" id="rewards" {{ $check['rewards'] }}>
+                    <label class="form-check-label" for="rewards">
+                        <i class="fas fa-certificate"></i> 定期評量獎狀
+                    </label>
+                </li>
             </ul>
             <div class="form-group">
                 <button type="submit" class="btn btn-primary" onclick="bbconfirm_Form('update','確定儲存嗎？')">

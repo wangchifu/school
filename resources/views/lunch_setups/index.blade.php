@@ -53,7 +53,7 @@
                     @endif
                 </td>
                 <td>
-                    <a href="{{ route('lunch_orders.index',$lunch_setup->semester) }}" class="btn btn-primary btn-sm"><i class="fas fa-calendar-alt"></i> 設定供餐日</a>
+                    <a href="{{ route('lunch_orders.create',$lunch_setup->semester) }}" class="btn btn-primary btn-sm"><i class="fas fa-calendar-alt"></i> 設定供餐日</a>
                     <a href="{{ route('lunch_setups.edit',$lunch_setup->id) }}" class="btn btn-info btn-sm"><i class="fas fa-edit"></i> 修改</a>
                     <a href="#" class="btn btn-danger btn-sm" onclick="bbconfirm_Form('delete{{ $lunch_setup->id }}','當真要刪除學期設定？')"><i class="fas fa-trash"></i> 刪除</a>
                 </td>

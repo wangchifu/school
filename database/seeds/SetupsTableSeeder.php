@@ -14,7 +14,7 @@ class SetupsTableSeeder extends Seeder
         \App\Setup::truncate();  //清空資料庫
 
         \App\Setup::create([
-            'modules'=>'meetings,school_plans,tests,classroom_orders,fixes,students,lunches,sports',
+            'modules'=>'meetings,school_plans,tests,classroom_orders,fixes,students,lunches,sports,rewards',
             'views'=>'0',
         ]);
     }

@@ -145,6 +145,9 @@ $logo = str_replace('/','&',$logo);
                 @if($check['sports'])
                   <a class="dropdown-item" href="#"><i class="fas fa-football-ball"></i> 運動會報名系統x</a>
                 @endif
+                @if($check['rewards'])
+                  <a class="dropdown-item" href="#"><i class="fas fa-certificate"></i> 定期評量獎狀x</a>
+                @endif
               </div>
             </li>
               <?php

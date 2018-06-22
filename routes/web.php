@@ -246,7 +246,7 @@ Route::group(['middleware' => 'auth'],function() {
     Route::patch('lunch_setups/update/{lunch_setup}', 'LunchSetupController@update')->name('lunch_setups.update');
     Route::delete('lunch_setups/destroy/{lunch_setup}', 'LunchSetupController@destroy')->name('lunch_setups.destroy');
 
-    Route::get('lunche_orders/{semester}', 'LunchOrderController@index')->name('lunch_orders.index');
+    Route::get('lunche_orders/{semester}', 'LunchOrderController@create')->name('lunch_orders.create');
     Route::post('lunch_orders/store', 'LunchOrderController@store')->name('lunch_orders.store');
 });
 

@@ -13,7 +13,7 @@ class CreateLunchOrderDatesTable extends Migration
      */
     public function up()
     {
-        Schema::create('lunch_order_orders', function (Blueprint $table) {
+        Schema::create('lunch_order_dates', function (Blueprint $table) {
             $table->increments('id');
             $table->string('order_date')->unique();
             $table->tinyInteger('enable');//1供餐；0沒有供餐
@@ -30,6 +30,6 @@ class CreateLunchOrderDatesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('lunch_order_orders');
+        Schema::dropIfExists('lunch_order_dates');
     }
 }

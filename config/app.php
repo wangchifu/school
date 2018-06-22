@@ -262,6 +262,7 @@ return [
         'students',
         'lunches',
         'sports',
+        'rewards',
     ],
     'lunch_page'=>[
         'teacher',
