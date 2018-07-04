@@ -12,6 +12,7 @@
                 <div class="card-header">使用者登入</div>
                 <div class="card-body">
                     <form method="POST" action="{{ route('login') }}">
+                        @include('layouts.alert')
                         @csrf
 
                         <div class="form-group row">
@@ -50,6 +51,7 @@
                                     登入
                                 </button>
                             </div>
+
                         </div>
                     </form>
                 </div>

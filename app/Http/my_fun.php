@@ -64,6 +64,7 @@ if (! function_exists('get_folders_files')) {
         return $folders_files;
     }
 }
+
 if(! function_exists('filesizekb')) {
     function filesizekb($file)
     {
