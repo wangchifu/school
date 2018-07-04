@@ -138,7 +138,7 @@ class SetupController extends Controller
         }else{
             $file = "random/".$filename;
         }
-        unlink(storage_path('app/public/title_image/'.$filename));
+        unlink(storage_path('app/public/title_image/'.$file));
         return redirect()->route('setups.index');
     }
 

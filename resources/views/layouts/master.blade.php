@@ -169,21 +169,21 @@ $logo = str_replace('/','&',$logo);
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fab fa-linkedin"></i> 校內網站
               </a>
-              @foreach($in_link as $k=>$v)
               <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              @foreach($in_link as $k=>$v)
                 <a class="dropdown-item" href="{{ $v }}" target="_blank">{{ $k }}</a>
-              </div>
               @endforeach
+              </div>
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-external-link-square-alt"></i> 校外系統
               </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
               @foreach($out_link as $k=>$v)
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                   <a class="dropdown-item" href="{{ $v }}" target="_blank">{{ $k }}</a>
-                </div>
               @endforeach
+              </div>
             </li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
