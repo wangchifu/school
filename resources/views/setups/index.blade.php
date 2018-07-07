@@ -37,7 +37,7 @@
                 ?>
                 <div style="float:left;padding: 10px;">
                     <img src="{{ url('img/'.$logo) }}" width="50">
-                    <a href="{{ route('setups.del_img',['type'=>'title_image','filename'=>'logo.ico']) }}" id="del_title_image" onclick="bbconfirm_Link('del_title_image','確定移除嗎？')"><i class="fas fa-times-circle text-danger"></i></a>
+                    <a href="{{ route('setups.del_img',['type'=>'title_image','filename'=>'logo.ico']) }}" id="del_logo" onclick="bbconfirm_Link('del_logo','確定移除小圖示嗎？')"><i class="fas fa-times-circle text-danger"></i></a>
                 </div>
             @endif
         </div>
@@ -63,7 +63,7 @@
                 ?>
                 <div style="float:left;padding: 10px;">
                     <img src="{{ url('img/'.$title_image) }}" width="200">
-                    <a href="{{ route('setups.del_img',['type'=>'title_image','filename'=>'title_image.jpg']) }}" id="del_title_image" onclick="bbconfirm_Link('del_title_image','確定移除嗎？')"><i class="fas fa-times-circle text-danger"></i></a>
+                    <a href="{{ route('setups.del_img',['type'=>'title_image','filename'=>'title_image.jpg']) }}" id="del_title_image" onclick="bbconfirm_Link('del_title_image','確定移除固定標題圖片嗎？')"><i class="fas fa-times-circle text-danger"></i></a>
                 </div>
             @endif
         </div>
@@ -90,7 +90,7 @@
                     ?>
                 <div style="float:left;padding: 10px;">
                     <img src="{{ url('img/'.$file) }}" width="200">
-                    <a href="{{ route('setups.del_img',['type'=>'random','filename'=>$v]) }}" id="del_image{{ $k }}" onclick="bbconfirm_Link('del_image{{ $k }}','確定移除嗎？')"><i class="fas fa-times-circle text-danger"></i></a>
+                    <a href="{{ route('setups.del_img',['type'=>'random','filename'=>$v]) }}" id="del_image{{ $k }}" onclick="bbconfirm_Link('del_image{{ $k }}','確定移除輪播圖片嗎？')"><i class="fas fa-times-circle text-danger"></i></a>
                 </div>
                 @endforeach
             @endif

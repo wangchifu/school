@@ -132,9 +132,11 @@ class SetupController extends Controller
     public function del_img($type,$filename)
     {
         if($type=="title_image"){
+
             $att['title_image'] = null;
             $setup = Setup::first();
             $setup->update($att);
+            $file = "title_image.jpg";
         }else{
             $file = "random/".$filename;
         }

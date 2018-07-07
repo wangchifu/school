@@ -188,6 +188,7 @@ Route::group(['middleware' => 'auth'],function() {
     //會議文稿
     Route::get('meetings' , 'MeetingController@index')->name('meetings.index');
     Route::get('meetings/{meeting}' , 'MeetingController@show')->where('meeting', '[0-9]+')->name('meetings.show');
+    Route::get('meetings/{meeting}/download' , 'MeetingController@txtDown')->name('meetings.txtDown');
 
     //校務計畫
     Route::get('school_plans/{path?}' , 'SchoolPlanController@index')->name('school_plans.index');

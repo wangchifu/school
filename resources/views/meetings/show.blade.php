@@ -8,7 +8,7 @@
 
         <div class="row">
             <div class="col-lg-9">
-                <h1 class="mt-4"><i class="fas fa-comments"></i> {{ $meeting->open_date }} {{ get_chinese_weekday($meeting->open_date) }} {{ $meeting->name }}<a href="#" class="btn btn-primary"><i class="fas fa-download"></i> 報告內容下載</a></h1>
+                <h1 class="mt-4"><i class="fas fa-comments"></i> {{ $meeting->open_date }} {{ get_chinese_weekday($meeting->open_date) }} {{ $meeting->name }}<a href="{{ route('meetings.txtDown',$meeting->id) }}" class="btn btn-primary"><i class="fas fa-download"></i> 報告內容下載</a></h1>
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{ route('index') }}">首頁</a></li>

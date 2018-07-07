@@ -106,15 +106,15 @@ $logo = str_replace('/','&',$logo);
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="{{ route('posts.index') }}">
-                <i class="fas fa-bullhorn"></i> 本校公告
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-info-circle"></i> 公開資訊
               </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{ route('open_files.index') }}">
-                <i class="fas fa-box-open"></i> 公開文件
-              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <a class="dropdown-item" href="{{ route('posts.index') }}"><i class="fas fa-bullhorn"></i> 公告系統</a>
+                <a class="dropdown-item" href="{{ route('open_files.index') }}"><i class="fas fa-box-open"></i> 公開文件</a>
+                <a class="dropdown-item" href="#"><i class="fas fa-file-pdf"></i> 本校刊物</a>
+              </div>
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

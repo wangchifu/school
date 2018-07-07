@@ -117,4 +117,23 @@ class MeetingController extends Controller
         $meeting->delete();
         return redirect()->route('meetings.index');
     }
+
+    public function txtDown(Meeting $meeting)
+    {
+        $filename = $meeting->open_date."_".$meeting->name.".txt";
+        $txtDown = $meeting->open_date."_".$meeting->name."\r\n";
+        foreach($meeting->reports as $report){
+            $txt = "●".$report->job_title." ".$report->user->name."\r\n".$report->content."\r\n \r\n";
+            $ori[$report->order_by] = $txt;
+        }
+        ksort($ori);
+        foreach($ori as $k=>$v){
+            $txtDown .= $v;
+        }
+        header("Content-disposition: attachment;filename=$filename");
+        header("Content-type: text/text ; Charset=utf8");
+        header("Pragma: no-cache");
+        header("Expires: 0");
+        echo $txtDown;
+    }
 }

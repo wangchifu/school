@@ -50,7 +50,8 @@
                    {{ $link->name }}
                </td>
                <td>
-                   {{ $link->url }}
+                   <a href="{{ $link->url }}" target="_blank"><i class="fas fa-globe"></i></a>
+
                </td>
                <td>
                    {{ $link->order_by }}
