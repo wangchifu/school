@@ -40,7 +40,8 @@
                         </h3>
                         <div class="card-body">
                             <p style="font-size: 1.2rem;">
-                                {!! $report->content !!}
+                                <?php $content = str_replace(chr(13) . chr(10), '<br>', $report->content);?>
+                                {!! $content !!}
                             </p>
                         </div>
                         @if(!empty($files))
