@@ -116,10 +116,10 @@
         <div class="col-md-3">
 
             <div class="card my-4">
-                <h5 class="card-header">熱門公告</h5>
+                <h5 class="card-header">近月內熱門公告</h5>
                 <div class="card-body">
                 @foreach($hot_posts as $hot_post)
-                        <li>{{ substr($hot_post->created_at,0,10) }}<br>
+                        <li>{{ substr($hot_post->created_at,0,10) }} <span class="badge badge-danger">{{ $hot_post->views }}</span><br>
                             　　<a href="{{ route('posts.show',$hot_post->id) }}">{{ str_limit($hot_post->title,60) }}</a>
                         </li>
                 @endforeach

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PostRequest;
 use App\Post;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
 
@@ -155,7 +156,11 @@ class PostController extends Controller
         //有無附件
         $files = get_files(storage_path('app/public/posts/'.$post->id));
 
+
+        $today = Carbon::today();
+        $next_month = $today->subMonth(1);
         $hot_posts = Post::orderBy('views','DESC')
+            ->where('created_at','>',$next_month)
             ->paginate(20);
 
         $data = [
