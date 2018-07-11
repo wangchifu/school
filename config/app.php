@@ -256,6 +256,7 @@ return [
     'modules'=>[
         'meetings',
         'school_plans',
+        'calendars',
         'tests',
         'classroom_orders',
         'fixes',
@@ -263,6 +264,14 @@ return [
         'lunches',
         'sports',
         'rewards',
+    ],
+    'calendar_kind'=>[
+        '0'=>'學校行政',
+        '1'=>'教務',
+        '2'=>'學務',
+        '3'=>'總務',
+        '4'=>'輔導',
+
     ],
     'lunch_page'=>[
         'teacher',

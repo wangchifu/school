@@ -179,6 +179,12 @@
                     </label>
                 </li>
                 <li class="list-group-item">
+                    <input type="checkbox" name="check['calendars']" id="calendars" {{ $check['calendars'] }}>
+                    <label class="form-check-label" for="calendars">
+                        <i class="fas fa-calendar"></i> 校務行事曆
+                    </label>
+                </li>
+                <li class="list-group-item">
                     <input type="checkbox" name="check['tests']" id="tests" {{ $check['tests'] }}>
                     <label class="form-check-label" for="tests">
                         <i class="fas fa-check-square"></i> 問卷系統

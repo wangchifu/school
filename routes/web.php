@@ -33,7 +33,8 @@ Route::get('posts/{job_title}/job_title' , 'PostController@job_title')->name('po
 Route::get('open_files/{path?}' , 'OpenFileController@index')->name('open_files.index');
 Route::get('open_files_download/{path}' , 'OpenFileController@download')->name('open_files.download');
 
-
+//校務行事曆
+Route::get('calendar/index' , 'CalendarController@index')->name('calendars.index');
 
 //內容頁面
 Route::get('contents/{content}' , 'ContentController@show')->where('content', '[0-9]+')->name('contents.show');
@@ -120,6 +121,11 @@ Route::group(['middleware' => 'admin'],function(){
     Route::patch('setups/{setup}', 'SetupController@update')->where('setup', '[0-9]+')->name('setups.update');
     Route::patch('setups/{setup}/nav_color', 'SetupController@nav_color')->where('setup', '[0-9]+')->name('setups.nav_color');
     Route::get('setups/nav_default/', 'SetupController@nav_default')->name('setups.nav_default');
+
+    //校務行事曆
+    Route::post('calendars/week_create','CalendarController@week_create')->name('calendars.week_create');
+    Route::post('calendars/week_store','CalendarController@week_store')->name('calendars.week_store');
+    Route::get('calendars/week_delete','CalendarController@week_delete')->name('calendars.week_delete');
 });
 
 //行政人員
@@ -175,6 +181,15 @@ Route::group(['middleware' => 'exec'],function(){
     Route::delete('questions/{question}', 'QuestionController@destroy')->where('question', '[0-9]+')->name('questions.destroy');
     Route::get('answers/{test}/show', 'AnswerController@show')->where('test', '[0-9]+')->name('answers.show');
     Route::get('tests/{test}/type/{type}','TestController@download')->name('tests.download');
+
+    //校務行事曆
+    Route::get('calendars/create' , 'CalendarController@create')->name('calendars.create');
+    Route::post('calendars' , 'CalendarController@store')->name('calendars.store');
+    Route::get('calendars/{calendar}/edit' , 'CalendarController@edit')->name('calendars.edit');
+    Route::patch('calendars/{calendar}' , 'CalendarController@update')->name('calendars.update');
+    Route::delete('calendars/{calendar}', 'CalendarController@destroy')->name('calendars.destroy');
+
+
 
 });
 
