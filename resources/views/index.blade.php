@@ -132,21 +132,21 @@
             <div class="col-md-9">
                 @if($post->insite)
                     @if($client_in=="1" or auth()->check())
-                        <h3>{{ $title }}</h3>
+                        <h5>{{ substr($post->created_at,0,10) }} {{ $title }}</h5>
                         <p>
                             {{ $content }}
                             <br>
-                            <a class="btn btn-primary" href="{{ route('posts.show',$post->id) }}"><i class="fas fa-eye"></i> 詳細內容</a>
+                            <a class="btn btn-primary btn-sm" href="{{ route('posts.show',$post->id) }}"><i class="fas fa-eye"></i> 詳細內容</a>
                         </p>
                     @else
-                        <p class='btn btn-danger'>校內文件</p>
+                        <p class='btn btn-danger btn-sm'>校內文件</p>
                     @endif
                 @else
-                    <h3>{{ $title }}</h3>
+                    <h5>{{ substr($post->created_at,0,10) }}  {{ $title }}</h5>
                     <p>
                         {{ $content }}
                         <br>
-                        <a class="btn btn-primary" href="{{ route('posts.show',$post->id) }}"><i class="fas fa-eye"></i>  詳細內容</a>
+                        <a class="btn btn-primary btn-sm" href="{{ route('posts.show',$post->id) }}"><i class="fas fa-eye"></i>  詳細內容</a>
                     </p>
                 @endif
             </div>
