@@ -25,6 +25,7 @@ class CalendarController extends Controller
         if(empty($calendar_week)){
             $has_week = null;
             $calendar_weeks = [];
+            $calendar_data = [];
         }else {
             $has_week = 1;
             $calendar_weeks = CalendarWeek::where('semester',$this->semester)
