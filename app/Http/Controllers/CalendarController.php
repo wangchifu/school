@@ -34,25 +34,27 @@ class CalendarController extends Controller
 
             $calendars = Calendar::where('semester',$this->semester)
                 ->get();
-            foreach($calendars as $calendar){
-                $calendar_d[$calendar->user->order_by][$calendar->calendar_week_id][$calendar->calendar_kind][$calendar->id]['user_id'] = $calendar->user->id;
-                $calendar_d[$calendar->user->order_by][$calendar->calendar_week_id][$calendar->calendar_kind][$calendar->id]['content'] = $calendar->content;
-            }
 
-            ksort($calendar_d);
-
-            foreach($calendar_d as $k1=>$v1){
-                foreach($v1 as $k2 => $v2){
-                    foreach($v2 as $k3 => $v3){
-                        foreach($v3 as $k4 => $v4){
-                            $calendar_data[$k2][$k3][$k4]['user_id'] = $v4['user_id'];
-                            $calendar_data[$k2][$k3][$k4]['content'] = $v4['content'];
-                        }
-                    }
+            if(!empty($calendars)){
+                foreach($calendars as $calendar){
+                    $calendar_d[$calendar->user->order_by][$calendar->calendar_week_id][$calendar->calendar_kind][$calendar->id]['user_id'] = $calendar->user->id;
+                    $calendar_d[$calendar->user->order_by][$calendar->calendar_week_id][$calendar->calendar_kind][$calendar->id]['content'] = $calendar->content;
                 }
 
-            }
+                ksort($calendar_d);
 
+                foreach($calendar_d as $k1=>$v1){
+                    foreach($v1 as $k2 => $v2){
+                        foreach($v2 as $k3 => $v3){
+                            foreach($v3 as $k4 => $v4){
+                                $calendar_data[$k2][$k3][$k4]['user_id'] = $v4['user_id'];
+                                $calendar_data[$k2][$k3][$k4]['content'] = $v4['content'];
+                            }
+                        }
+                    }
+
+                }
+            }
 
         }
         $data = [
