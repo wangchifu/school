@@ -188,6 +188,7 @@ Route::group(['middleware' => 'exec'],function(){
     Route::get('calendars/{calendar}/edit' , 'CalendarController@edit')->name('calendars.edit');
     Route::patch('calendars/{calendar}' , 'CalendarController@update')->name('calendars.update');
     Route::delete('calendars/{calendar}', 'CalendarController@destroy')->name('calendars.destroy');
+    Route::get('calendars/{calendar}/delete' , 'CalendarController@delete')->name('calendars.delete');
 
 
 

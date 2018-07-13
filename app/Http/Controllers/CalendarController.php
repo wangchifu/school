@@ -30,10 +30,34 @@ class CalendarController extends Controller
             $calendar_weeks = CalendarWeek::where('semester',$this->semester)
                 ->orderBy('week')
                 ->get();
+
+            $calendars = Calendar::where('semester',$this->semester)
+                ->get();
+            foreach($calendars as $calendar){
+                $calendar_d[$calendar->user->order_by][$calendar->calendar_week_id][$calendar->calendar_kind][$calendar->id]['user_id'] = $calendar->user->id;
+                $calendar_d[$calendar->user->order_by][$calendar->calendar_week_id][$calendar->calendar_kind][$calendar->id]['content'] = $calendar->content;
+            }
+
+            ksort($calendar_d);
+
+            foreach($calendar_d as $k1=>$v1){
+                foreach($v1 as $k2 => $v2){
+                    foreach($v2 as $k3 => $v3){
+                        foreach($v3 as $k4 => $v4){
+                            $calendar_data[$k2][$k3][$k4]['user_id'] = $v4['user_id'];
+                            $calendar_data[$k2][$k3][$k4]['content'] = $v4['content'];
+                        }
+                    }
+                }
+
+            }
+
+
         }
         $data = [
             'has_week'=>$has_week,
-            'calendar_weeks'=>$calendar_weeks
+            'calendar_weeks'=>$calendar_weeks,
+            'calendar_data'=>$calendar_data,
         ];
         return view('calendars.index',$data);
     }
@@ -213,6 +237,18 @@ class CalendarController extends Controller
     {
         CalendarWeek::where('semester',$this->semester)->delete();
         Calendar::where('semester',$this->semester)->delete();
+        return redirect()->route('calendars.index');
+    }
+
+    public function delete(Calendar $calendar)
+    {
+        if($calendar->user_id != auth()->user()->id){
+            $words = "你不要亂來！";
+            return view('layouts.error',compact('words'));
+        }
+
+        $calendar->delete();
+
         return redirect()->route('calendars.index');
     }
 }
