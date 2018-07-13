@@ -21,12 +21,13 @@ class CalendarController extends Controller
 
     public function index()
     {
+        $has_week = null;
+        $calendar_weeks = [];
+        $calendar_data = [];
+
         $calendar_week = CalendarWeek::where('semester',$this->semester)->first();
-        if(empty($calendar_week)){
-            $has_week = null;
-            $calendar_weeks = [];
-            $calendar_data = [];
-        }else {
+        if(!empty($calendar_week)){
+
             $has_week = 1;
             $calendar_weeks = CalendarWeek::where('semester',$this->semester)
                 ->orderBy('week')
@@ -35,18 +36,18 @@ class CalendarController extends Controller
             $calendars = Calendar::where('semester',$this->semester)
                 ->get();
 
-            if(!empty($calendars)){
-                foreach($calendars as $calendar){
+            if(!($calendars)) {
+                foreach ($calendars as $calendar) {
                     $calendar_d[$calendar->user->order_by][$calendar->calendar_week_id][$calendar->calendar_kind][$calendar->id]['user_id'] = $calendar->user->id;
                     $calendar_d[$calendar->user->order_by][$calendar->calendar_week_id][$calendar->calendar_kind][$calendar->id]['content'] = $calendar->content;
                 }
 
                 ksort($calendar_d);
 
-                foreach($calendar_d as $k1=>$v1){
-                    foreach($v1 as $k2 => $v2){
-                        foreach($v2 as $k3 => $v3){
-                            foreach($v3 as $k4 => $v4){
+                foreach ($calendar_d as $k1 => $v1) {
+                    foreach ($v1 as $k2 => $v2) {
+                        foreach ($v2 as $k3 => $v3) {
+                            foreach ($v3 as $k4 => $v4) {
                                 $calendar_data[$k2][$k3][$k4]['user_id'] = $v4['user_id'];
                                 $calendar_data[$k2][$k3][$k4]['content'] = $v4['content'];
                             }
