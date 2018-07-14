@@ -18,7 +18,7 @@
             <h4>{{ $semester }}學期 週次設定，請新增或移除多餘週次</h4>
         </div>
         <div class="card-body">
-        {{ Form::open(['route' => 'calendars.week_store','id'=>'save' ,'method' => 'POST','onsubmit'=>'return false;']) }}
+        {{ Form::open(['route' => 'calendar_weeks.store','id'=>'save' ,'method' => 'POST','onsubmit'=>'return false;']) }}
         <table class="table table-hover">
             <thead>
             <tr>

@@ -16,33 +16,45 @@
         <div class="card-header">
             <table><tr>
             <td>
-            學期：
+            <form name="myform">
+            學期選單：
+                <select name="semester" onchange="jump();">
+                    <option>--請選擇--</option>
+                    @foreach($semesters as $v)
+                        <option value="{{ $v }}">{{ $v }}</option>
+                    @endforeach
+                </select>
+            </form>
+                <script language='JavaScript'>
+
+                    function jump(){
+                        if(document.myform.semester.options[document.myform.semester.selectedIndex].value!=''){
+                            location="/calendars/index/" + document.myform.semester.options[document.myform.semester.selectedIndex].value;
+                        }
+                    }
+                </script>
             </td>
             @if($has_week)
             @can('create',\App\Post::class)
                 <td>
-                <a href="{{ route('calendars.create') }}" class="btn btn-success btn-sm"><i class="fas fa-plus"></i> 新增事項</a>
+                <a href="{{ route('calendars.create',$this_semester) }}" class="btn btn-success btn-sm"><i class="fas fa-plus"></i> 新增{{ $this_semester }}學期行事</a>
                 </td>
             @endcan
             @endif
             @auth
                 @if(auth()->user()->admin)
                 <td>
-                    @if($has_week)
-                        <a href="{{ route('calendars.week_delete') }}" class="btn btn-danger btn-sm" id="delete" onclick="bbconfirm_Link('delete','連同已寫上去的行事曆刪除喔！請確定！')"><i class="fas fa-trash"></i> 刪除本學期週次</a>
-                    @else
-                        <form action="{{ route('calendars.week_create') }}" method="post">
-                        <button type="submit" class="btn btn-success btn-sm"><i class="fas fa-cogs"></i> 設定週次</button>
-                        <input type="text" name="open_date" maxlength="10" placeholder="開學日" required>(2018-08-30)
-                    @csrf
-                    </form>
-                    @endif
+                    <a href="{{ route('calendar_weeks.index') }}" class="btn btn-info btn-sm"><i class="fas fa-cogs"></i> 學期管理</a>
                 </td>
                 @endif
             @endauth
+                <td>
+                    <a href="{{ route('calendars.print') }}" class="btn btn-outline-dark btn-sm" target="_blank"><i class="fas fa-print"></i> 列印</a>
+                </td>
                 </tr></table>
         </div>
         <div class="card-body">
+            <h3>{{ $semester }} 學期校務行事曆</h3>
             <table class="table table-hover">
                 <thead>
                 <tr>

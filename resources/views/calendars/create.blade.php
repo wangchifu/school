@@ -23,6 +23,7 @@
                 <label for="group_id">1.先選校務類別</label>
             {{ Form::select('calendar_kind',config('app.calendar_kind'),null,['id' => 'calendar_kind', 'class' => 'form-control']) }}
             </div>
+            <h3>{{ $semester }} 學期的週次</h3>
             <table class="table table-hover">
                 <thead>
                 <tr>
@@ -60,9 +61,13 @@
                 </tbody>
             </table>
             <input type="hidden" name="semester" value="{{ $semester }}">
+            @if(!($calendar_weeks))
             <button type="submit" class="btn btn-primary" onclick="bbconfirm_Form('store','確定儲存嗎？')">
                 <i class="fas fa-save"></i> 儲存設定
             </button>
+            @else
+            <a href="#" class="btn btn-danger">尚未設定週次</a>
+            @endif
         </div>
         {{ Form::close() }}
     </div>

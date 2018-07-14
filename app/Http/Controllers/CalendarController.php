@@ -6,6 +6,7 @@ use App\Calendar;
 use App\CalendarWeek;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CalendarController extends Controller
 {
@@ -14,26 +15,32 @@ class CalendarController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function __construct()
-    {
-        $this->semester = get_semester();
-    }
 
-    public function index()
+    public function index($semester=null)
     {
         $has_week = null;
         $calendar_weeks = [];
         $calendar_data = [];
+        $this_semester = get_date_semester(date('Y-m-d'));
+        $semesters = [];
+        //取學期選單
+        $ss = DB::select('select semester from calendar_weeks group by semester');
+        foreach($ss as $s){
+            $semesters[$s->semester] = $s->semester;
+        }
 
-        $calendar_week = CalendarWeek::where('semester',$this->semester)->first();
+        rsort($semesters);
+
+        $semester = ($semester)?$semester:get_date_semester(date('Y-m-d'));
+
+        $calendar_week = CalendarWeek::where('semester',$semester)->first();
         if(!empty($calendar_week)){
-
             $has_week = 1;
-            $calendar_weeks = CalendarWeek::where('semester',$this->semester)
+            $calendar_weeks = CalendarWeek::where('semester',$semester)
                 ->orderBy('week')
                 ->get();
 
-            $calendars = Calendar::where('semester',$this->semester)
+            $calendars = Calendar::where('semester',$semester)
                 ->get();
 
             if(!($calendars)) {
@@ -62,6 +69,9 @@ class CalendarController extends Controller
             'has_week'=>$has_week,
             'calendar_weeks'=>$calendar_weeks,
             'calendar_data'=>$calendar_data,
+            'semesters'=>$semesters,
+            'semester'=>$semester,
+            'this_semester'=>$this_semester,
         ];
         return view('calendars.index',$data);
     }
@@ -71,22 +81,17 @@ class CalendarController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($semester)
     {
-        $calendar_week = CalendarWeek::where('semester',$this->semester)->first();
-        if(empty($calendar_week)){
-            $words = "管理者尚未設定週次！";
-            return view('layouts.error',compact('words'));
-        }else{
-            $calendar_weeks = CalendarWeek::where('semester',$this->semester)
-                ->orderBy('week')
-                ->get();
-            $data = [
-                'calendar_weeks'=>$calendar_weeks,
-                'semester'=>$this->semester,
-            ];
-            return view('calendars.create',$data);
-        }
+        $calendar_weeks = CalendarWeek::where('semester',$semester)
+            ->orderBy('week')
+            ->get();
+        $data = [
+            'calendar_weeks'=>$calendar_weeks,
+            'semester'=>$semester,
+        ];
+        return view('calendars.create',$data);
+
 
     }
 
@@ -98,7 +103,7 @@ class CalendarController extends Controller
      */
     public function store(Request $request)
     {
-        $calendar_weeks = CalendarWeek::where('semester',$this->semester)
+        $calendar_weeks = CalendarWeek::where('semester',$request->input('semester'))
             ->orderBy('week')
             ->get();
 
@@ -183,67 +188,6 @@ class CalendarController extends Controller
         //
     }
 
-    public function week_create(Request $request)
-    {
-        $open_date = explode('-',$request->input('open_date'));
-        $knownDate = Carbon::create($open_date[0], $open_date[1], $open_date[2], 00);
-        Carbon::setTestNow($knownDate);
-        $dt = new Carbon('last sunday');
-
-        $w = 1;
-        $d = 0;
-
-        do{
-            $start_end[$w][$d] = $dt->toDateString();
-            $d = 6;
-            $start_end[$w][$d] = $dt->addDay(6)->toDateString();
-            $dt->addDay();
-            $w++;
-            $d = 0;
-        }while($w < 23);
-
-        $data = [
-            'start_end'=>$start_end,
-            'semester'=>$this->semester,
-        ];
-        return view('calendars.week_create',$data);
-    }
-
-    public function week_store(Request $request)
-    {
-        $semester = $request->input('semester');
-        $all = [];
-        foreach($request->input('week') as $k => $v){
-            if(!empty($v)){
-                $start_end = $request->input('start_end');
-                $att['week'] = $v;
-                $att['semester'] = $semester;
-                $att['start_end'] = $start_end[$k];
-                $one = [
-                    'semester'=>$att['semester'],
-                    'week'=>$att['week'],
-                    'start_end'=>$att['start_end'],
-                    'created_at'=>now(),
-                    'updated_at'=>now(),
-                ];
-
-                array_push($all,$one);
-            }
-
-        }
-
-        CalendarWeek::insert($all);
-
-        return redirect()->route('calendars.index');
-    }
-
-    public function week_delete()
-    {
-        CalendarWeek::where('semester',$this->semester)->delete();
-        Calendar::where('semester',$this->semester)->delete();
-        return redirect()->route('calendars.index');
-    }
-
     public function delete(Calendar $calendar)
     {
         if($calendar->user_id != auth()->user()->id){
@@ -254,5 +198,65 @@ class CalendarController extends Controller
         $calendar->delete();
 
         return redirect()->route('calendars.index');
+    }
+
+    public function print($semester=null)
+    {
+        $has_week = null;
+        $calendar_weeks = [];
+        $calendar_data = [];
+        $this_semester = get_date_semester(date('Y-m-d'));
+        $semesters = [];
+        //取學期選單
+        $ss = DB::select('select semester from calendar_weeks group by semester');
+        foreach($ss as $s){
+            $semesters[$s->semester] = $s->semester;
+        }
+
+        rsort($semesters);
+
+        $semester = ($semester)?$semester:get_date_semester(date('Y-m-d'));
+
+        $calendar_week = CalendarWeek::where('semester',$semester)->first();
+        if(!empty($calendar_week)){
+            $has_week = 1;
+            $calendar_weeks = CalendarWeek::where('semester',$semester)
+                ->orderBy('week')
+                ->get();
+
+            $calendars = Calendar::where('semester',$semester)
+                ->get();
+
+            if(!($calendars)) {
+                foreach ($calendars as $calendar) {
+                    $calendar_d[$calendar->user->order_by][$calendar->calendar_week_id][$calendar->calendar_kind][$calendar->id]['user_id'] = $calendar->user->id;
+                    $calendar_d[$calendar->user->order_by][$calendar->calendar_week_id][$calendar->calendar_kind][$calendar->id]['content'] = $calendar->content;
+                }
+
+                ksort($calendar_d);
+
+                foreach ($calendar_d as $k1 => $v1) {
+                    foreach ($v1 as $k2 => $v2) {
+                        foreach ($v2 as $k3 => $v3) {
+                            foreach ($v3 as $k4 => $v4) {
+                                $calendar_data[$k2][$k3][$k4]['user_id'] = $v4['user_id'];
+                                $calendar_data[$k2][$k3][$k4]['content'] = $v4['content'];
+                            }
+                        }
+                    }
+
+                }
+            }
+
+        }
+        $data = [
+            'has_week'=>$has_week,
+            'calendar_weeks'=>$calendar_weeks,
+            'calendar_data'=>$calendar_data,
+            'semesters'=>$semesters,
+            'semester'=>$semester,
+            'this_semester'=>$this_semester,
+        ];
+        return view('calendars.print',$data);
     }
 }

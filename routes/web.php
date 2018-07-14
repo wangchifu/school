@@ -34,7 +34,8 @@ Route::get('open_files/{path?}' , 'OpenFileController@index')->name('open_files.
 Route::get('open_files_download/{path}' , 'OpenFileController@download')->name('open_files.download');
 
 //校務行事曆
-Route::get('calendar/index' , 'CalendarController@index')->name('calendars.index');
+Route::get('calendars/index/{semester?}' , 'CalendarController@index')->name('calendars.index');
+Route::get('calendars/print' , 'CalendarController@print')->name('calendars.print');
 
 //內容頁面
 Route::get('contents/{content}' , 'ContentController@show')->where('content', '[0-9]+')->name('contents.show');
@@ -123,9 +124,10 @@ Route::group(['middleware' => 'admin'],function(){
     Route::get('setups/nav_default/', 'SetupController@nav_default')->name('setups.nav_default');
 
     //校務行事曆
-    Route::post('calendars/week_create','CalendarController@week_create')->name('calendars.week_create');
-    Route::post('calendars/week_store','CalendarController@week_store')->name('calendars.week_store');
-    Route::get('calendars/week_delete','CalendarController@week_delete')->name('calendars.week_delete');
+    Route::get('calendar_weeks/index','CalendarWeekController@index')->name('calendar_weeks.index');
+    Route::get('calendar_weeks/create/{open_date}','CalendarWeekController@create')->name('calendar_weeks.create');
+    Route::post('calendar_weeks/store','CalendarWeekController@store')->name('calendar_weeks.store');
+    Route::get('calendar_weeks/{semester}/destroy','CalendarWeekController@destroy')->name('calendar_weeks.destroy');
 });
 
 //行政人員
@@ -183,7 +185,7 @@ Route::group(['middleware' => 'exec'],function(){
     Route::get('tests/{test}/type/{type}','TestController@download')->name('tests.download');
 
     //校務行事曆
-    Route::get('calendars/create' , 'CalendarController@create')->name('calendars.create');
+    Route::get('calendars/{semester}/create' , 'CalendarController@create')->name('calendars.create');
     Route::post('calendars' , 'CalendarController@store')->name('calendars.store');
     Route::get('calendars/{calendar}/edit' , 'CalendarController@edit')->name('calendars.edit');
     Route::patch('calendars/{calendar}' , 'CalendarController@update')->name('calendars.update');
