@@ -22,7 +22,7 @@
 
 </head>
 
-<body id="page-top" onload='window.print();window.close()'>
+<body id="page-top" onload='window.print();'>
 @yield('content')
 </body>
 </html>
