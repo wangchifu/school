@@ -35,7 +35,7 @@ Route::get('open_files_download/{path}' , 'OpenFileController@download')->name('
 
 //校務行事曆
 Route::get('calendars/index/{semester?}' , 'CalendarController@index')->name('calendars.index');
-Route::get('calendars/print' , 'CalendarController@print')->name('calendars.print');
+Route::get('calendars/print/{semester}' , 'CalendarController@print')->name('calendars.print');
 
 //內容頁面
 Route::get('contents/{content}' , 'ContentController@show')->where('content', '[0-9]+')->name('contents.show');

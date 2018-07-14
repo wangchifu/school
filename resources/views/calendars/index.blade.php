@@ -48,13 +48,10 @@
                 </td>
                 @endif
             @endauth
-                <td>
-                    <a href="{{ route('calendars.print') }}" class="btn btn-outline-dark btn-sm" target="_blank"><i class="fas fa-print"></i> 列印</a>
-                </td>
                 </tr></table>
         </div>
         <div class="card-body">
-            <h3>{{ $semester }} 學期校務行事曆</h3>
+            <h3>{{ $semester }} 學期校務行事曆 <a href="{{ route('calendars.print',$semester) }}" class="btn btn-outline-dark btn-sm" target="_blank"><i class="fas fa-print"></i> 列印</a></h3>
             <table class="table table-hover">
                 <thead>
                 <tr>
