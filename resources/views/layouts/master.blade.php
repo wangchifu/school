@@ -113,7 +113,7 @@ $logo = str_replace('/','&',$logo);
               <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                 <a class="dropdown-item" href="{{ route('posts.index') }}"><i class="fas fa-bullhorn"></i> 公告系統</a>
                 <a class="dropdown-item" href="{{ route('open_files.index') }}"><i class="fas fa-box-open"></i> 公開文件</a>
-                <a class="dropdown-item" href="{{ route('calendars.index') }}"><i class="fas fa-calendar"> 校務行事曆</i></a>
+                <a class="dropdown-item" href="{{ route('calendars.index') }}"><i class="fas fa-calendar"></i> 校務行事曆</a>
                 <a class="dropdown-item" href="#"><i class="fas fa-file-pdf"></i> 本校刊物</a>
               </div>
             </li>
