@@ -117,11 +117,13 @@ class HomeController extends Controller
 
     public function teachers_link()
     {
-        $users = User::where('disable',null)->orderBy('order_by')->get();
+        $users = User::where('website','!=',"")
+            ->orWhere('email','!=',"")
+            ->orderBy('order_by')->get();
         $data = [
             'users'=>$users,
         ];
-        return view('teachers_link');
+        return view('teachers_link',$data);
     }
 
 

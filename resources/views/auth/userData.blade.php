@@ -57,11 +57,11 @@
                         {{ Form::text('name', auth()->user()->name, ['id' => 'name', 'class' => 'form-control']) }}
                     </div>
                     <div class="form-group">
-                        <label for="email">Email</label>
+                        <label for="email">Email (公開)</label>
                         {{ Form::text('email', auth()->user()->email, ['id' => 'email', 'class' => 'form-control']) }}
                     </div>
                     <div class="form-group">
-                        <label for="website">網站</label>
+                        <label for="website">網站 (公開)</label>
                         {{ Form::text('website', auth()->user()->website, ['id' => 'website', 'class' => 'form-control']) }}
                     </div>
                     <div class="form-group">
