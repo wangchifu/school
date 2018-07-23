@@ -149,7 +149,7 @@ $logo = str_replace('/','&',$logo);
                   <a class="dropdown-item" href="#"><i class="fas fa-football-ball"></i> 運動會報名系統x</a>
                 @endif
                 @if($check['rewards'])
-                  <a class="dropdown-item" href="#"><i class="fas fa-certificate"></i> 定期評量獎狀x</a>
+                  <a class="dropdown-item" href="{{ route('rewards.index') }}"><i class="fas fa-certificate"></i> 定期評量獎狀</a>
                 @endif
               </div>
             </li>
@@ -238,13 +238,9 @@ $logo = str_replace('/','&',$logo);
       <i class="fa fa-angle-up"></i>
     </a>
     <!-- Footer -->
-    <footer class="py-5 bg-dark">
-      <div class="container text-light">
-      地址：508彰化縣和美鎮彰美路五段210號　電話：04-7552724　傳真：04-7568973　反霸凌專線：04-7552724 #23　憂鬱性侵性騷防治專線： 04-7552724 #25
-        OID：2.16.886.111.90010.90003.100001　　教育部六碼代碼：074628　　機關代碼：376479722Y　　統一編號：77119738
-      </div>
+    <footer class="py-4 bg-dark">
       <div class="container">
-        <p class="m-0 text-center text-white">Copyright &copy; {{ env('APP_NAME') }} 自 {{ substr($setup->created_at,0,10) }} 參訪人數：{{ $setup->views }}</p>
+        <p class="text-center text-white">Copyright &copy; {{ env('APP_NAME') }} 自 {{ substr($setup->created_at,0,10) }} 參訪人數：{{ $setup->views }}</p>
       </div>
       <!-- /.container -->
     </footer>

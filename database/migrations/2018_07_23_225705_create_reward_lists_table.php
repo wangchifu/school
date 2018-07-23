@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRewardsTable extends Migration
+class CreateRewardListsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateRewardsTable extends Migration
      */
     public function up()
     {
-        Schema::create('rewards', function (Blueprint $table) {
+        Schema::create('reward_lists', function (Blueprint $table) {
             $table->increments('id');
-            $table->tinyInteger('disable')->nullable();//1停用，null啟用
-            $table->string('name');
-            $table->string('content');
-            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('order_by');
+            $table->string('title');
+            $table->string('description')->nullable();
+            $table->unsignedInteger('reward_id');
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ class CreateRewardsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('rewards');
+        Schema::dropIfExists('reward_lists');
     }
 }

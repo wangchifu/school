@@ -32,22 +32,22 @@ class HomeController extends Controller
     public function index()
     {
         $posts = Post::orderBy('created_at','DESC')
-            ->paginate(10);
+            ->paginate(15);
 
-        $users = User::where('disable',null)->orderBy('order_by')->get();
+        //$users = User::where('disable',null)->orderBy('order_by')->get();
 
-        $contents = Content::all();
-        $open_contents = [];
-        foreach($contents as  $content){
-            $open_contents[$content->title] = $content->content;
-        }
+        //$contents = Content::all();
+        //$open_contents = [];
+        //foreach($contents as  $content){
+        //    $open_contents[$content->title] = $content->content;
+        //}
 
         $setup = Setup::first();
 
         $data = [
             'posts'=>$posts,
-            'open_contents'=>$open_contents,
-            'users'=>$users,
+            //'open_contents'=>$open_contents,
+            //'users'=>$users,
             'setup'=>$setup,
         ];
         return view('index',$data);
@@ -113,6 +113,15 @@ class HomeController extends Controller
         $file = str_replace('&','/',$file);
         $file = public_path($file);
         return response()->download($file);
+    }
+
+    public function teachers_link()
+    {
+        $users = User::where('disable',null)->orderBy('order_by')->get();
+        $data = [
+            'users'=>$users,
+        ];
+        return view('teachers_link');
     }
 
 

@@ -71,30 +71,19 @@
             </div>
         </div>
     @endif
-
-
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="contents/1"><i class="fas fa-align-justify"></i> 認識和東</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('teachers.link') }}"><i class="fas fa-align-justify"></i> 網聯教師</a></li>
+                <li class="breadcrumb-item"><a href="contents/2"><i class="fas fa-align-justify"></i> 活動剪影</a></li>
+                <li class="breadcrumb-item"><a href="contents/3"><i class="fas fa-align-justify"></i> 教學網站</a></li>
+                <li class="breadcrumb-item"><a href="contents/6"><i class="fas fa-align-justify"></i> 教學資源</a></li>
+                <li class="breadcrumb-item"><a href="contents/4"><i class="fas fa-align-justify"></i> 宣導網站</a></li>
+                <li class="breadcrumb-item"><a href="contents/7"><i class="fas fa-align-justify"></i> 自我進修</a></li>
+                <li class="breadcrumb-item"><a href="contents/5"><i class="fas fa-align-justify"></i> 聯絡和東</a></li>
+            </ol>
+        </nav>
 <div class="container">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light" id="nav_menu">
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div class="navbar-nav">
-                <a class="nav-item nav-link js-scroll-trigger" href="contents/1">
-                    <i class="fas fa-align-justify"></i> 認識和東
-                </a>
-                <a class="nav-item nav-link js-scroll-trigger" href="contents/2">
-                    <i class="fas fa-align-justify"></i> 活動剪影
-                </a>
-                <a class="nav-item nav-link js-scroll-trigger" href="contents/3">
-                    <i class="fas fa-align-justify"></i> 教學網站
-                </a>
-                <a class="nav-item nav-link js-scroll-trigger" href="contents/6">
-                    <i class="fas fa-align-justify"></i> 教學資源
-                </a>
-                <a class="nav-item nav-link js-scroll-trigger" href="contents/4">
-                    <i class="fas fa-align-justify"></i> 宣導網站
-                </a>
-            </div>
-        </div>
-    </nav>
     <table class="w-100">
         <tr>
             <td>
@@ -135,7 +124,7 @@
                 <th nowrap>
                     日期
                 </th>
-                <th width="150">
+                <th width="150" nowrap>
                     標題圖片
                 </th>
                 <th nowrap>

@@ -48,6 +48,9 @@ Route::get('file/{file}', 'HomeController@getFile');
 //下載public的檔案
 Route::get('public_file/{file}', 'HomeController@getPublicFile');
 
+//網聯教師
+Route::get('teachers_link', 'HomeController@teachers_link')->name('teachers.link');
+
 
 //管理員
 Route::group(['middleware' => 'admin'],function(){
@@ -193,9 +196,6 @@ Route::group(['middleware' => 'exec'],function(){
     Route::get('calendars/{calendar}/delete' , 'CalendarController@delete')->name('calendars.delete');
 
 
-    //獎狀
-    Route::get('rewards/index' , 'RewardsController@index')->name('calendars.index');
-
 
 });
 
@@ -270,6 +270,10 @@ Route::group(['middleware' => 'auth'],function() {
 
     Route::get('lunche_orders/{semester}', 'LunchOrderController@create')->name('lunch_orders.create');
     Route::post('lunch_orders/store', 'LunchOrderController@store')->name('lunch_orders.store');
+
+//獎狀
+    Route::get('rewards/index' , 'RewardsController@index')->name('rewards.index');
+
 });
 
 
