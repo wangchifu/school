@@ -77,167 +77,145 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light" id="nav_menu">
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="nav-item nav-link js-scroll-trigger" href="#post">
-                    <i class="fas fa-align-justify"></i> 最新公告
-                </a>
-                <a class="nav-item nav-link js-scroll-trigger" href="#about">
+                <a class="nav-item nav-link js-scroll-trigger" href="contents/1">
                     <i class="fas fa-align-justify"></i> 認識和東
                 </a>
-                <a class="nav-item nav-link js-scroll-trigger" href="#people">
-                    <i class="fas fa-align-justify"></i> 教職員工
-                </a>
-                <a class="nav-item nav-link js-scroll-trigger" href="#active">
+                <a class="nav-item nav-link js-scroll-trigger" href="contents/2">
                     <i class="fas fa-align-justify"></i> 活動剪影
                 </a>
-                <a class="nav-item nav-link js-scroll-trigger" href="#teach">
+                <a class="nav-item nav-link js-scroll-trigger" href="contents/3">
                     <i class="fas fa-align-justify"></i> 教學網站
                 </a>
-                <a class="nav-item nav-link js-scroll-trigger" href="#resource">
+                <a class="nav-item nav-link js-scroll-trigger" href="contents/6">
                     <i class="fas fa-align-justify"></i> 教學資源
                 </a>
-                <a class="nav-item nav-link js-scroll-trigger" href="#tell">
+                <a class="nav-item nav-link js-scroll-trigger" href="contents/4">
                     <i class="fas fa-align-justify"></i> 宣導網站
-                </a>
-                <a class="nav-item nav-link js-scroll-trigger" href="#contact">
-                    <i class="fas fa-align-justify"></i> 聯絡和東
                 </a>
             </div>
         </div>
     </nav>
+    <table class="w-100">
+        <tr>
+            <td>
+                <h1>最新公告</h1>
+            </td>
+            <td align="right">
+                <form action="{{ route('posts.search') }}" method="post" class="search-form" id="search_form">
+                    {{ csrf_field() }}
+                    <table>
+                        <tr>
+                            <td>
+                                <input type="text" name="search" id="search" placeholder="搜尋公告">
+                            </td>
+                            <td>
+                                <input type="radio" name="type" id="title" value="title" class="search-form"> <label for="title">標題</label>　
+                                <input type="radio" name="type" id="content" value="content" checked class="search-form"> <label for="content">內文</label>
 
+                            </td>
+                            <td>
+                                <button><i class="fas fa-search"></i></button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </td>
+        </tr>
+    </table>
+    @can('create',\App\Post::class)
+        <a href="{{ route('posts.create') }}" class="btn btn-success btn-sm"><i class="fas fa-plus"></i> 新增公告</a>
+    @endcan
     <div id="post">
-        <h2>最新公告</h2>
-        @foreach($posts as $post)
+        <table class="table table-striped">
+            <thead class="thead-light">
+            <tr>
+                <th nowrap>
+                    編號
+                </th>
+                <th nowrap>
+                    日期
+                </th>
+                <th width="150">
+                    標題圖片
+                </th>
+                <th nowrap>
+                    標題
+                </th>
+                <th nowrap>發佈者</th>
+                <th nowrap>點閱</th>
+            </tr>
+            </thead>
+            <tbody>
             <?php
             if($_SERVER['REMOTE_ADDR'] == env('SCHOOL_IP')){
                 $client_in = "1";
             }else{
                 $client_in = "0";
             }
-
-            if(empty($post->title_image)){
-                $img = asset('img/title_image/'.$post->job_title.'.png');
-            }else{
-                $path = "posts/".$post->id."/title_image.png";
-                $path = str_replace('/','&',$path);
-                $img = url('img/'.$path);
-            }
-            $title = str_limit($post->title,54);
-            $content = str_limit($post->content,200);
             ?>
-        <div class="row">
-            <div class="col-md-3">
-                <img class="img-fluid rounded mb-3 mb-md-0" src="{{ $img }}" alt="標題圖片">
-            </div>
-            <div class="col-md-9">
-                @if($post->insite)
-                    @if($client_in=="1" or auth()->check())
-                        <h5>{{ substr($post->created_at,0,10) }} {{ $title }}</h5>
-                        <p>
-                            {{ $content }}
-                            <br>
-                            <a class="btn btn-primary btn-sm" href="{{ route('posts.show',$post->id) }}"><i class="fas fa-eye"></i> 詳細內容</a>
-                        </p>
-                    @else
-                        <p class='btn btn-danger btn-sm'>校內文件</p>
-                    @endif
-                @else
-                    <h5>{{ substr($post->created_at,0,10) }}  {{ $title }}</h5>
-                    <p>
-                        {{ $content }}
-                        <br>
-                        <a class="btn btn-primary btn-sm" href="{{ route('posts.show',$post->id) }}"><i class="fas fa-eye"></i>  詳細內容</a>
-                    </p>
-                @endif
-            </div>
-        </div>
-        <!-- /.row -->
+            @foreach($posts as $post)
 
-        <hr>
-        @endforeach
-        {{ $posts->links() }}
-    </div>
+                <?php
 
-    <br><br><br><br>
-    <div id="about" class="bg-light">
-        <h2>認識和東</h2>
-        @if(!empty($open_contents['認識和東']))
-        {!! $open_contents['認識和東'] !!}
-        @endif
-    </div>
+                if(empty($post->title_image)){
+                    $img = asset('img/title_image/'.$post->job_title.'.png');
+                }else{
+                    $path = "posts/".$post->id."/title_image.png";
+                    $path = str_replace('/','&',$path);
+                    $img = url('img/'.$path);
+                }
+                //$title = str_limit($post->title,54);
+                //$content = str_limit($post->content,200);
+                ?>
 
-    <br><br><br><br>
-    <div id="people">
-        <h2>教職員工</h2>
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>職稱</th>
-                <th>姓名</th>
-                <th>網站</th>
-                <th>郵件</th>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach($users as $user)
                 <tr>
-                    <td>{{ $user->job_title }}</td>
-                    <td>{{ $user->name }}</td>
                     <td>
-                        @if($user->website)
-                            <a href="{{ $user->website }}" target="_blank"><i class="fas fa-globe"></i></a>
-                        @endif
+                        {{ $post->id }}
+                    </td>
+                    <td width="120">
+                        {{ substr($post->created_at,0,10) }}
                     </td>
                     <td>
-                        @if($user->email)
-                            {{ $user->email }}
+                        <img src="{{ $img }}" class="img-fluid rounded">
+                    </td>
+                    <td>
+                        <?php
+                        $title = str_limit($post->title,100);
+                        //有無附件
+                        $files = get_files(storage_path('app/public/posts/'.$post->id));
+                        ?>
+                        @if($post->insite)
+                            @if($client_in=="1" or auth()->check())
+                                <p style="font-size: 1.2rem;">
+                                    <a href="{{ route('posts.show',$post->id) }}">{{ $title }}</a>
+                                </p>
+                            @else
+                                <p class='btn btn-danger btn-sm'>校內文件</p>
+                            @endif
+                        @else
+                            <p style="font-size: 1.2rem;">
+                                <a href="{{ route('posts.show',$post->id) }}">{{ $title }}</a>
+                            </p>
+                        @endif
+                        @if(!empty($files))
+                            <span class="text-info"><i class="fas fa-file"></i> [附件]</span>
                         @endif
                     </td>
-
+                    <td width="100">
+                        <a href="{{ route('posts.job_title',$post->job_title) }}">{{ $post->job_title }}</a>
+                    </td>
+                    <td width="80">
+                        {{ $post->views }}
+                    </td>
                 </tr>
             @endforeach
             </tbody>
         </table>
-    </div>
 
-    <br><br><br><br>
-    <div id="active" class="bg-light">
-        <h2>活動剪影</h2>
-        @if(!empty($open_contents['活動剪影']))
-            {!! $open_contents['活動剪影'] !!}
-        @endif
-    </div>
 
-    <br><br><br><br>
-    <div id="teach" class="bg-light">
-        <h2>教學網站</h2>
-        @if(!empty($open_contents['教學網站']))
-            {!! $open_contents['教學網站'] !!}
-        @endif
-    </div>
 
-    <br><br><br><br>
-    <div id="resource">
-        <h2>教學資源</h2>
-        @if(!empty($open_contents['教學資源']))
-            {!! $open_contents['教學資源'] !!}
-        @endif
-    </div>
 
-    <br><br><br><br>
-    <div id="tell" class="bg-light">
-        <h2>宣導網站</h2>
-        @if(!empty($open_contents['宣導網站']))
-            {!! $open_contents['宣導網站'] !!}
-        @endif
-    </div>
-
-    <br><br><br><br>
-    <div id="contact">
-        <h2>聯絡和東</h2>
-        @if(!empty($open_contents['聯絡和東']))
-            {!! $open_contents['聯絡和東'] !!}
-        @endif
+        {{ $posts->links() }}
     </div>
 </div>
 @endsection

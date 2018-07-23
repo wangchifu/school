@@ -193,6 +193,9 @@ Route::group(['middleware' => 'exec'],function(){
     Route::get('calendars/{calendar}/delete' , 'CalendarController@delete')->name('calendars.delete');
 
 
+    //獎狀
+    Route::get('rewards/index' , 'RewardsController@index')->name('calendars.index');
+
 
 });
 

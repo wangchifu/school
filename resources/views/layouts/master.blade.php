@@ -113,7 +113,9 @@ $logo = str_replace('/','&',$logo);
               <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                 <a class="dropdown-item" href="{{ route('posts.index') }}"><i class="fas fa-bullhorn"></i> 公告系統</a>
                 <a class="dropdown-item" href="{{ route('open_files.index') }}"><i class="fas fa-box-open"></i> 公開文件</a>
+                @if($check['calendars'])
                 <a class="dropdown-item" href="{{ route('calendars.index') }}"><i class="fas fa-calendar"></i> 校務行事曆</a>
+                @endif
                 <a class="dropdown-item" href="#"><i class="fas fa-file-pdf"></i> 本校刊物</a>
               </div>
             </li>
@@ -237,6 +239,10 @@ $logo = str_replace('/','&',$logo);
     </a>
     <!-- Footer -->
     <footer class="py-5 bg-dark">
+      <div class="container text-light">
+      地址：508彰化縣和美鎮彰美路五段210號　電話：04-7552724　傳真：04-7568973　反霸凌專線：04-7552724 #23　憂鬱性侵性騷防治專線： 04-7552724 #25
+        OID：2.16.886.111.90010.90003.100001　　教育部六碼代碼：074628　　機關代碼：376479722Y　　統一編號：77119738
+      </div>
       <div class="container">
         <p class="m-0 text-center text-white">Copyright &copy; {{ env('APP_NAME') }} 自 {{ substr($setup->created_at,0,10) }} 參訪人數：{{ $setup->views }}</p>
       </div>
