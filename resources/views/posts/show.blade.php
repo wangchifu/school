@@ -106,7 +106,7 @@
                             $file = "posts/".$post->id."/".$v;
                             $file = str_replace('/','&',$file);
                         ?>
-                        <a href="{{ url('file/'.$file) }}" class="btn btn-primary btn-sm"><i class="fas fa-download"></i> {{ $v }}</a>
+                        <a href="{{ url('file/'.$file) }}" class="btn btn-primary btn-sm" style="margin:3px"><i class="fas fa-download"></i> {{ $v }}</a>
                 @endforeach
                 </div>
             </div>

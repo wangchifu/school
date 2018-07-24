@@ -17,7 +17,7 @@ class CreateRewardsTable extends Migration
             $table->increments('id');
             $table->tinyInteger('disable')->nullable();//1停用，null啟用
             $table->string('name');
-            $table->string('content');
+            $table->string('description')->nullable();
             $table->unsignedInteger('user_id');
             $table->timestamps();
         });

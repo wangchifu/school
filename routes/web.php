@@ -195,7 +195,14 @@ Route::group(['middleware' => 'exec'],function(){
     Route::delete('calendars/{calendar}', 'CalendarController@destroy')->name('calendars.destroy');
     Route::get('calendars/{calendar}/delete' , 'CalendarController@delete')->name('calendars.delete');
 
-
+    //月考獎狀
+    Route::get('rewards/create' , 'RewardsController@create')->name('rewards.create');
+    Route::get('rewards/{reward}/disable' , 'RewardsController@disable')->name('rewards.disable');
+    Route::get('rewards/{reward}/destroy' , 'RewardsController@destroy')->name('rewards.destroy');
+    Route::post('rewards/store' , 'RewardsController@store')->name('rewards.store');
+    Route::get('reward_lists/{reward}/create' , 'RewardListsController@create')->name('reward_lists.create');
+    Route::post('reward_lists/store' , 'RewardListsController@store')->name('reward_lists.store');
+    Route::get('reward_lists/{reward_list}/destroy' , 'RewardListsController@destroy')->name('reward_lists.destroy');
 
 });
 
@@ -271,8 +278,10 @@ Route::group(['middleware' => 'auth'],function() {
     Route::get('lunche_orders/{semester}', 'LunchOrderController@create')->name('lunch_orders.create');
     Route::post('lunch_orders/store', 'LunchOrderController@store')->name('lunch_orders.store');
 
-//獎狀
+//月考獎狀
     Route::get('rewards/index' , 'RewardsController@index')->name('rewards.index');
+    Route::get('winners/index' , 'WinnersController@index')->name('winners.index');
+
 
 });
 

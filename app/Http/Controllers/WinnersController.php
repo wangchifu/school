@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\RewardRequest;
-use App\Reward;
 use Illuminate\Http\Request;
 
-class RewardsController extends Controller
+class WinnersController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,11 +13,7 @@ class RewardsController extends Controller
      */
     public function index()
     {
-        $rewards = Reward::orderBy('id','DESC')->paginate(10);
-        $data = [
-            'rewards'=>$rewards,
-        ];
-        return view('rewards.index',$data);
+        //
     }
 
     /**
@@ -29,7 +23,7 @@ class RewardsController extends Controller
      */
     public function create()
     {
-        return view('rewards.create');
+        //
     }
 
     /**
@@ -38,15 +32,9 @@ class RewardsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(RewardRequest $request)
+    public function store(Request $request)
     {
-        $att['name'] = $request->input('name');
-        $att['description'] = $request->input('description');
-        $att['disable'] = 1;
-        $att['user_id'] = auth()->user()->id;
-        Reward::create($att);
-
-        return redirect()->route('rewards.index');
+        //
     }
 
     /**
@@ -89,27 +77,8 @@ class RewardsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Reward $reward)
+    public function destroy($id)
     {
-        foreach($reward->reward_lists as $reward_list){
-            foreach($reward_list->winners as $winner){
-                $winner->delete();
-            }
-            $reward_list->delete();
-        }
-        $reward->delete();
-        return redirect()->route('rewards.index');
-    }
-
-    public function disable(Reward $reward)
-    {
-        if($reward->user_id != auth()->user()->id){
-            $words = "不是你的喔！";
-            return view('layouts.error',compact('words'));
-        }
-
-        $att['disable'] = ($reward->disable)?null:"1";
-        $reward->update($att);
-        return redirect()->route('rewards.index');
+        //
     }
 }

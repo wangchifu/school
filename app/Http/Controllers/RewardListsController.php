@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\RewardRequest;
+use App\Http\Requests\RewardListRequest;
 use App\Reward;
+use App\RewardList;
+use App\Winner;
 use Illuminate\Http\Request;
 
-class RewardsController extends Controller
+class RewardListsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,11 +17,7 @@ class RewardsController extends Controller
      */
     public function index()
     {
-        $rewards = Reward::orderBy('id','DESC')->paginate(10);
-        $data = [
-            'rewards'=>$rewards,
-        ];
-        return view('rewards.index',$data);
+        //
     }
 
     /**
@@ -27,9 +25,12 @@ class RewardsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Reward $reward)
     {
-        return view('rewards.create');
+        $data = [
+            'reward'=>$reward,
+        ];
+        return view('reward_lists.create',$data);
     }
 
     /**
@@ -38,15 +39,14 @@ class RewardsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(RewardRequest $request)
+    public function store(RewardListRequest $request)
     {
-        $att['name'] = $request->input('name');
+        $att['order_by'] = $request->input('order_by');
+        $att['title'] = $request->input('title');
         $att['description'] = $request->input('description');
-        $att['disable'] = 1;
-        $att['user_id'] = auth()->user()->id;
-        Reward::create($att);
-
-        return redirect()->route('rewards.index');
+        $att['reward_id'] = $request->input('reward_id');
+        RewardList::create($att);
+        return redirect()->route('reward_lists.create',$att['reward_id']);
     }
 
     /**
@@ -89,27 +89,18 @@ class RewardsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Reward $reward)
+    public function destroy(RewardList $reward_list)
     {
-        foreach($reward->reward_lists as $reward_list){
-            foreach($reward_list->winners as $winner){
-                $winner->delete();
-            }
-            $reward_list->delete();
-        }
-        $reward->delete();
-        return redirect()->route('rewards.index');
-    }
-
-    public function disable(Reward $reward)
-    {
-        if($reward->user_id != auth()->user()->id){
+        if($reward_list->reward->user_id != auth()->user()->id){
             $words = "不是你的喔！";
             return view('layouts.error',compact('words'));
         }
 
-        $att['disable'] = ($reward->disable)?null:"1";
-        $reward->update($att);
-        return redirect()->route('rewards.index');
+        foreach($reward_list->winners as $winner){
+            $winner->delete();
+        }
+        $reward_list->delete();
+        return redirect()->route('reward_lists.create',$reward_list->reward_id);
+
     }
 }

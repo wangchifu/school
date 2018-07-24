@@ -9,7 +9,7 @@ class Reward extends Model
     protected $fillable = [
         'disable',
         'name',
-        'content',
+        'description',
         'user_id',
     ];
     public function user()
