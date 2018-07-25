@@ -160,8 +160,9 @@
                             {{ $students_data[$YearClass->id]['num'] }} 人 ( 男： {{ $students_data[$YearClass->id]['boy'] }} 人 ； 女： {{ $students_data[$YearClass->id]['girl'] }} 人)
                         </td>
                         <td>
-                            @if(empty($YearClass->user_id) and $student_admin == "1")
-                            {{ Form::select('class_tea['.$YearClass->id.']', $tea_menu, null, ['class' => 'form-control', 'placeholder' => '請選擇級任']) }}
+                            @if(empty($YearClass->user_id) or $student_admin == "1")
+                                <?php $tea_default = (empty($YearClass->user_id))?null:$YearClass->user_id; ?>
+                            {{ Form::select('class_tea['.$YearClass->id.']', $tea_menu, $tea_default, ['class' => 'form-control', 'placeholder' => '請選擇級任']) }}
                             @else
                                 @if(!empty($YearClass->user_id))
                                     {{ $YearClass->user->name }}

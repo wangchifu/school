@@ -280,8 +280,9 @@ Route::group(['middleware' => 'auth'],function() {
 
 //月考獎狀
     Route::get('rewards/index' , 'RewardsController@index')->name('rewards.index');
-    Route::get('winners/index' , 'WinnersController@index')->name('winners.index');
-
+    Route::get('winners/{reward}/create/{select_year_class?}' , 'WinnersController@create')->name('winners.create');
+    Route::post('winners/store' , 'WinnersController@store')->name('winners.store');
+    Route::get('winners/{winner}/destroy' , 'WinnersController@destroy')->name('winners.destroy');
 
 });
 

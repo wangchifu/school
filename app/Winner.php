@@ -7,10 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class Winner extends Model
 {
     protected $fillable = [
-        'man',
         'reward_list_id',
         'reward_id',
         'user_id',
+        'year_class',
+        'student_id',
+        'name',
     ];
     public function reward_list()
     {

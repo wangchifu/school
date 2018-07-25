@@ -21,8 +21,11 @@
                 <h3 class="card-header">獎狀填報資料</h3>
                 <div class="card-body">
                     <div class="form-group">
-                        <label for="name"><strong class="text-danger">名稱*</strong></label>
-                        {{ Form::text('name',null,['id'=>'name','class' => 'form-control', 'placeholder' => '名稱']) }}
+                        <label for="name">
+                            <strong class="text-danger">名稱*</strong>
+                            <small class="text-primary">(如：1061學期第一階段評量)</small>
+                        </label>
+                        {{ Form::text('name',null,['id'=>'name','class' => 'form-control', 'placeholder' => '請填名稱']) }}
                     </div>
                     <div class="form-group">
                         <label for="description">說明</label>

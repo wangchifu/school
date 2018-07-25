@@ -26,14 +26,16 @@ class RewardListRequest extends FormRequest
         return [
             'order_by'=>'required',
             'title'=>'required',
+            'description'=>'required',
         ];
     }
 
     public function attributes()
     {
         return [
-            'order_by'=>'序號',
-            'title'=>'項目',
+            'order_by'=>'順序',
+            'title'=>'獎項',
+            'description'=>'獎狀內文',
         ];
     }
 }

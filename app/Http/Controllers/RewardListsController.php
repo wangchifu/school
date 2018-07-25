@@ -27,8 +27,12 @@ class RewardListsController extends Controller
      */
     public function create(Reward $reward)
     {
+        $reward_lists = RewardList::where('reward_id',$reward->id)
+            ->orderBy('order_by')
+            ->get();
         $data = [
             'reward'=>$reward,
+            'reward_lists'=>$reward_lists,
         ];
         return view('reward_lists.create',$data);
     }

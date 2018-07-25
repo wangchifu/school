@@ -26,13 +26,14 @@
                         <thead>
                         <tr>
                             <th width="100">
-                                <strong class="text-danger">序號*</strong>
+                                <strong class="text-danger">順序*</strong>
                             </th>
                             <th>
-                                <strong class="text-danger">項目*</strong>
+                                <strong class="text-danger">獎項*</strong>
                             </th>
                             <th>
-                                說明
+                                <strong class="text-danger">獎狀內文</strong>
+                                <small class="text-primary">(如：查{班級} {姓名} 同學第一階段考試表現優異，特以此狀，以茲鼓勵！)</small>
                             </th>
                         </tr>
                         </thead>
@@ -46,7 +47,7 @@
                                 {{ Form::text('title', null, ['id' => 'title', 'class' => 'form-control', 'placeholder' => '請輸入項目','required'=>'required']) }}
                             </td>
                             <td>
-                                {{ Form::text('description', null, ['id' => 'description', 'class' => 'form-control', 'placeholder' => '選填']) }}
+                                {{ Form::text('description', null, ['id' => 'description', 'class' => 'form-control', 'placeholder' => '請填內容']) }}
                             </td>
                         </tr>
                         <tr>
@@ -54,7 +55,7 @@
                                 <button class="btn btn-success" onclick="bbconfirm_Form('store','確定新增題目？')"><i class="fas fa-save"></i> 儲存</button>
                             </td>
                         </tr>
-                        @foreach($reward->reward_lists as $reward_list)
+                        @foreach($reward_lists as $reward_list)
                         <tr>
                             <td>
                                 <a href="{{ route('reward_lists.destroy',$reward_list->id) }}" onclick="return confirm('會連已填報的資料一起刪喔！')">

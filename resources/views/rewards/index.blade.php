@@ -51,7 +51,7 @@
                     <i class="fas fa-ban text-danger"></i> {{ $reward->name }}
                 @else
                     <i class="fas fa-check-circle text-success"></i>
-                    <a href="{{ route('winners.index') }}">{{ $reward->name }}</a>
+                    <a href="{{ route('winners.create',$reward) }}">{{ $reward->name }}</a>
                 @endif
                 @if(!empty($reward->description))
                 <small class="text-primary">({{ $reward->description }})</small>

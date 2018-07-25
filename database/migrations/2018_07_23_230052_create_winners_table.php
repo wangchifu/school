@@ -15,10 +15,12 @@ class CreateWinnersTable extends Migration
     {
         Schema::create('winners', function (Blueprint $table) {
             $table->increments('id');
-            $table->text('man');
             $table->unsignedInteger('reward_list_id');
             $table->unsignedInteger('reward_id');
-            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('user_id');//填報老師
+            $table->unsignedInteger('year_class');//得獎班級
+            $table->unsignedInteger('student_id');//得獎學生
+            $table->text('name');
             $table->timestamps();
         });
     }

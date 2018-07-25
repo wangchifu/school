@@ -1,5 +1,5 @@
 <?php
-
+///////////////////一般函式///////////////////////////////
 //補足中文字數
 if (! function_exists('mb_str_pad')) {
     function mb_str_pad(
@@ -65,6 +65,7 @@ if (! function_exists('get_folders_files')) {
     }
 }
 
+//轉為kb
 if(! function_exists('filesizekb')) {
     function filesizekb($file)
     {
@@ -73,12 +74,32 @@ if(! function_exists('filesizekb')) {
 }
 
 
-//查某日為星期幾
+
+
+
+
+
+
+
+
+
+///////////////////學期日期相關///////////////////////////////
+//查某日為中文星期幾
 if(! function_exists('get_chinese_weekday')){
     function get_chinese_weekday($datetime)
     {
         $weekday = date('w', strtotime($datetime));
         return '星期' . ['日', '一', '二', '三', '四', '五', '六'][$weekday];
+    }
+}
+
+//查某日星期幾
+if(! function_exists('get_date_w')){
+    function get_date_w($d)
+    {
+        $arrDate=explode("-",$d);
+        $week=date("w",mktime(0,0,0,$arrDate[1],$arrDate[2],$arrDate[0]));
+        return $week;
     }
 }
 
@@ -104,6 +125,7 @@ if(! function_exists('get_semester')){
 
     }
 }
+
 
 //查指定日期為哪一個學期
 if(! function_exists('get_date_semester')){
@@ -198,15 +220,5 @@ if(! function_exists('get_month_date')){
             $order_date[$i] = $this_date[0]."-".$this_date[1]."-".sprintf("%02s", $i);
         }
         return $order_date;
-    }
-}
-
-//查某日星期幾
-if(! function_exists('get_date_w')){
-    function get_date_w($d)
-    {
-        $arrDate=explode("-",$d);
-        $week=date("w",mktime(0,0,0,$arrDate[1],$arrDate[2],$arrDate[0]));
-        return $week;
     }
 }
