@@ -202,6 +202,7 @@ Route::group(['middleware' => 'exec'],function(){
     Route::post('rewards/store' , 'RewardsController@store')->name('rewards.store');
     Route::get('reward_lists/{reward}/create' , 'RewardListsController@create')->name('reward_lists.create');
     Route::post('reward_lists/store' , 'RewardListsController@store')->name('reward_lists.store');
+    Route::post('reward_lists/copy' , 'RewardListsController@copy')->name('reward_lists.copy');
     Route::get('reward_lists/{reward_list}/destroy' , 'RewardListsController@destroy')->name('reward_lists.destroy');
     Route::get('winners/{reward}/show' , 'WinnersController@show')->name('winners.show');
     Route::get('winners/{reward}/print' , 'WinnersController@print')->name('winners.print');

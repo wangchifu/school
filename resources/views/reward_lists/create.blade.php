@@ -20,6 +20,28 @@
                     <h3>獎狀填報：{{ $reward->name }}</h3>
                 </div>
                 <div class="card-body">
+                    {{ Form::open(['route' => 'reward_lists.copy', 'method' => 'POST','id'=>'copy']) }}
+                    <table>
+                        <tr>
+                            <td>
+                                從
+                            </td>
+                            <td>
+                                {{ Form::select('from_reward_id', $rewards,null, ['id' => 'reward_id', 'class' => 'form-control','placeholder' => '請選擇']) }}
+                            </td>
+                            <td>
+                                複製
+                            </td>
+                            <td>
+                                　　
+                            </td>
+                            <td>
+                                <button type="submit" class="btn btn-info btn-sm" onclick="return confirm('確定複製？')"><i class="fas fa-copy"></i> 執行項目複製</button>
+                            </td>
+                        </tr>
+                    </table>
+                    <input type="hidden" name="reward_id" value="{{ $reward->id }}">
+                    {{ Form::close() }}
                     @include('layouts.alert')
                     {{ Form::open(['route' => 'reward_lists.store', 'method' => 'POST','id'=>'store','onsubmit'=>'return false;']) }}
                     <table class="table table-striped">

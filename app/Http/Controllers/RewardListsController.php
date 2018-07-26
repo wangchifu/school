@@ -30,8 +30,14 @@ class RewardListsController extends Controller
         $reward_lists = RewardList::where('reward_id',$reward->id)
             ->orderBy('order_by')
             ->get();
+
+        $rewards = Reward::orderBy('id','DESC')
+            ->where('id','!=',$reward->id)
+            ->pluck('name', 'id')->toArray();
+
         $data = [
             'reward'=>$reward,
+            'rewards'=>$rewards,
             'reward_lists'=>$reward_lists,
         ];
         return view('reward_lists.create',$data);
@@ -50,6 +56,20 @@ class RewardListsController extends Controller
         $att['description'] = $request->input('description');
         $att['reward_id'] = $request->input('reward_id');
         RewardList::create($att);
+        return redirect()->route('reward_lists.create',$att['reward_id']);
+    }
+
+    public function copy(Request $request)
+    {
+        $reward_lists = RewardList::where('reward_id',$request->input('from_reward_id'))
+            ->get();
+        foreach($reward_lists as $reward_list){
+            $att['order_by'] = $reward_list->order_by;
+            $att['title'] = $reward_list->title;
+            $att['description'] = $reward_list->description;
+            $att['reward_id'] = $request->input('reward_id');
+            RewardList::create($att);
+        }
         return redirect()->route('reward_lists.create',$att['reward_id']);
     }
 
