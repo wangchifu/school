@@ -20,4 +20,8 @@ class Reward extends Model
     {
         return $this->hasMany(RewardList::class);
     }
+    public function winners()
+    {
+        return $this->hasMany(Winner::class);
+    }
 }

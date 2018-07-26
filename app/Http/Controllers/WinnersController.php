@@ -103,9 +103,73 @@ class WinnersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Reward $reward)
     {
-        //
+        $list1=[];
+        $lists=[];
+        $winners=[];
+        $has_classes = [];
+        foreach($reward->reward_lists as $reward_list){
+            $list1[$reward_list->order_by][$reward_list->id]['title'] = $reward_list->title;
+        }
+        ksort($list1);
+        foreach($list1 as $k=>$v){
+            foreach($v as $k1=>$v1){
+                $lists[$k1] = $v1;
+            }
+        }
+
+
+        foreach($reward->winners as $winner){
+            $winners[$winner->year_class][$winner->reward_list_id]['name'] = $winner->name;
+            $winners[$winner->year_class][$winner->reward_list_id]['teacher'] = $winner->user->name;
+            $has_classes[$winner->year_class] = 1;
+        }
+        ksort($winners);
+        ksort($has_classes);
+
+        $data = [
+            'reward'=>$reward,
+            'lists'=>$lists,
+            'winners'=>$winners,
+            'has_classes'=>$has_classes,
+        ];
+        return view('winners.show',$data);
+    }
+
+    public function print(Reward $reward)
+    {
+        $list1=[];
+        $lists=[];
+        $winners=[];
+        $has_classes = [];
+        foreach($reward->reward_lists as $reward_list){
+            $list1[$reward_list->order_by][$reward_list->id]['title'] = $reward_list->title;
+            $list1[$reward_list->order_by][$reward_list->id]['description'] = $reward_list->description;
+        }
+        ksort($list1);
+        foreach($list1 as $k=>$v){
+            foreach($v as $k1=>$v1){
+                $lists[$k1] = $v1;
+            }
+        }
+
+
+        foreach($reward->winners as $winner){
+            $winners[$winner->year_class][$winner->reward_list_id]['name'] = $winner->name;
+            $winners[$winner->year_class][$winner->reward_list_id]['teacher'] = $winner->user->name;
+            $has_classes[$winner->year_class] = 1;
+        }
+        ksort($winners);
+        ksort($has_classes);
+
+        $data = [
+            'reward'=>$reward,
+            'lists'=>$lists,
+            'winners'=>$winners,
+            'has_classes'=>$has_classes,
+        ];
+        return view('winners.print',$data);
     }
 
     /**

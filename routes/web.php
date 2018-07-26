@@ -203,6 +203,8 @@ Route::group(['middleware' => 'exec'],function(){
     Route::get('reward_lists/{reward}/create' , 'RewardListsController@create')->name('reward_lists.create');
     Route::post('reward_lists/store' , 'RewardListsController@store')->name('reward_lists.store');
     Route::get('reward_lists/{reward_list}/destroy' , 'RewardListsController@destroy')->name('reward_lists.destroy');
+    Route::get('winners/{reward}/show' , 'WinnersController@show')->name('winners.show');
+    Route::get('winners/{reward}/print' , 'WinnersController@print')->name('winners.print');
 
 });
 

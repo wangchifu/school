@@ -223,7 +223,7 @@
                 <li class="list-group-item">
                     <input type="checkbox" name="check['rewards']" id="rewards" {{ $check['rewards'] }}>
                     <label class="form-check-label" for="rewards">
-                        <i class="fas fa-certificate"></i> 定期評量獎狀
+                        <i class="fas fa-certificate"></i> 學生獎狀
                     </label>
                 </li>
             </ul>

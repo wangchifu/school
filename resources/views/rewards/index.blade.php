@@ -5,7 +5,7 @@
 @section('content')
 <br><br><br>
 <div class="container">
-    <h1><i class="fas fa-certificate"></i> 定期評量獎狀</h1>
+    <h1><i class="fas fa-certificate"></i> 學生獎狀</h1>
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('index') }}">首頁</a></li>
@@ -59,12 +59,15 @@
             </td>
             <td>
                 @if($reward->user_id == auth()->user()->id)
-                    <a href="{{ route('reward_lists.create',$reward->id) }}" class="btn btn-info btn-sm"><i class="fas fa-plus-circle"></i> 新增填報項目</a>
+                    <?php $disable = ($reward->disable)?null:"disabled"; ?>
+
+                    <a href="{{ route('reward_lists.create',$reward->id) }}" class="btn btn-info btn-sm {{ $disable }}"><i class="fas fa-plus-circle"></i> 新增填報項目</a>
                     @if($reward->disable)
                         <a href="{{ route('rewards.disable',$reward) }}" class="btn btn-warning btn-sm"><i class="fas fa-hand-paper"></i> 已停用</a>
                     @else
                         <a href="{{ route('rewards.disable',$reward) }}" class="btn btn-success btn-sm"><i class="fas fa-play"></i> 已啟用</a>
                     @endif
+                    <a href="{{ route('winners.show',$reward->id) }}" class="btn btn-primary btn-sm"><i class="fas fa-eye"></i> 查看填報</a>
                     <a href="{{ route('rewards.destroy',$reward->id) }}" class="btn btn-danger btn-sm" onclick="return confirm('相關資料一併刪除？')"><i class="fas fa-trash"></i> 刪除</a>
                 @endif
 

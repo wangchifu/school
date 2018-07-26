@@ -149,7 +149,7 @@ $logo = str_replace('/','&',$logo);
                   <a class="dropdown-item" href="#"><i class="fas fa-football-ball"></i> 運動會報名系統x</a>
                 @endif
                 @if($check['rewards'])
-                  <a class="dropdown-item" href="{{ route('rewards.index') }}"><i class="fas fa-certificate"></i> 定期評量獎狀</a>
+                  <a class="dropdown-item" href="{{ route('rewards.index') }}"><i class="fas fa-certificate"></i> 學生獎狀</a>
                 @endif
               </div>
             </li>
