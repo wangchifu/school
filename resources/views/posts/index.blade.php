@@ -67,7 +67,7 @@
                     ?>
                     @if($post->insite)
                         @if($client_in=="1" or auth()->check())
-                                <a href="{{ route('posts.show',$post->id) }}">{{ $title }}</a>
+                                <span class="text-danger">[校內]</span> <a href="{{ route('posts.show',$post->id) }}">{{ $title }}</a>
                         @else
                                 <p class='btn btn-danger btn-sm'>校內文件</p>
                         @endif
