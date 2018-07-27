@@ -27,7 +27,7 @@
                                 從
                             </td>
                             <td>
-                                {{ Form::select('from_reward_id', $rewards,null, ['id' => 'reward_id', 'class' => 'form-control','placeholder' => '請選擇']) }}
+                                {{ Form::select('from_reward_id', $rewards,null, ['id' => 'reward_id', 'class' => 'form-control','required'=>'required','placeholder' => '請選擇']) }}
                             </td>
                             <td>
                                 複製
@@ -55,7 +55,7 @@
                             </th>
                             <th>
                                 <strong class="text-danger">獎狀內文</strong>
-                                <small class="text-primary">(如：查{班級} {姓名} 同學第一階段考試表現優異，特以此狀，以茲鼓勵！)</small>
+                                <small class="text-primary">(如：<span class="text-danger">{班級}</span> <span class="text-danger">{姓名}</span> 同學<span class="text-danger">{換行}</span>一百零六學年度第一學期<span class="text-danger">{換行}</span>畢業考學業評量，成績優異，表現傑出。希望你繼續努力，爭取更高榮譽。)</small>
                             </th>
                         </tr>
                         </thead>

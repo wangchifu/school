@@ -16,22 +16,20 @@
                 $name = $winners[$k1][$k2]['name'];
                 $content = str_replace('{班級}',$year_class,$v2['description']);
                 $content = str_replace('{姓名}',$name,$content);
+                $content = str_replace('{換行}',"<br>",$content);
                 $data .= "
-                <div style=\"font-family:標楷體;font-size:35px;margin-top:220px;margin-left:100px;\">
-                " . $content ."
+                <div style=\"font-family:標楷體;font-size:70px;margin-top:220px;margin-left:100px;line-height: 120px;position:relative;height:1230px;\">
                 <br>
-		        <br>
-		        <br>
-		        <br>
-		        <br>
-		        <br>
-		        <br>
-		        <div style=\"font-family:標楷體;font-size:25px\" align=right>{$cht_day}　　</div>
+                " . $content ."
+
+		        <div style=\"font-family:標楷體;font-size:30px;position:absolute;bottom:0px;right:0px;\">{$cht_day}　　　　</div>
 		        </div>
 		        <p style=\"page-break-after:always\"></p>
                 ";
             }
         }
+
+        $data = substr($data,0,-42);
 
         echo $data;
 
