@@ -43,7 +43,7 @@ class CalendarController extends Controller
             $calendars = Calendar::where('semester',$semester)
                 ->get();
 
-            if(!($calendars)) {
+            if(!empty($calendars)) {
                 foreach ($calendars as $calendar) {
                     $calendar_d[$calendar->user->order_by][$calendar->calendar_week_id][$calendar->calendar_kind][$calendar->id]['user_id'] = $calendar->user->id;
                     $calendar_d[$calendar->user->order_by][$calendar->calendar_week_id][$calendar->calendar_kind][$calendar->id]['content'] = $calendar->content;

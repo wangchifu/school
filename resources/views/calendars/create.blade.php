@@ -61,7 +61,7 @@
                 </tbody>
             </table>
             <input type="hidden" name="semester" value="{{ $semester }}">
-            @if(!($calendar_weeks))
+            @if(!empty($calendar_weeks))
             <button type="submit" class="btn btn-primary" onclick="bbconfirm_Form('store','確定儲存嗎？')">
                 <i class="fas fa-save"></i> 儲存設定
             </button>

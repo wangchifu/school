@@ -17,6 +17,7 @@ class CalendarWeekController extends Controller
      */
     public function index()
     {
+        $semesters = [];
         //取學期選單
         $ss = DB::select('select semester from calendar_weeks group by semester');
         foreach($ss as $s){
