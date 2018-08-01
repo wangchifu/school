@@ -42,6 +42,8 @@ class HomeController extends Controller
         //    $open_contents[$content->title] = $content->content;
         //}
 
+        $contents = Content::all();
+
         $setup = Setup::first();
 
         $data = [
@@ -49,6 +51,7 @@ class HomeController extends Controller
             //'open_contents'=>$open_contents,
             //'users'=>$users,
             'setup'=>$setup,
+            'contents'=>$contents,
         ];
         return view('index',$data);
     }

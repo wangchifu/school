@@ -116,7 +116,7 @@ $logo = str_replace('/','&',$logo);
                 @if($check['calendars'])
                 <a class="dropdown-item" href="{{ route('calendars.index') }}"><i class="fas fa-calendar"></i> 校務行事曆</a>
                 @endif
-                <a class="dropdown-item" href="#"><i class="fas fa-file-pdf"></i> 本校刊物</a>
+                <a class="dropdown-item" href="#"><i class="fas fa-file-pdf"></i> 本校刊物(趕工中...)</a>
               </div>
             </li>
             <li class="nav-item dropdown">
@@ -143,10 +143,10 @@ $logo = str_replace('/','&',$logo);
                   <a class="dropdown-item" href="{{ route('students.index') }}"><i class="fas fa-child"></i> 學生系統</a>
                 @endif
                 @if($check['lunches'])
-                  <a class="dropdown-item" href="{{ route('lunches.index') }}"><i class="fas fa-utensils"></i> 午餐系統</a>
+                  <a class="dropdown-item" href="{{ route('lunches.index') }}"><i class="fas fa-utensils"></i> 午餐系統(趕工中...)</a>
                 @endif
                 @if($check['sports'])
-                  <a class="dropdown-item" href="#"><i class="fas fa-football-ball"></i> 運動會報名系統x</a>
+                  <a class="dropdown-item" href="#"><i class="fas fa-football-ball"></i> 運動會報名系統(趕工中...)</a>
                 @endif
                 @if($check['rewards'])
                   <a class="dropdown-item" href="{{ route('rewards.index') }}"><i class="fas fa-certificate"></i> 學生獎狀</a>

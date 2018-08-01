@@ -73,14 +73,10 @@
     @endif
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="contents/1"><i class="fas fa-align-justify"></i> 認識和東</a></li>
-                <li class="breadcrumb-item"><a href="{{ route('teachers.link') }}"><i class="fas fa-align-justify"></i> 網聯教師</a></li>
-                <li class="breadcrumb-item"><a href="contents/2"><i class="fas fa-align-justify"></i> 活動剪影</a></li>
-                <li class="breadcrumb-item"><a href="contents/3"><i class="fas fa-align-justify"></i> 教學網站</a></li>
-                <li class="breadcrumb-item"><a href="contents/6"><i class="fas fa-align-justify"></i> 教學資源</a></li>
-                <li class="breadcrumb-item"><a href="contents/4"><i class="fas fa-align-justify"></i> 宣導網站</a></li>
-                <li class="breadcrumb-item"><a href="contents/7"><i class="fas fa-align-justify"></i> 自我進修</a></li>
-                <li class="breadcrumb-item"><a href="contents/5"><i class="fas fa-align-justify"></i> 聯絡和東</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('teachers.link') }}"><i class="fas fa-align-justify"></i> 教師網站</a></li>
+                @foreach($contents as $content)
+                <li class="breadcrumb-item"><a href="contents/{{ $content->id }}"><i class="fas fa-align-justify"></i> {{ $content->title }}</a></li>
+                @endforeach
             </ol>
         </nav>
 <div class="container">
