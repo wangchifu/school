@@ -34,13 +34,7 @@
                     @if(!empty($calendar_data[$calendar_week->id][$k]))
                         <?php $i=1; ?>
                         @foreach($calendar_data[$calendar_week->id][$k] as $k=>$v)
-                            <small class="text-primary">{{ $i }}.{{ $v['content'] }}</small>
-                            @auth
-                                @if($v['user_id'] == auth()->user()->id)
-                                    <a href="{{ route('calendars.delete',$k) }}" class="text-danger" id="del{{ $k }}" onclick="bbconfirm_Link('del{{ $k }}','當真要刪？')"><i class="fas fa-minus-square"></i></a>
-                                @endif
-                            @endauth
-                            <br>
+                            <small class="text-dark">{{ $i }}.{{ $v['content'] }}</small>
                             <?php $i++; ?>
                         @endforeach
                     @endif
