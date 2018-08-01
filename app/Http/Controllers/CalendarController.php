@@ -20,6 +20,7 @@ class CalendarController extends Controller
     {
         $has_week = null;
         $calendar_weeks = [];
+        $calendar_d = [];
         $calendar_data = [];
         $this_semester = get_date_semester(date('Y-m-d'));
         $semesters = [];
