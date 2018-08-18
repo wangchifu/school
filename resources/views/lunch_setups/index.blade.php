@@ -42,14 +42,14 @@
                     @if($lunch_setup->tea_open)
                     <strong class="text-danger">隨時可訂(請盡速關閉)</strong>
                     @else
-                        <strong class="text-success">最晚餐期前 {{ $lunch_setup->die_line }} 天可訂餐</strong>
+                        <strong class="text-primary">最晚餐期前 <span class="text-danger">{{ $lunch_setup->die_line }}</span> 天可訂餐</strong>
                     @endif
                 </td>
                 <td>
                     @if($lunch_setup->tea_open)
                         <strong class="text-danger">期末結算，師生停止退餐</strong>
                     @else
-                        <strong class="text-success">最晚前 {{ $lunch_setup->die_line }} 天可退餐</strong>
+                        <strong class="text-primary">最晚前 <span class="text-danger">{{ $lunch_setup->die_line }}</span> 天可退餐</strong>
                     @endif
                 </td>
                 <td>
