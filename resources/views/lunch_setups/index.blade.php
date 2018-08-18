@@ -29,11 +29,16 @@
             <th>學期</th>
             <th>教職員訂餐設定</th>
             <th>師生退餐設定</th>
+            <th>供餐日數</th>
             <th>管理動作</th>
         </tr>
         </thead>
         <tbody>
         @foreach($lunch_setups as $lunch_setup)
+            <?php
+                $order_dates = \App\LunchOrderDate::where('semester',$lunch_setup->semester)->where('enable','1')->get();
+                $has_ordered = (count($order_dates)==0)?0:1;
+            ?>
             <tr>
                 <td>
                     {{ $lunch_setup->semester }}
@@ -53,7 +58,14 @@
                     @endif
                 </td>
                 <td>
-                    <a href="{{ route('lunch_orders.create',$lunch_setup->semester) }}" class="btn btn-primary btn-sm"><i class="fas fa-calendar-alt"></i> 設定供餐日</a>
+                    {{ count($order_dates) }}
+                </td>
+                <td>
+                    @if($has_ordered)
+                        <a href="{{ route('lunch_orders.edit',$lunch_setup->semester) }}" class="btn btn-secondary btn-sm"><i class="fas fa-calendar-alt"></i> 修改供餐日</a>
+                    @else
+                        <a href="{{ route('lunch_orders.create',$lunch_setup->semester) }}" class="btn btn-primary btn-sm"><i class="fas fa-calendar-alt"></i> 設定供餐日</a>
+                    @endif
                     <a href="{{ route('lunch_setups.edit',$lunch_setup->id) }}" class="btn btn-info btn-sm"><i class="fas fa-edit"></i> 修改</a>
                     <a href="#" class="btn btn-danger btn-sm" onclick="bbconfirm_Form('delete{{ $lunch_setup->id }}','當真要刪除學期設定？')"><i class="fas fa-trash"></i> 刪除</a>
                 </td>

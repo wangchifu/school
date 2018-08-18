@@ -270,6 +270,11 @@ Route::group(['middleware' => 'auth'],function() {
 
     //午餐系統
     Route::get('lunches', 'LunchController@index')->name('lunches.index');
+    Route::get('lunches/{semester}/create', 'LunchController@create')->name('lunches.create');
+    Route::post('lunches/store', 'LunchController@store')->name('lunches.store');
+    Route::get('lunches/{semester}/edit', 'LunchController@edit')->name('lunches.edit');
+    Route::post('lunches/update', 'LunchController@update')->name('lunches.update');
+
 
     Route::get('lunch_setups', 'LunchSetupController@index')->name('lunch_setups.index');
     Route::get('lunch_setups/create', 'LunchSetupController@create')->name('lunch_setups.create');
@@ -281,6 +286,8 @@ Route::group(['middleware' => 'auth'],function() {
 
     Route::get('lunche_orders/{semester}', 'LunchOrderController@create')->name('lunch_orders.create');
     Route::post('lunch_orders/store', 'LunchOrderController@store')->name('lunch_orders.store');
+    Route::get('lunche_orders/{semester}', 'LunchOrderController@edit')->name('lunch_orders.edit');
+    Route::post('lunch_orders/update', 'LunchOrderController@update')->name('lunch_orders.update');
 
 //月考獎狀
     Route::get('rewards/index' , 'RewardsController@index')->name('rewards.index');
