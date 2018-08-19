@@ -275,6 +275,8 @@ Route::group(['middleware' => 'auth'],function() {
     Route::get('lunches/{semester}/edit', 'LunchController@edit')->name('lunches.edit');
     Route::post('lunches/update', 'LunchController@update')->name('lunches.update');
 
+    Route::any('lunch_students', 'LunchStudentController@index')->name('lunch_students.index');
+
 
     Route::get('lunch_setups', 'LunchSetupController@index')->name('lunch_setups.index');
     Route::get('lunch_setups/create', 'LunchSetupController@create')->name('lunch_setups.create');

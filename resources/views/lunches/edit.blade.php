@@ -112,6 +112,7 @@
                         <hr>
                     @endforeach
                     <input type="hidden" name="semester" value="{{ $semester }}">
+                    <a href="{{ route('lunches.index') }}" class="btn btn-secondary">返回</a>
                     <a href="#" class="btn btn-success" onclick="bbconfirm_Form('update','你確定修改你的訂餐日？')">確定送出</a>
 
                 </div>
