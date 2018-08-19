@@ -187,7 +187,7 @@ class StudentController extends Controller
                     $has_student = Student::where('sn', '=', $value['學號'])->first();
                     if ($has_student) {
                         //$has_student->update($att);
-                        //$id = $has_student->id;
+                        $id = $has_student->id;
                     } else {
                         //新增學生
                         $att['sn'] = $value['學號'];
@@ -210,8 +210,8 @@ class StudentController extends Controller
                         'year_class_id'=>$att2['year_class_id'],
                         'num'=>$att2['num'],
                         'at_school'=>1,
-                        'created_at' => date('Y-m-d H:i:s'),
-                        'updated_at' => date('Y-m-d H:i:s'),
+                        'created_at' => now(),
+                        'updated_at' => now(),
                     ];
                     array_push($create_ss, $new_one);
                 }

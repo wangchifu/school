@@ -276,7 +276,8 @@ Route::group(['middleware' => 'auth'],function() {
     Route::post('lunches/update', 'LunchController@update')->name('lunches.update');
 
     Route::any('lunch_students', 'LunchStudentController@index')->name('lunch_students.index');
-
+    Route::post('lunch_students/store', 'LunchStudentController@store')->name('lunch_students.store');
+    Route::get('lunch_students/{class_id}/edit', 'LunchStudentController@edit')->name('lunch_students.edit');
 
     Route::get('lunch_setups', 'LunchSetupController@index')->name('lunch_setups.index');
     Route::get('lunch_setups/create', 'LunchSetupController@create')->name('lunch_setups.create');
@@ -286,9 +287,9 @@ Route::group(['middleware' => 'auth'],function() {
     Route::patch('lunch_setups/update/{lunch_setup}', 'LunchSetupController@update')->name('lunch_setups.update');
     Route::delete('lunch_setups/destroy/{lunch_setup}', 'LunchSetupController@destroy')->name('lunch_setups.destroy');
 
-    Route::get('lunche_orders/{semester}', 'LunchOrderController@create')->name('lunch_orders.create');
+    Route::get('lunche_orders/{semester}/create', 'LunchOrderController@create')->name('lunch_orders.create');
     Route::post('lunch_orders/store', 'LunchOrderController@store')->name('lunch_orders.store');
-    Route::get('lunche_orders/{semester}', 'LunchOrderController@edit')->name('lunch_orders.edit');
+    Route::get('lunche_orders/{semester}/edit', 'LunchOrderController@edit')->name('lunch_orders.edit');
     Route::post('lunch_orders/update', 'LunchOrderController@update')->name('lunch_orders.update');
 
 //月考獎狀

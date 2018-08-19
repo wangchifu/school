@@ -197,11 +197,11 @@ class YearClassController extends Controller
     {
         $class_tea = $request->input('class_tea');
         foreach($class_tea as $k =>$v){
-            if(!empty($v)){
+            //if(!empty($v)){
                 $att['user_id'] = $v;
                 YearClass::where('id','=',$k)
                     ->update($att);
-            }
+            //}
         }
         return redirect()->route('students.index');
     }
