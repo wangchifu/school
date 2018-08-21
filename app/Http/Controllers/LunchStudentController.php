@@ -18,70 +18,81 @@ class LunchStudentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
+    {
+        //目前是哪一個學期
+        $semester = get_semester();
+        //查該班送出訂單了沒，如果有，轉至edit
+        $check_order = LunchStuOrder::where('semester', $semester)
+            ->where('student_num', 'like', session('class_id') . '%')
+            ->first();
+        if (!empty($check_order->id)) {
+            return redirect()->route('lunch_students.edit', session('class_id'));
+        }else{
+            return redirect()->route('lunch_students.create');
+        }
+
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
     {
         //目前是哪一個學期
         $semester = get_semester();
 
-        //判斷是否為老師
-        $year_class = YearClass::where('semester','=',$semester)->where('user_id','=',auth()->user()->id)->first();
+        //是否為管理者
+        $admin = check_admin(3);
+        if($admin){
+            $year_class = YearClass::where('semester','=',$semester)
+                ->where('year_class','=',session('class_id'))
+                ->first();
+        }else{
+            //判斷是否為級任老師
+            $year_class = YearClass::where('semester','=',$semester)
+                ->where('user_id','=',auth()->user()->id)
+                ->first();
+        }
         if($year_class) {
             $class_name = $year_class->name;
             $year_class_id = $year_class->id;
             $class_id = $year_class->year_class;
             $is_tea = "1";
+            session(['class_id' => $class_id]);
         }else{
             $class_name = "";
             $year_class_id = "";
             $class_id = "";
             $is_tea = "0";
-        }
-        //管理者
-        $admin = check_admin(3);
-        if($admin){
-            $year_class = YearClass::where('semester','=',$semester)->where('year_class','=',$request->input('class_id'))->first();
-            if($year_class){
-                $class_name = $year_class->name;
-                $year_class_id = $year_class->id;
-                $class_id = $year_class->year_class;
-            }
-
-            $is_tea = "1";
+            session(['class_id' => null]);
         }
 
-        if(empty($is_tea)){
-            $words = "你不是級任老師或管理者！";
+        if($is_tea == "0" and $admin == "0"){
+            $words = "你不是級任老師或管理員！";
             return view('layouts.error',compact('words'));
         }
 
         //查新學期設好了沒
         $check_new_semester = LunchOrderDate::where('semester','=',$semester)->first();
         if(empty($check_new_semester)){
-        $words = "新學期尚未設定好！";
-        return view('layouts.error',compact('words'));
-    }
-
-        //查該班送出訂單了沒
-        if($class_id) {
-            $check_order = LunchStuOrder::where('semester', $semester)
-                ->where('student_num', 'like', $class_id . '%')
-                ->first();
-            if (!empty($check_order->id)) {
-                return redirect()->route('lunch_students.edit', $class_id);
-            }
+            $words = "新學期尚未設定好！";
+            return view('layouts.error',compact('words'));
         }
 
-
-
+        $stu_data=[];
         if($year_class_id){
-            $stu_datas = SemesterStudent::where('year_class_id', '=', $year_class_id)->where('at_school','=','1')->orderBy('num')->get();
+            $stu_datas = SemesterStudent::where('year_class_id', '=', $year_class_id)
+                ->where('at_school','=','1')
+                ->orderBy('num')
+                ->get();
             foreach ($stu_datas as $stu) {
                 $stu_data[$stu->num]['name'] = $stu->student->name;
                 $stu_data[$stu->num]['sex'] = $stu->student->sex;
                 $stu_data[$stu->num]['id'] = $stu->student->id;
             }
-        }else{
-            $stu_data=[];
         }
 
         $data = [
@@ -94,16 +105,6 @@ class LunchStudentController extends Controller
             'stu_data'=>$stu_data,
         ];
         return view('lunch_students.create',$data);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -215,45 +216,40 @@ class LunchStudentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($class_id)
+    public function edit()
     {
         //目前是哪一個學期
         $semester = get_semester();
 
-        //管理者
+        //是否為管理者
         $admin = check_admin(3);
 
-        //確認該班為該使用者所有
-        $check_tea = YearClass::where('semester','=',$semester)->where('user_id','=',auth()->user()->id)->first();
-        $check_class_id = ($check_tea)?$check_tea->year_class:"";
-        if($check_class_id != $class_id and $admin==0){
-            $words = "你不是該班級任老師！";
-            return view('layouts.error',compact('words'));
+        $stu_datas = LunchStuOrder::where('semester','=',$semester)
+            ->where('student_num','like',session('class_id').'%')
+            ->orderBy('student_num')
+            ->get();
+        foreach($stu_datas as $stu){
+            $stu_data[substr($stu->student_num,3,2)]['name'] = $stu->student->name;
+            $stu_data[substr($stu->student_num,3,2)]['sex'] = $stu->student->sex;
+            $stu_data[substr($stu->student_num,3,2)]['id'] = $stu->student->id;
         }
 
-
-        $year_class = YearClass::where('semester','=',$semester)->where('year_class','=',$class_id)->first();
-        if($year_class){
-            $class_name = $year_class->name;
-            $year_class_id = $year_class->id;
-            $class_id = $year_class->year_class;
-        }
-
-        if($year_class_id){
-            $stu_datas = SemesterStudent::where('year_class_id', '=', $year_class_id)->where('at_school','=','1')->orderBy('num')->get();
-            foreach ($stu_datas as $stu) {
-                $stu_data[$stu->num]['name'] = $stu->student->name;
-                $stu_data[$stu->num]['sex'] = $stu->student->sex;
-                $stu_data[$stu->num]['id'] = $stu->student->id;
-            }
-        }else{
-            $stu_data=[];
+        $class_orders = LunchStuOrder::where('semester','=',$semester)
+            ->where('student_num','like',session('class_id').'%')
+            ->orderBy('student_num')
+            ->get();
+        foreach($class_orders as $class_order){
+            $order_data[$class_order->student_id]['eat_style'] = $class_order->eat_style;
+            $order_data[$class_order->student_id]['p_id'] = $class_order->p_id;
+            $order_data[$class_order->student_id]['enable'] = $class_order->enable;
         }
 
         $data = [
+            'semester'=>$semester,
             'admin'=>$admin,
-            'class_id'=>$class_id,
+            'class_id'=>session('class_id'),
             'stu_data'=>$stu_data,
+            'order_data'=>$order_data,
         ];
         return view('lunch_students.edit',$data);
     }
@@ -279,5 +275,11 @@ class LunchStudentController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function change_tea(Request $request)
+    {
+        session(['class_id' => $request->input('class_id')]);
+        return redirect()->route('lunch_students.index');
     }
 }

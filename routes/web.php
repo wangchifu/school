@@ -275,9 +275,11 @@ Route::group(['middleware' => 'auth'],function() {
     Route::get('lunches/{semester}/edit', 'LunchController@edit')->name('lunches.edit');
     Route::post('lunches/update', 'LunchController@update')->name('lunches.update');
 
-    Route::any('lunch_students', 'LunchStudentController@index')->name('lunch_students.index');
+    Route::get('lunch_students', 'LunchStudentController@index')->name('lunch_students.index');
+    Route::post('lunch_students/change_tea', 'LunchStudentController@change_tea')->name('lunch_students.change_tea');
+    Route::get('lunch_students/create', 'LunchStudentController@create')->name('lunch_students.create');
     Route::post('lunch_students/store', 'LunchStudentController@store')->name('lunch_students.store');
-    Route::get('lunch_students/{class_id}/edit', 'LunchStudentController@edit')->name('lunch_students.edit');
+    Route::get('lunch_students/edit', 'LunchStudentController@edit')->name('lunch_students.edit');
 
     Route::get('lunch_setups', 'LunchSetupController@index')->name('lunch_setups.index');
     Route::get('lunch_setups/create', 'LunchSetupController@create')->name('lunch_setups.create');

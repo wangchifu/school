@@ -3,9 +3,11 @@
         <a class="nav-link {{ $active['teacher'] }}" href="{{ route('lunches.index') }}">教職員訂餐</a>
     </li>
     <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle {{ $active['student'] }}" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">學生訂餐</a>
+        <a class="nav-link dropdown-toggle {{ $active['student'] }}" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">學生訂餐管理</a>
         <div class="dropdown-menu">
-            <a class="dropdown-item" href="{{ route('lunch_students.index') }}">學生訂餐管理</a>
+            <a class="dropdown-item" href="{{ route('lunch_students.index') }}">學生訂餐</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">學生退餐</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="#">各班問題反應</a>
             <div class="dropdown-divider"></div>

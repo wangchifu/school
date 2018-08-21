@@ -21,13 +21,13 @@
     ?>
     @include('lunches.nav')
     <br>
-    @if($is_tea)
-    <h4>{{ $class_id }}班的訂餐資料新增</h4>
     @if($admin)
-        {{ Form::open(['route' => 'lunch_students.index', 'method' => 'POST']) }}
-        <input type="text" name="class_id" maxlength="3" placeholder="班級代碼"> <button class="btn btn-success btn-sm">送出</button>
+        {{ Form::open(['route' => 'lunch_students.change_tea', 'method' => 'POST']) }}
+        管理員：<input type="text" name="class_id" maxlength="3" placeholder="班級代碼"> <button class="btn btn-success btn-sm">送出</button>
         {{ Form::close() }}
     @endif
+    @if($is_tea)
+    <h4>{{ $class_id }}班的訂餐資料(未訂)</h4>
         {{ Form::open(['route' => 'lunch_students.store', 'method' => 'POST','id'=>'store','onsubmit'=>'return false;']) }}
         <table class="table table-striped">
             <thead>
@@ -114,7 +114,7 @@
             <input type="hidden" name="class_id" value="{{ $class_id }}">
             </tbody>
         </table>
-        <button class="btn btn-info" id="b_submit" onclick="bbconfirm_Form('store','確定送出訂單？按確定後，請等待一下！！')">送出訂單</button>
+        <button class="btn btn-info" id="b_submit" onclick="bbconfirm_Form('store','確定送出訂單？請真的確定再按，請等待一下！！不要按F5及重新整理！')">送出訂單</button>
         {{ Form::close() }}
     @else
     <h4 class="text-danger">你不是導師！</h4>
