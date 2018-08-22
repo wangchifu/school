@@ -24,11 +24,11 @@
     @if($admin)
         {{ Form::open(['route' => 'lunch_students.change_tea', 'method' => 'POST']) }}
         管理員：<input type="text" name="class_id" maxlength="3" placeholder="班級代碼"> <button class="btn btn-success btn-sm">送出</button>
+        <input type="hidden" name="page" value="order">
         {{ Form::close() }}
     @endif
     <h4>{{ $class_id }}班的訂餐資料(已訂)</h4>
-
-    {{ Form::open(['route' => 'lunch_students.store', 'method' => 'POST','id'=>'store','onsubmit'=>'return false;']) }}
+    <h2 class="text-danger">欲修改請洽管理員</h2>
     <table class="table table-striped">
         <thead>
         <tr>

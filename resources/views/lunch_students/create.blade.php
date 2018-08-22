@@ -24,6 +24,7 @@
     @if($admin)
         {{ Form::open(['route' => 'lunch_students.change_tea', 'method' => 'POST']) }}
         管理員：<input type="text" name="class_id" maxlength="3" placeholder="班級代碼"> <button class="btn btn-success btn-sm">送出</button>
+        <input type="hidden" name="page" value="order">
         {{ Form::close() }}
     @endif
     @if($is_tea)

@@ -7,7 +7,7 @@
         <div class="dropdown-menu">
             <a class="dropdown-item" href="{{ route('lunch_students.index') }}">學生訂餐</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">學生退餐</a>
+            <a class="dropdown-item" href="{{ route('lunch_students.back') }}">學生退餐</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="#">各班問題反應</a>
             <div class="dropdown-divider"></div>

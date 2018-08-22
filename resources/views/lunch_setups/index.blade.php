@@ -41,6 +41,11 @@
             ?>
             <tr>
                 <td>
+                    @if($lunch_setup->disable==1)
+                        <i class="fas fa-times-circle text-danger"></i>
+                    @else
+                        <i class="fas fa-check-circle text-success"></i>
+                    @endif
                     {{ $lunch_setup->semester }}
                 </td>
                 <td nowrap>

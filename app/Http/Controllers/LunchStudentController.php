@@ -280,6 +280,119 @@ class LunchStudentController extends Controller
     public function change_tea(Request $request)
     {
         session(['class_id' => $request->input('class_id')]);
-        return redirect()->route('lunch_students.index');
+
+        if($request->input('page') == "order"){
+            return redirect()->route('lunch_students.index');
+        }
+        if($request->input('page') == "back"){
+            return redirect()->route('lunch_students.back');
+        }
+
+    }
+
+    public function back(Request $request)
+    {
+        //目前是哪一個學期
+        $semester = get_semester();
+
+        //是否為管理者
+        $admin = check_admin(3);
+        if($admin){
+            $year_class = YearClass::where('semester','=',$semester)
+                ->where('year_class','=',session('class_id'))
+                ->first();
+        }else{
+            //判斷是否為級任老師
+            $year_class = YearClass::where('semester','=',$semester)
+                ->where('user_id','=',auth()->user()->id)
+                ->first();
+        }
+        if($year_class) {
+            $class_name = $year_class->name;
+            $year_class_id = $year_class->id;
+            $class_id = $year_class->year_class;
+            $is_tea = "1";
+            session(['class_id' => $class_id]);
+        }else{
+            $class_name = "";
+            $year_class_id = "";
+            $class_id = "";
+            $is_tea = "0";
+            session(['class_id' => null]);
+        }
+
+        if($is_tea == "0" and $admin == "0"){
+            $words = "你不是級任老師或管理員！";
+            return view('layouts.error',compact('words'));
+        }
+
+        //是否停止學生退餐了
+        $setup = LunchSetup::where('semester',$semester)
+        ->first();
+        if($setup->disable == "1") {
+            $words = "本學期學生已停止退餐！！";
+            return view('layouts.error', compact('words'));
+        }
+
+        //餐期選單
+        $order_id_array = [];
+        $array_order_id=[];
+        $orders = LunchOrder::where('semester','=',$semester)->orderBy('id')->get();
+        foreach($orders as $order){
+            $order_id_array[$order->id] =$order->name;
+            $array_order_id[$order->name] = $order->id;
+        }
+
+        //選取月份
+        $order_id = (empty($request->input('select_order_id')))?$array_order_id[date('Y-m')]:$request->input('select_order_id');
+
+        //學生訂餐資料
+        $stu_data=[];
+        $stu_datas = LunchStuOrder::where('semester','=',$semester)
+            ->where('student_num','like',$class_id.'%')
+            ->orderBy('student_num')
+            ->get();
+        foreach($stu_datas as $stu){
+            $stu_data[substr($stu->student_num,3,2)]['name'] = $stu->student->name;
+            $stu_data[substr($stu->student_num,3,2)]['sex'] = $stu->student->sex;
+            $stu_data[substr($stu->student_num,3,2)]['id'] = $stu->student->id;
+            $stu_data[substr($stu->student_num,3,2)]['out_in'] = $stu->out_in;
+        }
+
+
+        //學生該月的訂餐資料
+        $order_dates=[];
+        $order_dates = LunchStuDate::where('semester',$semester)
+            ->where('class_id',$class_id)
+            ->where('lunch_order_id',$order_id)
+            ->orderBy('num')
+            ->get();
+        $order_data=[];
+        foreach($order_dates as $order_date){
+            $order_data[$order_date->student_id][$order_date->order_date]['num'] = $order_date->num;
+            $order_data[$order_date->student_id][$order_date->order_date]['name'] = $order_date->student->name;
+            $order_data[$order_date->student_id][$order_date->order_date]['eat_style'] = $order_date->eat_style;
+            $order_data[$order_date->student_id][$order_date->order_date]['enable'] = $order_date->enable;
+            $order_data[$order_date->student_id][$order_date->order_date]['p_id'] = $order_date->p_id;
+        }
+
+        //此月份的供餐日
+        $order_dates=[];
+        $order_dates = LunchOrderDate::where('lunch_order_id',$order_id)
+            ->where('enable','1')
+            ->orderBy('order_date')
+            ->get();
+
+
+        $data = [
+            'class_id'=>$class_id,
+            'admin'=>$admin,
+            'order_id_array'=>$order_id_array,
+            'order_id'=>$order_id,
+            'stu_data'=>$stu_data,
+            'order_data'=>$order_data,
+            'order_dates'=>$order_dates,
+        ];
+        return view('lunch_students.back',$data);
     }
 }

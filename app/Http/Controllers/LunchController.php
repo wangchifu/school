@@ -127,7 +127,7 @@ class LunchController extends Controller
         //die_line
         $lunch_setup = LunchSetup::where('semester',$semester)->first();
         $die_line = $lunch_setup->die_line;
-        $dt = Carbon::createFromFormat('Y-m-d', '2018-09-21')->addDays($die_line)->toDateTimeString();
+        $dt = Carbon::createFromFormat('Y-m-d', date('Y-m-d'))->addDays($die_line)->toDateTimeString();
         $die_date = str_replace('-','',substr($dt,0,10));
 
         //此學期的每一天
@@ -164,6 +164,7 @@ class LunchController extends Controller
             'tea_factory'=>$tea_factory,
             'tea_eat_style'=>$tea_eat_style,
             'die_date'=>$die_date,
+            'die_line'=>$die_line,
         ];
         return view('lunches.edit',$data);
 
@@ -178,6 +179,17 @@ class LunchController extends Controller
      */
     public function update(Request $request)
     {
+        //目前是哪一個學期
+        $semester = get_semester();
+
+        //是否停止學生退餐了
+        $setup = LunchSetup::where('semester',$semester)
+            ->first();
+        if($setup->disable == "1") {
+            $words = "本學期師生已停止退餐！！";
+            return view('layouts.error', compact('words'));
+        }
+
         $order_date = $request->input('order_date');
         $semester_dates = get_semester_dates($request->input('semester'));
 

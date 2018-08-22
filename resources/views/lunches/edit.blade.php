@@ -44,7 +44,7 @@
             <hr>
             <div class="card">
                 <div class="card-header">
-                    <h3>2.請選取{{ $semester }}學期各月份的訂餐日</h3>
+                    <h3>2.請選取{{ $semester }}學期各月份的訂餐日<span class="text-danger">(請於 {{ $die_line }} 天前取消訂餐)</span></h3>
                 </div>
                 <div class="card-body">
                     @foreach($semester_dates as $k=>$v)
