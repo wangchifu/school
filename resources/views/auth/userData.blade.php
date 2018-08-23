@@ -35,9 +35,9 @@
                         </button>
                     </div>
                     {{ Form::close() }}
-                @elseif(env('DEFAULT_LOGIN_TYPE')=='ldap')
+                @elseif(env('LOGIN_LOCAL_OR_LDAP')=='ldap')
                     本系統已使用 LDAP 統一帳號密碼管理，請至 LDAP 伺服器變更密碼。<br><br>
-                    <a href="http://{{ env('ADLDAP_CONTROLLERS') }}" target="_blank" class="btn btn-secondary btn-xs"><i class="fas fa-hand-point-up"></i> 立即前往 LDAP 伺服器</a>
+                    <a href="http://163.23.93.69:1912/webman/3rdparty/DirectoryServer/profile.cgi?action=chpass" target="_blank" class="btn btn-secondary btn-xs"><i class="fas fa-hand-point-up"></i> 立即前往 LDAP 伺服器</a>
                 @endif
             </div>
         </div>
