@@ -289,7 +289,7 @@ Route::group(['middleware' => 'auth'],function() {
     Route::get('lunch/check','LunchStudentController@check')->name('lunch_checks.index');
     Route::post('lunch/check_store','LunchStudentController@check_store')->name('lunch_checks.store');
     Route::post('lunch/check_destroy/{check}','LunchStudentController@check_destroy')->name('lunch_checks.destroy');
-    Route::post('lunch/check_print','LunchStudentController@check_print')->name('lunch_checks.print');
+    Route::get('lunch/check_print','LunchStudentController@check_print')->name('lunch_checks.print');
 
 
     Route::get('lunch_setups', 'LunchSetupController@index')->name('lunch_setups.index');

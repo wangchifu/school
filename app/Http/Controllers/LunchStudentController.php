@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\LunchCheck;
 use App\LunchOrder;
 use App\LunchOrderDate;
 use App\LunchSetup;
@@ -475,11 +476,31 @@ class LunchStudentController extends Controller
             $words = "你不是級任老師，也不是管理員！";
             return view('errors.errors',compact('words'));
         }
+        $lunch_order_dates = LunchOrderDate::where('semester',$semester)
+            ->where('enable','1')
+            ->get();
+        foreach($lunch_order_dates as $lunch_order_date){
+            $order_dates[$lunch_order_date->order_date] = $lunch_order_date->order_date;
+        }
 
         $order_id_array = [];
         $orders = LunchOrder::where('semester','=',$semester)->orderBy('id')->get();
         foreach($orders as $order){
             $order_id_array[$order->name] =$order->id;
+        }
+        $checks=[];
+        $checks = LunchCheck::where('semester','=',$semester)
+            ->where('user_id','=',auth()->user()->id)
+            ->where('class_id','=',$class_id)
+            ->orderBy('order_date','DESC')
+            ->get();
+
+        $admin_checks = [];
+        if($admin) {
+            $admin_checks = LunchCheck::where('semester', '=', $semester)
+                ->orderBy('class_id')
+                ->orderBy('order_date', 'DESC')
+                ->get();
         }
 
         $data = [
@@ -487,9 +508,97 @@ class LunchStudentController extends Controller
             'class_name'=>$class_name,
             'class_id' =>$class_id,
             'admin' =>$admin,
+            'order_dates'=>$order_dates,
             'order_id_array'=>$order_id_array,
+            'checks'=>$checks,
+            'admin_checks'=>$admin_checks,
         ];
 
         return view('lunch_students.check',$data);
+    }
+
+    public function check_store(Request $request)
+    {
+
+        if(empty($request->input('main_eat'))){
+            $att['main_eat'] = 1 ;
+        }
+        if(empty($request->input('main_vag'))){
+            $att['main_vag'] = 1 ;
+        }
+        if(empty($request->input('co_vag'))){
+            $att['co_vag'] = 1 ;
+        }
+        if(empty($request->input('vag'))){
+            $att['vag'] = 1 ;
+        }
+        if(empty($request->input('soup'))){
+            $att['soup'] = 1 ;
+        }
+
+        if(empty($att)){
+            $words = "每一項都合格不用回報！";
+            return view('layouts.error',compact('words'));
+        }
+
+        if(empty($request->input('reason') )){
+            $words = "請輸入不合格原因！";
+            return view('layouts.error',compact('words'));
+        }
+
+        //取該日的資訊
+        $dates=[];
+        $lunch_order_dates = LunchOrderDate::where('semester','=',$request->input('semester'))->get();
+        if($lunch_order_dates) {
+            foreach ($lunch_order_dates as $v) {
+                $dates[$v->order_date] = $v->enable;
+            }
+        }
+
+        if($dates[$request->input('order_date')] != "1"){
+            $words = $request->input('order_date') . " 該日沒有供餐！";
+            return view('layouts.error',compact('words'));
+        }
+
+        $check = LunchCheck::where('class_id','=',$request->input('class_id'))
+            ->where('order_date','=',$request->input('order_date'))
+            ->first();
+        if(!empty($check)){
+            $words = $request->input('order_date') . " 該日已回報過！";
+            return view('layouts.error',compact('words'));
+        }
+
+
+        $att['order_date'] = $request->input('order_date');
+        $att['reason'] = $request->input('reason');
+        $att['action'] = $request->input('action');
+        $att['semester'] = $request->input('semester');
+        $att['class_id'] = $request->input('class_id');
+        $att['user_id'] = $request->input('user_id');
+
+        LunchCheck::create($att);
+        return redirect()->route('lunch_checks.index');
+    }
+
+    public function check_destroy(LunchCheck $check)
+    {
+        $check->delete();
+        return redirect()->route('lunch_checks.index');
+    }
+
+    public function check_print()
+    {
+        //目前是哪一個學期
+        $semester = get_semester();
+        $admin_checks = LunchCheck::where('semester', '=', $semester)
+            ->orderBy('class_id')
+            ->orderBy('order_date', 'DESC')
+            ->get();
+
+        $data = [
+            'admin_checks'=>$admin_checks,
+            'semester'=>$semester,
+        ];
+        return view('lunch_students.check_print',$data);
     }
 }
