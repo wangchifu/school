@@ -33,10 +33,11 @@
         {{ Form::select('select_order_id', $order_id_array,$order_id,['style'=>'font-size : 18pt','onChange'=>'location.href="back?select_order_id="+this.value']) }}
         <hr>
         <h4>2.選擇學生、日期取消訂餐：</h4>
-        {{ Form::open(['route' => 'lunch_students.cancel_stu', 'method' => 'POST']) }}
-        {{ Form::select('cancel_stu', $cancel_stus,null,['style'=>'font-size : 18pt']) }}
-        {{ Form::select('cancel_date', $cancel_dates,null,['style'=>'font-size : 18pt']) }}
-        <button type="submit" class="btn btn-success btn-sm">取消該生該日訂餐</button>
+        {{ Form::open(['route' => 'lunch_students.cancel_stu', 'method' => 'POST','id'=>'back','onsubmit'=>'return false']) }}
+        學生：{{ Form::select('cancel_stu', $cancel_stus,null,['style'=>'font-size : 18pt']) }}<br><br>
+        日期：{{ Form::select('cancel_date', $cancel_dates,null,['style'=>'font-size : 18pt']) }}<br><br>
+        <button type="submit" class="btn btn-success btn-sm" onclick="bbconfirm_Form('back','確定幫該生退餐？')">取消該生該日訂餐</button>
+        <br><br>
         {{ Form::close() }}
         <table class="table table-hover">
             <thead class="thead-light">
@@ -70,9 +71,13 @@
                                 <span class="text-danger">葷</span>
                             @elseif($order_data[$v1['id']][$order_date->order_date]['eat_style']==2)
                                 <span class="text-success">素</span>
-                            @elseif($order_data[$v1['id']][$order_date->order_date]['eat_style']==3)
-                                -
                             @endif
+                        @elseif($order_data[$v1['id']][$order_date->order_date]['enable']=="no_eat")
+                                @if($order_data[$v1['id']][$order_date->order_date]['eat_style'] ==3)
+                                    -
+                                @endif
+                        @elseif($order_data[$v1['id']][$order_date->order_date]['enable']=="abs")
+                            退<a href="{{ $order_data[$v1['id']][$order_date->order_date]['id'] }}" id="reback{{ $k1 }}{{ $order_date->id }}" onclick="bbconfirm_Link('reback{{ $k1 }}{{ $order_date->id }}','確定{{ $order_date->order_date }}還原成訂餐嗎？')"><img src="{{ asset('img/remove.png') }}"></a>
                         @endif
                     </td>
                 @endforeach

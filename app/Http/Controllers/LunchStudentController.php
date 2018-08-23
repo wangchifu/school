@@ -330,6 +330,12 @@ class LunchStudentController extends Controller
         //是否停止學生退餐了
         $setup = LunchSetup::where('semester',$semester)
         ->first();
+
+        if(!$setup){
+            $words = "新學期尚未設定好！";
+            return view('layouts.error',compact('words'));
+        }
+
         if($setup->disable == "1") {
             $words = "本學期學生已停止退餐！！";
             return view('layouts.error', compact('words'));
@@ -359,7 +365,7 @@ class LunchStudentController extends Controller
             $stu_data[substr($stu->student_num,3,2)]['sex'] = $stu->student->sex;
             $stu_data[substr($stu->student_num,3,2)]['id'] = $stu->student->id;
             $stu_data[substr($stu->student_num,3,2)]['out_in'] = $stu->out_in;
-            $cancel_stus[$stu->id] = substr($stu->student_num,3,2) ." ".$stu->student->name;
+            $cancel_stus[$stu->student->id] = substr($stu->student_num,3,2) ." ".$stu->student->name;
         }
 
 
@@ -372,6 +378,7 @@ class LunchStudentController extends Controller
             ->get();
         $order_data=[];
         foreach($order_dates as $order_date){
+            $order_data[$order_date->student_id][$order_date->order_date]['id'] = $order_date->id;
             $order_data[$order_date->student_id][$order_date->order_date]['num'] = $order_date->num;
             $order_data[$order_date->student_id][$order_date->order_date]['name'] = $order_date->student->name;
             $order_data[$order_date->student_id][$order_date->order_date]['eat_style'] = $order_date->eat_style;
@@ -415,5 +422,12 @@ class LunchStudentController extends Controller
             $att['enable'] = "abs";//請假退餐
             $stu_order->update($att);
         }
+
+        return redirect()->route('lunch_students.back');
+    }
+
+    public function reback($id)
+    {
+
     }
 }
