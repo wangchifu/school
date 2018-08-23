@@ -139,14 +139,16 @@ class UserController extends Controller
 
         //再批次insert的array
         $all_insert = [];
-        foreach($group_id as $k=>$v){
-            $one = [
-                'user_id'=>$user->id,
-                'group_id'=>$v
-            ];
-            array_push($all_insert,$one);
+        if(!empty($group_id)) {
+            foreach ($group_id as $k => $v) {
+                $one = [
+                    'user_id' => $user->id,
+                    'group_id' => $v
+                ];
+                array_push($all_insert, $one);
+            }
+            UserGroup::insert($all_insert);
         }
-        UserGroup::insert($all_insert);
 
         return redirect()->route('users.index');
     }
@@ -190,7 +192,6 @@ class UserController extends Controller
         $user_id = $request->input('user_id');
         $order_by = $request->input('order_by');
         $job_title = $request->input('job_title');
-        $disable = $request->input('disable');
         foreach($user_id as $k=>$v){
             if(!isset($order_by[$k])) $order_by[$k]=null;
             $att['order_by'] = $order_by[$k];
@@ -198,8 +199,6 @@ class UserController extends Controller
             if(!isset($job_title[$k])) $job_title[$k]=null;
             $att['job_title'] = $job_title[$k];
 
-            if(!isset($disable[$k])) $disable[$k]=null;
-            $att['disable'] = $disable[$k];
             User::where('id',$v)->update($att);
         }
         return redirect()->route('users.index');

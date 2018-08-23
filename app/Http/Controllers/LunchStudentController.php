@@ -10,6 +10,7 @@ use App\LunchStuOrder;
 use App\SemesterStudent;
 use App\YearClass;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 
 class LunchStudentController extends Controller
 {
@@ -290,7 +291,7 @@ class LunchStudentController extends Controller
 
     }
 
-    public function back(Request $request)
+    public function back()
     {
         //目前是哪一個學期
         $semester = get_semester();
@@ -344,10 +345,11 @@ class LunchStudentController extends Controller
         }
 
         //選取月份
-        $order_id = (empty($request->input('select_order_id')))?$array_order_id[date('Y-m')]:$request->input('select_order_id');
+        $order_id = (empty(Input::get('select_order_id')))?$array_order_id[date('Y-m')]:Input::get('select_order_id');
 
         //學生訂餐資料
         $stu_data=[];
+        $cancel_stus=[];
         $stu_datas = LunchStuOrder::where('semester','=',$semester)
             ->where('student_num','like',$class_id.'%')
             ->orderBy('student_num')
@@ -357,6 +359,7 @@ class LunchStudentController extends Controller
             $stu_data[substr($stu->student_num,3,2)]['sex'] = $stu->student->sex;
             $stu_data[substr($stu->student_num,3,2)]['id'] = $stu->student->id;
             $stu_data[substr($stu->student_num,3,2)]['out_in'] = $stu->out_in;
+            $cancel_stus[$stu->id] = substr($stu->student_num,3,2) ." ".$stu->student->name;
         }
 
 
@@ -378,11 +381,14 @@ class LunchStudentController extends Controller
 
         //此月份的供餐日
         $order_dates=[];
+        $cancel_dates=[];
         $order_dates = LunchOrderDate::where('lunch_order_id',$order_id)
             ->where('enable','1')
             ->orderBy('order_date')
             ->get();
-
+        foreach($order_dates as $order_date){
+            $cancel_dates[$order_date->order_date] = $order_date->order_date;
+        }
 
         $data = [
             'class_id'=>$class_id,
@@ -392,7 +398,22 @@ class LunchStudentController extends Controller
             'stu_data'=>$stu_data,
             'order_data'=>$order_data,
             'order_dates'=>$order_dates,
+            'cancel_stus'=>$cancel_stus,
+            'cancel_dates'=>$cancel_dates,
         ];
         return view('lunch_students.back',$data);
+    }
+
+    public function cancel_stu(Request $request)
+    {
+        $student_id = $request->input('cancel_stu');
+        $order_date = $request->input('cancel_date');
+        $stu_order = LunchStuDate::where('student_id',$student_id)
+            ->where('order_date',$order_date)
+            ->first();
+        if($stu_order->enable == "eat"){
+            $att['enable'] = "abs";//請假退餐
+            $stu_order->update($att);
+        }
     }
 }

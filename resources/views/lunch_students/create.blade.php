@@ -28,7 +28,7 @@
         {{ Form::close() }}
     @endif
     @if($is_tea)
-    <h4>{{ $class_id }}班的訂餐資料(未訂)</h4>
+    <h2>{{ $class_id }}班的訂餐資料(未訂)</h2>
         {{ Form::open(['route' => 'lunch_students.store', 'method' => 'POST','id'=>'store','onsubmit'=>'return false;']) }}
         <table class="table table-striped">
             <thead>

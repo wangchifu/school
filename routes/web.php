@@ -281,8 +281,8 @@ Route::group(['middleware' => 'auth'],function() {
     Route::post('lunch_students/store', 'LunchStudentController@store')->name('lunch_students.store');
     Route::get('lunch_students/edit', 'LunchStudentController@edit')->name('lunch_students.edit');
 
-    Route::any('lunch_students/back', 'LunchStudentController@back')->name('lunch_students.back');
-
+    Route::get('lunch_students/back', 'LunchStudentController@back')->name('lunch_students.back');
+    Route::post('lunch_students/cancel_stu', 'LunchStudentController@cancel_stu')->name('lunch_students.cancel_stu');
 
     Route::get('lunch_setups', 'LunchSetupController@index')->name('lunch_setups.index');
     Route::get('lunch_setups/create', 'LunchSetupController@create')->name('lunch_setups.create');

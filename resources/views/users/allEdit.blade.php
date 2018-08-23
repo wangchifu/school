@@ -24,7 +24,6 @@
             <th>排序</th>
             <th>職稱</th>
             <th>群組</th>
-            <th>在職狀況</th>
         </tr>
         </thead>
         <tbody>
@@ -47,12 +46,6 @@
                     @foreach($user->groups as $group)
                         {{ $group->group->name }}
                     @endforeach
-                </td>
-                <td>
-                    <div class="form-check">
-                        {{ Form::checkbox('disable[]', '1',$user->disable,['id'=>'disable'.$user->id,'class'=>'form-check-input']) }}
-                        <label class="form-check-label" for="disable{{ $user->id }}">離職</label>
-                    </div>
                 </td>
             </tr>
             <?php $i++; ?>

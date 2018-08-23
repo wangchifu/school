@@ -27,7 +27,7 @@
         <input type="hidden" name="page" value="order">
         {{ Form::close() }}
     @endif
-    <h4>{{ $class_id }}班的訂餐資料(已訂)</h4>
+    <h2>{{ $class_id }}班的訂餐資料(已訂)</h2>
     <h2 class="text-danger">欲修改請洽管理員</h2>
     <table class="table table-striped">
         <thead>
