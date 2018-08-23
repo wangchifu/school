@@ -77,7 +77,7 @@
                                     -
                                 @endif
                         @elseif($order_data[$v1['id']][$order_date->order_date]['enable']=="abs")
-                            退<a href="{{ $order_data[$v1['id']][$order_date->order_date]['id'] }}" id="reback{{ $k1 }}{{ $order_date->id }}" onclick="bbconfirm_Link('reback{{ $k1 }}{{ $order_date->id }}','確定{{ $order_date->order_date }}還原成訂餐嗎？')"><img src="{{ asset('img/remove.png') }}"></a>
+                            退<a href="{{ route('lunch_students.reback',$order_data[$v1['id']][$order_date->order_date]['id']) }}" id="reback{{ $k1 }}{{ $order_date->id }}" onclick="bbconfirm_Link('reback{{ $k1 }}{{ $order_date->id }}','確定{{ $order_date->order_date }}還原成訂餐嗎？')"><img src="{{ asset('img/remove.png') }}"></a>
                         @endif
                     </td>
                 @endforeach

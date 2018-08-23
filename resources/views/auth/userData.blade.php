@@ -11,7 +11,7 @@
             <div class="card my-4">
             <h3 class="card-header">變更個人密碼</h3>
             <div class="card-body">
-                @if(env('DEFAULT_LOGIN_TYPE')=='eloquent')
+                @if(env('LOGIN_LOCAL_OR_LDAP')=='local')
                     {{ Form::open(['route' => ['userData.resetPw',auth()->user()->id], 'method' => 'POST','id'=>'pw','onsubmit'=>'return false']) }}
                     <div class="form-group">
                         <label for="job_title">帳號：</label>

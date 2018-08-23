@@ -9,6 +9,7 @@ use App\LunchStuDate;
 use App\LunchStuOrder;
 use App\SemesterStudent;
 use App\YearClass;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 
@@ -415,6 +416,21 @@ class LunchStudentController extends Controller
     {
         $student_id = $request->input('cancel_stu');
         $order_date = $request->input('cancel_date');
+
+        //目前是哪一個學期
+        $semester = get_semester();
+
+        //最後停止日期
+        $lunch_setup = LunchSetup::where('semester',$semester)->first();
+        $die_line = $lunch_setup->die_line;
+        $dt = Carbon::createFromFormat('Y-m-d', date('Y-m-d'))->addDays($die_line)->toDateTimeString();
+        $die_date = str_replace('-','',substr($dt,0,10));
+        if(str_replace('-','',$order_date) < $die_date){
+            $words = "該日已無法取消訂餐！";
+            return view('layouts.error',compact('words'));
+        }
+
+
         $stu_order = LunchStuDate::where('student_id',$student_id)
             ->where('order_date',$order_date)
             ->first();
@@ -426,8 +442,54 @@ class LunchStudentController extends Controller
         return redirect()->route('lunch_students.back');
     }
 
-    public function reback($id)
+    public function reback(LunchStuDate $lunch_stu_date)
     {
+        $att['enable'] = "eat";
+        $lunch_stu_date->update($att);
+        return redirect()->route('lunch_students.back');
 
+    }
+
+    public function check()
+    {
+        //目前是哪一個學期
+        $semester = get_semester();
+
+        //是否為管理者
+        $admin = check_admin(3);
+
+        //判斷是否為級任老師
+        $year_class = YearClass::where('semester','=',$semester)
+            ->where('user_id','=',auth()->user()->id)
+            ->first();
+
+        if($year_class) {
+            $class_name = $year_class->name;
+            $class_id = $year_class->year_class;
+        }else{
+            $class_name = "";
+            $class_id = "";
+        }
+
+        if($class_id=="" and $admin == "0"){
+            $words = "你不是級任老師，也不是管理員！";
+            return view('errors.errors',compact('words'));
+        }
+
+        $order_id_array = [];
+        $orders = LunchOrder::where('semester','=',$semester)->orderBy('id')->get();
+        foreach($orders as $order){
+            $order_id_array[$order->name] =$order->id;
+        }
+
+        $data = [
+            'semester' => $semester,
+            'class_name'=>$class_name,
+            'class_id' =>$class_id,
+            'admin' =>$admin,
+            'order_id_array'=>$order_id_array,
+        ];
+
+        return view('lunch_students.check',$data);
     }
 }

@@ -178,7 +178,7 @@ class UserController extends Controller
 
     public function users_allEdit()
     {
-        $users = User::orderBy('disable')
+        $users = User::where('disable',null)
             ->orderBy('order_by')->get();
 
         $data = [
