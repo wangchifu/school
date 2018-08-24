@@ -39,6 +39,13 @@
                     </div>
                     <div class="form-group">
                         <h5>1.3 用餐地點：</h5>
+                        <?php
+                        //判斷是否為級任老師
+                        $tea_class = check_tea();
+                        ?>
+                        @if($tea_class['class_id'])
+                            <input type="text" name="place" value="{{ $tea_class['class_id'] }}" class="form-control" readonly="readonly">
+                        @else
                         <select name="place" class="form-control">
                             @foreach($places as $v)
                             <option value="{{ $v }}">
@@ -46,6 +53,7 @@
                             </option>
                             @endforeach
                         </select>
+                        @endif
                     </div>
                 </div>
             </div>

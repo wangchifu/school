@@ -52,6 +52,9 @@ Route::get('public_file/{file}', 'HomeController@getPublicFile');
 //網聯教師
 Route::get('teachers_link', 'HomeController@teachers_link')->name('teachers.link');
 
+//給廠商
+Route::any('lunch/report_fac','LunchReportController@for_factory')->name('lunch_reports.for_factory');
+
 
 //管理員
 Route::group(['middleware' => 'admin'],function(){
@@ -290,6 +293,18 @@ Route::group(['middleware' => 'auth'],function() {
     Route::post('lunch/check_store','LunchStudentController@check_store')->name('lunch_checks.store');
     Route::post('lunch/check_destroy/{check}','LunchStudentController@check_destroy')->name('lunch_checks.destroy');
     Route::get('lunch/check_print','LunchStudentController@check_print')->name('lunch_checks.print');
+
+    //滿意度
+    Route::get('lunch/satisfaction','LunchStudentController@satisfaction')->name('lunch_satisfactions.index');
+    Route::post('lunch/satisfaction_store','LunchStudentController@satisfaction_store')->name('lunch_satisfactions.store');
+    Route::post('lunch/satisfaction_destroy/{satisfaction}','LunchStudentController@satisfaction_destroy')->name('lunch_satisfactions.destroy');
+    Route::get('lunch/satisfaction_show/{satisfaction}','LunchStudentController@satisfaction_show')->name('lunch_satisfactions.show');
+    Route::get('lunch/satisfaction_show_answer/{satisfaction}','LunchStudentController@satisfaction_show_answer')->name('lunch_satisfactions.show_answer');
+    Route::post('lunch/satisfaction_show_store','LunchStudentController@satisfaction_show_store')->name('lunch_satisfactions.show_store');
+    Route::get('lunch/satisfaction_help/{satisfaction}','LunchStudentController@satisfaction_help')->name('lunch_satisfactions.help');
+    Route::get('lunch/satisfaction_print/{id}','LunchStudentController@satisfaction_print')->name('lunch_satisfactions.print');
+
+
 
 
     Route::get('lunch_setups', 'LunchSetupController@index')->name('lunch_setups.index');

@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use App\LunchCheck;
 use App\LunchOrder;
 use App\LunchOrderDate;
+use App\LunchSatisfaction;
+use App\LunchSatisfactionClass;
 use App\LunchSetup;
 use App\LunchStuDate;
 use App\LunchStuOrder;
+use App\LunchTeaDate;
 use App\SemesterStudent;
 use App\YearClass;
 use Carbon\Carbon;
@@ -25,12 +28,40 @@ class LunchStudentController extends Controller
     {
         //目前是哪一個學期
         $semester = get_semester();
+
+        //判斷是否為級任老師
+        $tea_class = check_tea();
+
+        //是否為管理者
+        $admin = check_admin(3);
+
+        if($tea_class['is_tea']==0 and $admin==0){
+            $words = "你不是級任老師或管理員！";
+            return view('layouts.error',compact('words'));
+        }
+
+
+
+        if($tea_class['is_tea']){
+            //級任把班級記錄在session
+            session(['class_id'=>$tea_class['class_id']]);
+        }
+
+        if($admin){
+            if(empty(session('class_id'))){
+                session(['class_id'=>'101']);
+            }
+        }
+
+        $class_id=(session('class_id'))?session('class_id'):$tea_class['class_id'];
+
         //查該班送出訂單了沒，如果有，轉至edit
         $check_order = LunchStuOrder::where('semester', $semester)
-            ->where('student_num', 'like', session('class_id') . '%')
+            ->where('student_num', 'like',  $class_id.'%')
             ->first();
+
         if (!empty($check_order->id)) {
-            return redirect()->route('lunch_students.edit', session('class_id'));
+            return redirect()->route('lunch_students.edit');
         }else{
             return redirect()->route('lunch_students.create');
         }
@@ -47,33 +78,13 @@ class LunchStudentController extends Controller
         //目前是哪一個學期
         $semester = get_semester();
 
+        //判斷是否為級任老師
+        $tea_class = check_tea();
+
         //是否為管理者
         $admin = check_admin(3);
-        if($admin){
-            $year_class = YearClass::where('semester','=',$semester)
-                ->where('year_class','=',session('class_id'))
-                ->first();
-        }else{
-            //判斷是否為級任老師
-            $year_class = YearClass::where('semester','=',$semester)
-                ->where('user_id','=',auth()->user()->id)
-                ->first();
-        }
-        if($year_class) {
-            $class_name = $year_class->name;
-            $year_class_id = $year_class->id;
-            $class_id = $year_class->year_class;
-            $is_tea = "1";
-            session(['class_id' => $class_id]);
-        }else{
-            $class_name = "";
-            $year_class_id = "";
-            $class_id = "";
-            $is_tea = "0";
-            session(['class_id' => null]);
-        }
 
-        if($is_tea == "0" and $admin == "0"){
+        if($tea_class['is_tea'] == "0" and $admin == "0"){
             $words = "你不是級任老師或管理員！";
             return view('layouts.error',compact('words'));
         }
@@ -84,6 +95,19 @@ class LunchStudentController extends Controller
             $words = "新學期尚未設定好！";
             return view('layouts.error',compact('words'));
         }
+
+        $year_class = YearClass::where('semester','=',$semester)
+            ->where('year_class','=',session('class_id'))
+            ->first();
+
+
+        if($year_class) {
+            $class_name = $year_class->name;
+            $year_class_id = $year_class->id;
+            $class_id = $year_class->year_class;
+            $is_tea = "1";
+        }
+
 
         $stu_data=[];
         if($year_class_id){
@@ -124,23 +148,15 @@ class LunchStudentController extends Controller
         $student_num = $request->input('student_num');
 
         //這個學期各餐期的id
-        $order_id_array = [];
-        $orders = LunchOrder::where('semester','=',$semester)->orderBy('id')->get();
-        foreach($orders as $order){
-            $order_id_array[$order->name] =$order->id;
-        }
+        $order_id_array = get_lunch_order_array($semester);
+        //key value 互換
+        $order_array_id = array_flip($order_id_array);
 
         //每個餐期供餐情況
-        $order_dates=[];
-        $lunch_order_dates = LunchOrderDate::where('semester','=',$semester)->get();
-        if($lunch_order_dates) {
-            foreach ($lunch_order_dates as $v) {
-                $order_dates[$v->order_date] = $v->enable;
-            }
-        }
+        $order_dates = get_lunch_order_dates($semester);
+
 
         $year_calss = YearClass::where('semester','=',$semester)->where('year_class','=',$request->input('class_id'))->first();
-
         $create_stu_date = [];
         $create_stu_order = [];
         foreach($order_dates as $k=>$v) {
@@ -151,7 +167,7 @@ class LunchStudentController extends Controller
                     if ($v == "0") $att['enable'] = "not";
                     if ($v == "1") $att['enable'] = "eat";
                     $att['semester'] = $semester;
-                    $att['lunch_order_id'] = $order_id_array[substr($k, 0, 7)];
+                    $att['lunch_order_id'] = $order_array_id[substr($k, 0, 7)];
                     $att['student_id'] = $semester_student->student_id;
                     $att['class_id'] = $request->input('class_id');
                     $att['num'] = $semester_student->num;
@@ -282,13 +298,16 @@ class LunchStudentController extends Controller
 
     public function change_tea(Request $request)
     {
-        session(['class_id' => $request->input('class_id')]);
+        $admin = check_admin(3);
+        if($admin){
+            session(['class_id' => $request->input('class_id')]);
 
-        if($request->input('page') == "order"){
-            return redirect()->route('lunch_students.index');
-        }
-        if($request->input('page') == "back"){
-            return redirect()->route('lunch_students.back');
+            if($request->input('page') == "order"){
+                return redirect()->route('lunch_students.index');
+            }
+            if($request->input('page') == "back"){
+                return redirect()->route('lunch_students.back');
+            }
         }
 
     }
@@ -300,28 +319,29 @@ class LunchStudentController extends Controller
 
         //是否為管理者
         $admin = check_admin(3);
-        if($admin){
-            $year_class = YearClass::where('semester','=',$semester)
-                ->where('year_class','=',session('class_id'))
-                ->first();
-        }else{
-            //判斷是否為級任老師
-            $year_class = YearClass::where('semester','=',$semester)
-                ->where('user_id','=',auth()->user()->id)
-                ->first();
+
+        //判斷是否為級任老師
+        $tea_class = check_tea();
+
+        if($tea_class['is_tea'] == "0" and $admin == "0"){
+            $words = "你不是級任老師或管理員！";
+            return view('layouts.error',compact('words'));
         }
+
+
+        $year_class = YearClass::where('semester','=',$semester)
+            ->where('year_class','=',session('class_id'))
+            ->first();
+
+
         if($year_class) {
-            $class_name = $year_class->name;
-            $year_class_id = $year_class->id;
             $class_id = $year_class->year_class;
             $is_tea = "1";
             session(['class_id' => $class_id]);
         }else{
-            $class_name = "";
-            $year_class_id = "";
             $class_id = "";
             $is_tea = "0";
-            session(['class_id' => null]);
+            //session(['class_id' => null]);
         }
 
         if($is_tea == "0" and $admin == "0"){
@@ -460,38 +480,25 @@ class LunchStudentController extends Controller
         $admin = check_admin(3);
 
         //判斷是否為級任老師
-        $year_class = YearClass::where('semester','=',$semester)
-            ->where('user_id','=',auth()->user()->id)
-            ->first();
+        $tea_class = check_tea();
 
-        if($year_class) {
-            $class_name = $year_class->name;
-            $class_id = $year_class->year_class;
-        }else{
-            $class_name = "";
-            $class_id = "";
+        if($tea_class['is_tea'] == "0" and $admin == "0"){
+            $words = "你不是級任老師或管理員！";
+            return view('layouts.error',compact('words'));
         }
 
-        if($class_id=="" and $admin == "0"){
-            $words = "你不是級任老師，也不是管理員！";
-            return view('errors.errors',compact('words'));
-        }
-        $lunch_order_dates = LunchOrderDate::where('semester',$semester)
-            ->where('enable','1')
-            ->get();
-        foreach($lunch_order_dates as $lunch_order_date){
-            $order_dates[$lunch_order_date->order_date] = $lunch_order_date->order_date;
+        $lunch_order_dates = get_lunch_order_dates($semester);
+
+        foreach($lunch_order_dates as $k=>$v){
+            if($v == 1){
+                $order_dates[$k] = $k;
+            }
         }
 
-        $order_id_array = [];
-        $orders = LunchOrder::where('semester','=',$semester)->orderBy('id')->get();
-        foreach($orders as $order){
-            $order_id_array[$order->name] =$order->id;
-        }
         $checks=[];
         $checks = LunchCheck::where('semester','=',$semester)
             ->where('user_id','=',auth()->user()->id)
-            ->where('class_id','=',$class_id)
+            ->where('class_id','=',session('class_id'))
             ->orderBy('order_date','DESC')
             ->get();
 
@@ -505,11 +512,9 @@ class LunchStudentController extends Controller
 
         $data = [
             'semester' => $semester,
-            'class_name'=>$class_name,
-            'class_id' =>$class_id,
+            'class_id' =>session('class_id'),
             'admin' =>$admin,
             'order_dates'=>$order_dates,
-            'order_id_array'=>$order_id_array,
             'checks'=>$checks,
             'admin_checks'=>$admin_checks,
         ];
@@ -600,5 +605,277 @@ class LunchStudentController extends Controller
             'semester'=>$semester,
         ];
         return view('lunch_students.check_print',$data);
+    }
+
+    public function satisfaction()
+    {
+        //目前是哪一個學期
+        $semester = get_semester();
+
+        //是否為管理者
+        $admin = check_admin(3);
+
+        //判斷是否為級任老師
+        $tea_class = check_tea();
+
+        if($tea_class['is_tea'] == "0" and $admin == "0"){
+            $words = "你不是級任老師或管理員！";
+            return view('layouts.error',compact('words'));
+        }
+
+
+        $satisfactions = LunchSatisfaction::all();
+
+        $data = [
+            'admin' =>$admin,
+            'class_id' =>session('class_id'),
+            'semester' => $semester,
+            'satisfactions' => $satisfactions,
+        ];
+        return view('lunch_students.satisfaction',$data);
+    }
+
+    public function satisfaction_store(Request $request)
+    {
+        LunchSatisfaction::create($request->all());
+        return redirect()->route('lunch_satisfactions.index');
+    }
+
+    public function satisfaction_destroy(LunchSatisfaction $satisfaction)
+    {
+        LunchSatisfactionClass::where('lunch_satisfaction_id','=',$satisfaction->id)
+            ->delete();
+        $satisfaction->delete();
+        return redirect()->route('lunch_satisfactions.index');
+    }
+
+    public function satisfaction_show(LunchSatisfaction $satisfaction)
+    {
+
+        //判斷是否為級任老師
+        $tea_class = check_tea();
+
+        if($tea_class['is_tea'] == "0"){
+            $words = "你不是級任老師！";
+            return view('layouts.error',compact('words'));
+        }
+
+        $student_people = LunchStuOrder::where('semester','=',$satisfaction->semester)
+            ->where('student_num','like',$tea_class['class_id'].'%')
+            ->where('eat_style','!=','3')
+            ->count();
+
+        $tea = LunchTeaDate::where('semester','=',$satisfaction->semester)
+            ->where('user_id','=',auth()->user()->id)
+            ->where('enable','=','eat')
+            ->first();
+        if(!empty($tea)){
+            $tea_people = 1;
+        }else{
+            $tea_people = 0;
+        }
+
+        $class_people = $student_people + $tea_people;
+
+        $data = [
+            'satisfaction'=>$satisfaction,
+            'class_id' =>$tea_class['class_id'],
+            'class_people'=>$class_people,
+        ];
+        return view('lunch_students.satisfaction_show',$data);
+    }
+
+    public function satisfaction_show_store(Request $request)
+    {
+        $has_done = LunchSatisfactionClass::where('lunch_satisfaction_id','=',$request->input('lunch_satisfaction_id'))
+            ->where('class_id','=',$request->input('class_id'))
+            ->count();
+
+        if($has_done > 0){
+            $words = "該班填寫過了！";
+            return view('layouts.error',compact('words'));
+        }
+
+        LunchSatisfactionClass::create($request->all());
+        return redirect()->route('lunch_satisfactions.index');
+    }
+
+    public function satisfaction_show_answer(LunchSatisfaction $satisfaction)
+    {
+
+        //判斷是否為級任老師
+        $tea_class = check_tea();
+
+        if($tea_class['is_tea'] == "0"){
+            $words = "你不是級任老師！";
+            return view('layouts.error',compact('words'));
+        }
+
+        $satisfaction_class = LunchSatisfactionClass::where('lunch_satisfaction_id','=',$satisfaction->id)
+            ->where('class_id','=',$tea_class['class_id'])
+            ->first();
+
+        $total =
+            $satisfaction_class->q1_1+
+            $satisfaction_class->q1_2+
+            $satisfaction_class->q1_3+
+            $satisfaction_class->q1_4+
+            $satisfaction_class->q1_5+
+            $satisfaction_class->q2_1+
+            $satisfaction_class->q2_2+
+            $satisfaction_class->q3_1+
+            $satisfaction_class->q3_2+
+            $satisfaction_class->q3_3+
+            $satisfaction_class->q3_4+
+            $satisfaction_class->q3_5+
+            $satisfaction_class->q3_6+
+            $satisfaction_class->q3_7+
+            $satisfaction_class->q3_8+
+            $satisfaction_class->q3_9+
+            $satisfaction_class->q3_10+
+            $satisfaction_class->q4_1+
+            $satisfaction_class->q4_2;
+
+        $data = [
+            'satisfaction_class'=>$satisfaction_class,
+            'total'=>$total,
+        ];
+        return view('lunch_students.satisfaction_show_answer',$data);
+    }
+
+    public function satisfaction_help(LunchSatisfaction $satisfaction){
+        //是否為管理者
+        $admin = check_admin(3);
+        if($admin == "0"){
+            $words = "你不是管理員！";
+            return view('layouts.error',compact('words'));
+        }
+
+        $satisfaction_class_data = LunchSatisfactionClass::where('lunch_satisfaction_id','=',$satisfaction->id)->get();
+        foreach($satisfaction_class_data as $s_c){
+            $has_done[$s_c->class_id] = 1;
+        }
+
+
+        $classes = YearClass::where('semester','=',$satisfaction->semester)->get();
+        foreach($classes as $class_data){
+            if(!isset($has_done[$class_data->year_class])){
+                $student_people = LunchStuOrder::where('semester','=',$satisfaction->semester)
+                    ->where('student_num','like',$class_data->year_class.'%')
+                    ->where('eat_style','!=','3')
+                    ->count();
+
+                $tea = LunchTeaDate::where('semester','=',$satisfaction->semester)
+                    ->where('user_id','=',$class_data->user_id)
+                    ->where('enable','=','eat')
+                    ->first();
+                if(!empty($tea)){
+                    $tea_people = 1;
+                }else{
+                    $tea_people = 0;
+                }
+
+                $class_people = $student_people + $tea_people;
+
+                $att['class_people'] = $class_people;
+                $att['q1_1'] = "3";
+                $att['q1_2'] = "3";
+                $att['q1_3'] = "3";
+                $att['q1_4'] = "3";
+                $att['q1_5'] = "3";
+                $att['q2_1'] = "7";
+                $att['q2_2'] = "7";
+                $att['q3_1'] = "6";
+                $att['q3_2'] = "6";
+                $att['q3_3'] = "6";
+                $att['q3_4'] = "6";
+                $att['q3_5'] = "6";
+                $att['q3_6'] = "6";
+                $att['q3_7'] = "6";
+                $att['q3_8'] = "6";
+                $att['q3_9'] = "6";
+                $att['q3_10'] = "6";
+                $att['q4_1'] = "5";
+                $att['q4_2'] = "6";
+                $att['class_id'] = $class_data->year_class;
+                $att['user_id'] = $class_data->user_id;
+                $att['lunch_satisfaction_id'] = $satisfaction->id;
+                LunchSatisfactionClass::create($att);
+            }
+        }
+
+        return redirect()->route('lunch_satisfactions.index');
+
+    }
+
+    public function satisfaction_print($id){
+        $satisfaction_classes_data = LunchSatisfactionClass::where('lunch_satisfaction_id','=',$id)
+            ->orderBy('class_id')
+            ->get();
+        $favority = "";
+        $suggest = "";
+        foreach($satisfaction_classes_data as $satisfaction_class_data){
+            $class_data[$satisfaction_class_data->class_id]['semester'] = $satisfaction_class_data->lunch_satisfaction->semester;
+            $class_data[$satisfaction_class_data->class_id]['class_id'] = $satisfaction_class_data->class_id;
+            $class_data[$satisfaction_class_data->class_id]['class_people'] = $satisfaction_class_data->class_people;
+            $class_data[$satisfaction_class_data->class_id]['q1_1'] = $satisfaction_class_data->q1_1;
+            $class_data[$satisfaction_class_data->class_id]['q1_2'] = $satisfaction_class_data->q1_2;
+            $class_data[$satisfaction_class_data->class_id]['q1_3'] = $satisfaction_class_data->q1_3;
+            $class_data[$satisfaction_class_data->class_id]['q1_4'] = $satisfaction_class_data->q1_4;
+            $class_data[$satisfaction_class_data->class_id]['q1_5'] = $satisfaction_class_data->q1_5;
+            $class_data[$satisfaction_class_data->class_id]['q2_1'] = $satisfaction_class_data->q2_1;
+            $class_data[$satisfaction_class_data->class_id]['q2_2'] = $satisfaction_class_data->q2_2;
+            $class_data[$satisfaction_class_data->class_id]['q3_1'] = $satisfaction_class_data->q3_1;
+            $class_data[$satisfaction_class_data->class_id]['q3_2'] = $satisfaction_class_data->q3_2;
+            $class_data[$satisfaction_class_data->class_id]['q3_3'] = $satisfaction_class_data->q3_3;
+            $class_data[$satisfaction_class_data->class_id]['q3_4'] = $satisfaction_class_data->q3_4;
+            $class_data[$satisfaction_class_data->class_id]['q3_5'] = $satisfaction_class_data->q3_5;
+            $class_data[$satisfaction_class_data->class_id]['q3_6'] = $satisfaction_class_data->q3_6;
+            $class_data[$satisfaction_class_data->class_id]['q3_7'] = $satisfaction_class_data->q3_7;
+            $class_data[$satisfaction_class_data->class_id]['q3_8'] = $satisfaction_class_data->q3_8;
+            $class_data[$satisfaction_class_data->class_id]['q3_9'] = $satisfaction_class_data->q3_9;
+            $class_data[$satisfaction_class_data->class_id]['q3_10'] = $satisfaction_class_data->q3_10;
+            $class_data[$satisfaction_class_data->class_id]['q4_1'] = $satisfaction_class_data->q4_1;
+            $class_data[$satisfaction_class_data->class_id]['q4_2'] = $satisfaction_class_data->q4_2;
+            $class_data[$satisfaction_class_data->class_id]['total'] =
+                $class_data[$satisfaction_class_data->class_id]['q1_1']+
+                $class_data[$satisfaction_class_data->class_id]['q1_2']+
+                $class_data[$satisfaction_class_data->class_id]['q1_3']+
+                $class_data[$satisfaction_class_data->class_id]['q1_4']+
+                $class_data[$satisfaction_class_data->class_id]['q1_5']+
+                $class_data[$satisfaction_class_data->class_id]['q2_1']+
+                $class_data[$satisfaction_class_data->class_id]['q2_2']+
+                $class_data[$satisfaction_class_data->class_id]['q3_1']+
+                $class_data[$satisfaction_class_data->class_id]['q3_2']+
+                $class_data[$satisfaction_class_data->class_id]['q3_3']+
+                $class_data[$satisfaction_class_data->class_id]['q3_4']+
+                $class_data[$satisfaction_class_data->class_id]['q3_5']+
+                $class_data[$satisfaction_class_data->class_id]['q3_6']+
+                $class_data[$satisfaction_class_data->class_id]['q3_7']+
+                $class_data[$satisfaction_class_data->class_id]['q3_8']+
+                $class_data[$satisfaction_class_data->class_id]['q3_9']+
+                $class_data[$satisfaction_class_data->class_id]['q3_10']+
+                $class_data[$satisfaction_class_data->class_id]['q4_1']+
+                $class_data[$satisfaction_class_data->class_id]['q4_2'];
+            $class_data[$satisfaction_class_data->class_id]['favority'] = $satisfaction_class_data->favority;
+            if(!empty($satisfaction_class_data->favority))  $favority .= $satisfaction_class_data->favority."<br>";
+            $class_data[$satisfaction_class_data->class_id]['suggest'] = $satisfaction_class_data->suggest;
+            if(!empty($satisfaction_class_data->suggest)) $suggest .= $satisfaction_class_data->suggest."<br>";
+
+            if(empty($satisfaction_class_data->user_id)){
+                $class_data[$satisfaction_class_data->class_id]['teacher'] = "";
+            }else{
+                $class_data[$satisfaction_class_data->class_id]['teacher'] = $satisfaction_class_data->user->name;
+            }
+            $semester = $satisfaction_class_data->lunch_satisfaction->semester;
+        }
+        $data =[
+            'class_data'=>$class_data,
+            'semester' =>$semester,
+            'favority' => $favority,
+            'suggest' => $suggest,
+        ];
+
+        return view('lunch_students.satisfaction_show_print',$data);
     }
 }

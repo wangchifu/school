@@ -11,7 +11,7 @@
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="{{ route('lunch_checks.index') }}">各班問題反應</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">滿意度調查</a>
+            <a class="dropdown-item" href="{{ route('lunch_satisfactions.index') }}">滿意度調查</a>
         </div>
     </li>
     <li class="nav-item dropdown">
@@ -27,11 +27,15 @@
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">報表輸出</a>
         <div class="dropdown-menu">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <a class="dropdown-item" href="#">Something else here</a>
+            <a class="dropdown-item" href="{{ route('lunch_reports.for_factory') }}" target="_blank">給廠商報表</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Separated link</a>
+            <a class="dropdown-item" href="#">教師訂餐報表</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">學生訂餐報表</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">給出納報表</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">給主計報表</a>
         </div>
     </li>
     <li class="nav-item">
