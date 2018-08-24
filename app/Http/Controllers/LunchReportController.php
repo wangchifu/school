@@ -19,12 +19,15 @@ class LunchReportController extends Controller
 
         //key value 互換 key是id
         $lunch_orders = array_flip($order_id_array);
-
-        $lunch_order_id = (empty($request->input('select_order_id'))) ? $lunch_orders[substr(date('Y-m'), 0, 7)] : $request->input('select_order_id');
-
+        if(!empty($lunch_orders)) {
+            $lunch_order_id = (empty($request->input('select_order_id'))) ? $lunch_orders[substr(date('Y-m'), 0, 7)] : $request->input('select_order_id');
+        }else{
+            $lunch_order_id="";
+        }
         $order_dates = get_lunch_order_dates($semester);
 
         $i = 0;
+        $this_order_dates=[];
         foreach ($order_dates as $k => $v) {
             if ($v == 1 and substr($k, 0, 7) == $order_id_array[$lunch_order_id]) {
                 $this_order_dates[$i] = $k;
@@ -78,6 +81,7 @@ class LunchReportController extends Controller
 
         $stu_orders_array = LunchStuOrder::where('eat_style','<>','3')
             ->orderBy('student_num')->get();
+        $stu_default = [];
         foreach($stu_orders_array as $stu_order){
             if($stu_order->out_in != "in") {
                 if (!isset($stu_default[substr($stu_order->student_num, 0, 3)]['m'])) $stu_default[substr($stu_order->student_num, 0, 3)]['m'] = 0;
