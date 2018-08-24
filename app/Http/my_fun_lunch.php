@@ -4,6 +4,7 @@
 if (! function_exists('get_order_id_array')) {
     function get_lunch_order_array($semester){
         $orders = \App\LunchOrder::where('semester','=',$semester)->orderBy('id')->get();
+        $order_id_array=[];
         foreach($orders as $order){
             $order_id_array[$order->id] =$order->name;
         }
@@ -15,6 +16,7 @@ if (! function_exists('get_order_id_array')) {
 if(! function_exists('get_lunch_order_dates')){
     function get_lunch_order_dates($semester){
         $lunch_order_dates = \App\LunchOrderDate::where('semester','=',$semester)->get();
+        $order_dates=[];
         if($lunch_order_dates) {
             foreach ($lunch_order_dates as $v) {
                 $order_dates[$v->order_date] = $v->enable;
