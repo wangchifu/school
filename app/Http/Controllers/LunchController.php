@@ -32,6 +32,13 @@ class LunchController extends Controller
      */
     public function create($semester)
     {
+        //查新學期設好了沒
+        $check_new_semester = LunchOrderDate::where('semester','=',$semester)->first();
+        if(empty($check_new_semester)){
+            $words = "新學期尚未設定好！";
+            return view('layouts.error',compact('words'));
+        }
+
         //此學期的每一天
         $semester_dates = get_semester_dates($semester);
         $order_dates = LunchOrderDate::where('semester',$semester)->get();

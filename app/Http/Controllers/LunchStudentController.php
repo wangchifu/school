@@ -323,6 +323,14 @@ class LunchStudentController extends Controller
         //判斷是否為級任老師
         $tea_class = check_tea();
 
+        //查新學期設好了沒
+        $check_new_semester = LunchOrderDate::where('semester','=',$semester)->first();
+        if(empty($check_new_semester)){
+            $words = "新學期尚未設定好！";
+            return view('layouts.error',compact('words'));
+        }
+
+
         if($tea_class['is_tea'] == "0" and $admin == "0"){
             $words = "你不是級任老師或管理員！";
             return view('layouts.error',compact('words'));
@@ -484,6 +492,13 @@ class LunchStudentController extends Controller
 
         if($tea_class['is_tea'] == "0" and $admin == "0"){
             $words = "你不是級任老師或管理員！";
+            return view('layouts.error',compact('words'));
+        }
+
+        //查新學期設好了沒
+        $check_new_semester = LunchOrderDate::where('semester','=',$semester)->first();
+        if(empty($check_new_semester)){
+            $words = "新學期尚未設定好！";
             return view('layouts.error',compact('words'));
         }
 
