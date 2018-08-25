@@ -3,7 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LunchSetupRequest;
+use App\LunchOrder;
+use App\LunchOrderDate;
+use App\LunchSatisfaction;
 use App\LunchSetup;
+use App\LunchStuDate;
+use App\LunchStuOrder;
+use App\LunchTeaDate;
 use Illuminate\Http\Request;
 
 class LunchSetupController extends Controller
@@ -138,8 +144,16 @@ class LunchSetupController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(LunchSetup $lunch_setup)
     {
-        //
+        $semester = $lunch_setup->semester;
+        LunchOrder::where('semester',$semester)->delete();
+        LunchOrderDate::where('semester',$semester)->delete();
+        LunchTeaDate::where('semester',$semester)->delete();
+        LunchStuOrder::where('semester',$semester)->delete();
+        LunchStuDate::where('semester',$semester)->delete();
+        LunchSatisfaction::where('semester',$semester)->delete();
+        $lunch_setup->delete();
+        return redirect()->route('lunch_setups.index');
     }
 }

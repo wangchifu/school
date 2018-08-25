@@ -35,9 +35,29 @@ class LunchController extends Controller
         //此學期的每一天
         $semester_dates = get_semester_dates($semester);
         $order_dates = LunchOrderDate::where('semester',$semester)->get();
+        $get = 0;
         foreach($order_dates as $order_date){
+            //取第一個enable =1 的供餐日
+            if($order_date->enable==1 and $get!=1){
+                $first_enable_date = $order_date->order_date;
+                $get = 1;
+            }
             $order_date_data[$order_date->order_date] = $order_date->enable;
         }
+
+
+        //最後停止日期
+        $lunch_setup = LunchSetup::where('semester',$semester)->first();
+        $die_line = $lunch_setup->die_line;
+        $dt = Carbon::createFromFormat('Y-m-d', $first_enable_date)->subDays($die_line)->toDateTimeString();
+        $die_date = str_replace('-','',substr($dt,0,10));
+        if($lunch_setup->tea_open==null) {
+            if (date('Ymd') > $die_date) {
+                $words = "已過訂餐日期限，忘記訂餐請洽管理員！";
+                return view('layouts.error', compact('words'));
+            }
+        }
+
         $lunch_setup = LunchSetup::where('semester',$semester)->first();
         $places = explode(',',$lunch_setup->place);
         $factories = explode(',',$lunch_setup->factory);
