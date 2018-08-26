@@ -11,6 +11,18 @@ use Illuminate\Http\Request;
 
 class LunchSpecialController extends Controller
 {
+    public function _construct()
+    {
+        //目前是哪一個學期
+        $semester = get_semester();
+
+        //查新學期設好了沒
+        $check_new_semester = LunchOrderDate::where('semester','=',$semester)->first();
+        if(empty($check_new_semester)){
+            $words = "新學期尚未設定好！";
+            return view('layouts.error',compact('words'));
+        }
+    }
     public function fill_tea()
     {
         //是否為管理者

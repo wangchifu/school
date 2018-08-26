@@ -118,8 +118,17 @@ class LunchReportController extends Controller
             $words = "你不是管理員！";
             return view('layouts.error',compact('words'));
         }
+
         //目前是哪一個學期
         $semester = get_semester();
+
+        //查新學期設好了沒
+        $check_new_semester = LunchOrderDate::where('semester','=',$semester)->first();
+        if(empty($check_new_semester)){
+            $words = "新學期尚未設定好！";
+            return view('layouts.error',compact('words'));
+        }
+
 
         //id當key
         $orders = get_lunch_order_array($semester);
@@ -176,6 +185,15 @@ class LunchReportController extends Controller
         }
         //目前是哪一個學期
         $semester = get_semester();
+
+
+        //查新學期設好了沒
+        $check_new_semester = LunchOrderDate::where('semester','=',$semester)->first();
+        if(empty($check_new_semester)){
+            $words = "新學期尚未設定好！";
+            return view('layouts.error',compact('words'));
+        }
+
 
         //id當key
         $orders = get_lunch_order_array($semester);
@@ -261,6 +279,13 @@ class LunchReportController extends Controller
         }
         //目前是哪一個學期
         $semester = get_semester();
+
+        //查新學期設好了沒
+        $check_new_semester = LunchOrderDate::where('semester','=',$semester)->first();
+        if(empty($check_new_semester)){
+            $words = "新學期尚未設定好！";
+            return view('layouts.error',compact('words'));
+        }
 
         //id當key
         $orders = get_lunch_order_array($semester);
