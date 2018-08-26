@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 
 class LunchSpecialController extends Controller
 {
-    public function _construct()
+    public function __construct()
     {
         //目前是哪一個學期
         $semester = get_semester();
