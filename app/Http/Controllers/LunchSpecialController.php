@@ -177,7 +177,7 @@ class LunchSpecialController extends Controller
         $semester = get_semester();
         //供餐日期
         $lunch_order_dates = get_lunch_order_dates($semester);
-        date_data=[];
+        $date_data=[];
         foreach($lunch_order_dates as $k=>$v){
             if($v==1){
                 $date_data[$k] = $k;
