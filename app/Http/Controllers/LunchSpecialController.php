@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\LunchOrderDate;
 use App\LunchStuDate;
 use App\LunchStuOrder;
 use App\LunchTeaDate;
@@ -12,18 +11,7 @@ use Illuminate\Http\Request;
 
 class LunchSpecialController extends Controller
 {
-    public function __construct()
-    {
-        //目前是哪一個學期
-        $semester = get_semester();
 
-        //查新學期設好了沒
-        $check_new_semester = LunchOrderDate::where('semester','=',$semester)->first();
-        if(empty($check_new_semester)){
-            $words = "新學期尚未設定好！";
-            return view('layouts.error',compact('words'));
-        }
-    }
     public function fill_tea()
     {
         //是否為管理者
@@ -50,6 +38,7 @@ class LunchSpecialController extends Controller
             ->where('enable','1')
             ->get();
         //教師選單
+        $teachers=[];
         foreach($tea_dates as $tea_date){
             $teachers[$tea_date->user_id] = $tea_date->user->name;
         }
@@ -100,6 +89,7 @@ class LunchSpecialController extends Controller
             ->where('enable','1')
             ->get();
         //教師選單
+        $teachers=[];
         foreach($tea_dates as $tea_date){
             $teachers[$tea_date->user_id] = $tea_date->user->name;
         }
@@ -187,6 +177,7 @@ class LunchSpecialController extends Controller
         $semester = get_semester();
         //供餐日期
         $lunch_order_dates = get_lunch_order_dates($semester);
+        date_data=[];
         foreach($lunch_order_dates as $k=>$v){
             if($v==1){
                 $date_data[$k] = $k;
