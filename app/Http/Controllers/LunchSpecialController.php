@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\LunchOrderDate;
 use App\LunchStuDate;
 use App\LunchStuOrder;
 use App\LunchTeaDate;
