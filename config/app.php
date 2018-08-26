@@ -276,6 +276,8 @@ return [
     'lunch_page'=>[
         'teacher',
         'student',
+        'special',
+        'report',
         'setup',
     ],
 ];

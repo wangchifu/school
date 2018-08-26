@@ -105,7 +105,7 @@
                 <tbody>
                 @foreach($order_data as $k1=>$v1)
                     @if($k1 == "201" or $k1 == "301" or $k1 == "401" or $k1 == "501" or $k1 == "601")
-                        <tr class="bg-primary">
+                        <tr>
                             <th>班級</th>
                             @foreach($this_order_dates as $k=>$v)
                                 <th colspan="2">{{ substr($v,5,5) }}</th>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\LunchSetup;
 use App\LunchStuDate;
 use App\LunchStuOrder;
 use App\LunchTeaDate;
@@ -106,5 +107,200 @@ class LunchReportController extends Controller
             'stu_default' => $stu_default,
         ];
         return view('lunch_reports.for_factory', $data);
+    }
+
+
+    public function tea_everyday(Request $request)
+    {
+        //是否為管理者
+        $admin = check_admin(3);
+        if($admin == "0"){
+            $words = "你不是管理員！";
+            return view('layouts.error',compact('words'));
+        }
+        //目前是哪一個學期
+        $semester = get_semester();
+
+        //id當key
+        $orders = get_lunch_order_array($semester);
+        //月份當key
+        $orders2 = array_flip($orders);
+
+        $this_mon = date('Y-m');
+        $this_order_id = $orders2[$this_mon];
+        //選取的月份id
+        $order_id = (empty($request->input('order_id'))) ? $this_order_id : $request->input('order_id');
+
+        //選取的月份
+        $mon = $orders[$order_id];
+
+        $o_order_dates = get_lunch_order_dates($semester);
+        $i = 0;
+        //訂餐日期array
+        foreach ($o_order_dates as $k => $v) {
+            if (substr($k, 0, 7) == $mon and $v == 1) {
+                $order_dates[$i] = $k;
+                $i++;
+            }
+        }
+        //訂餐者資料
+        $user_datas = [];
+        $order_datas = LunchTeaDate::where('lunch_order_id', '=', $order_id)
+            ->orderBy('place','ASC')
+            ->orderBy('user_id')
+            ->get();
+        foreach ($order_datas as $order_data) {
+            $user_datas[$order_data->user->name][$order_data->order_date]['enable'] = $order_data->enable;
+            $user_datas[$order_data->user->name][$order_data->order_date]['eat_style'] = $order_data->eat_style;
+            $user_datas[$order_data->user->name][$order_data->order_date]['place'] = $order_data->place;
+        }
+
+        $data = [
+            'this_order_id' => $this_order_id,
+            'mon' => $mon,
+            'orders' => $orders,
+            'semester' => $request->input('semester'),
+            'order_dates' => $order_dates,
+            'user_datas' => $user_datas,
+        ];
+        return view('lunch_reports.tea_everyday', $data);
+    }
+
+    public function tea_money(Request $request)
+    {
+        //是否為管理者
+        $admin = check_admin(3);
+        if($admin == "0"){
+            $words = "你不是管理員！";
+            return view('layouts.error',compact('words'));
+        }
+        //目前是哪一個學期
+        $semester = get_semester();
+
+        //id當key
+        $orders = get_lunch_order_array($semester);
+        //月份當key
+        $orders2 = array_flip($orders);
+
+        $this_mon = date('Y-m');
+        $this_order_id = $orders2[$this_mon];
+        //選取的月份id
+        $order_id = (empty($request->input('order_id'))) ? $this_order_id : $request->input('order_id');
+
+        //選取的月份
+        $mon = $orders[$order_id];
+
+
+        $order_datas = LunchTeaDate::where('semester', '=', $semester)
+            ->where('lunch_order_id',$order_id)
+            ->orderBy('place','ASC')
+            ->orderBy('user_id')
+            ->get();
+
+        $user_datas = [];
+        foreach ($order_datas as $order_data) {
+            if ($order_data->enable == "1") {
+                if( !isset($user_datas[$order_data->user->name])) $user_datas[$order_data->user->name]=null;
+                $user_datas[$order_data->user->name]++;
+            }
+        }
+
+        $setup = LunchSetup::where('semester',$semester)->first();
+        $tea_money = $setup->tea_money;
+
+
+        $data = [
+            'this_order_id' => $this_order_id,
+            'order_id'=>$order_id,
+            'mon' => $mon,
+            'orders' => $orders,
+            'semester' => $request->input('semester'),
+            'user_datas' => $user_datas,
+            'tea_money' => $tea_money,
+        ];
+        return view('lunch_reports.tea_money', $data);
+    }
+
+    public function tea_money_print($order_id)
+    {
+        //目前是哪一個學期
+        $semester = get_semester();
+
+        $order_datas = LunchTeaDate::where('semester',$semester)
+            ->where('lunch_order_id', '=', $order_id)
+            ->orderBy('place','ASC')
+            ->orderBy('user_id')
+            ->get();
+
+        $user_datas = [];
+        foreach ($order_datas as $order_data) {
+            if ($order_data->enable == "1") {
+                if(!isset($user_datas[$order_data->user->name][substr($order_data->order_date, 0, 7)])) $user_datas[$order_data->user->name][substr($order_data->order_date, 0, 7)]=null;
+                $user_datas[$order_data->user->name][substr($order_data->order_date, 0, 7)]++;
+            }
+        }
+
+        $setup = LunchSetup::where('semester',$semester)->first();
+        $tea_money = $setup->tea_money;
+
+        $data = [
+            'semester'=>$semester,
+            'user_datas' => $user_datas,
+            'tea_money' => $tea_money
+        ];
+        return view('lunch_reports.tea_money_print', $data);
+    }
+
+    public function stu(Request $request)
+    {
+        //是否為管理者
+        $admin = check_admin(3);
+        if($admin == "0"){
+            $words = "你不是管理員！";
+            return view('layouts.error',compact('words'));
+        }
+        //目前是哪一個學期
+        $semester = get_semester();
+
+        //id當key
+        $orders = get_lunch_order_array($semester);
+        //月份當key
+        $orders2 = array_flip($orders);
+        $this_mon = date('Y-m');
+        $this_order_id = $orders2[$this_mon];
+
+
+        //選取的月份id
+        $order_id = (empty($request->input('order_id'))) ? $this_order_id : $request->input('order_id');
+
+        //選取的月份
+        $mon = $orders[$order_id];
+
+
+        $setup = LunchSetup::where('semester',$semester)->first();
+        if($setup->stud_money=="0" and $setup->stud_back_money=="0" and $setup->support_part_money=="0"){
+            //若為全補助
+            $stu_dates = LunchStuDate::where('lunch_order_id',$order_id)
+                ->where('enable','eat')
+                ->get();
+            foreach($stu_dates as $stu_date){
+                if(!isset($stu_data[$stu_date->class_id])) {
+                    $stu_data[$stu_date->class_id] = 0;
+                }
+                    $stu_data[$stu_date->class_id]++;
+            }
+        }else{
+            //部分補助
+        }
+
+        $data = [
+            'this_order_id' => $this_order_id,
+            'order_id'=>$order_id,
+            'mon' => $mon,
+            'orders' => $orders,
+            'stu_data'=>$stu_data,
+        ];
+        return view('lunch_reports.stu',$data);
+
     }
 }

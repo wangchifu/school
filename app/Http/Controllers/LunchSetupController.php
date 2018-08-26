@@ -22,6 +22,11 @@ class LunchSetupController extends Controller
     public function index()
     {
         $admin = check_admin(3);
+        if($admin == "0"){
+            $words = "你不是管理員！";
+            return view('layouts.error',compact('words'));
+        }
+
 
         $lunch_setups = LunchSetup::orderBy('semester','DESC')
             ->paginate(10);

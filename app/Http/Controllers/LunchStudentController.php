@@ -366,11 +366,6 @@ class LunchStudentController extends Controller
             return view('layouts.error',compact('words'));
         }
 
-        if($setup->disable == "1") {
-            $words = "本學期學生已停止退餐！！";
-            return view('layouts.error', compact('words'));
-        }
-
         //餐期選單
         $order_id_array = [];
         $array_order_id=[];
@@ -448,6 +443,15 @@ class LunchStudentController extends Controller
 
         //目前是哪一個學期
         $semester = get_semester();
+
+        //是否停止學生退餐了
+        $setup = LunchSetup::where('semester',$semester)
+            ->first();
+        if($setup->disable == "1") {
+            $words = "本學期學生已停止退餐！！";
+            return view('layouts.error', compact('words'));
+        }
+
 
         //最後停止日期
         $lunch_setup = LunchSetup::where('semester',$semester)->first();
