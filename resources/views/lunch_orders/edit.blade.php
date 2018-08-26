@@ -9,7 +9,6 @@
     <h3 class="text-danger">若有訂餐資料了，請勿再更動，請洽系統管理員！！</h3>
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('index') }}">首頁</a></li>
             <li class="breadcrumb-item">午餐系統</li>
             <li class="breadcrumb-item"><a href="{{ route('lunch_setups.index') }}">午餐設定</a></li>
             <li class="breadcrumb-item">供餐日修改</li>

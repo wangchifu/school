@@ -8,7 +8,6 @@
     <h1><i class="fas fa-utensils"></i> 午餐設定</h1>
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('index') }}">首頁</a></li>
             <li class="breadcrumb-item">午餐系統</li>
             <li class="breadcrumb-item active" aria-current="page">午餐設定</li>
         </ol>

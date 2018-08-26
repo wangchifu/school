@@ -8,8 +8,8 @@
     <h1><i class="fas fa-utensils"></i> 各班問題反應</h1>
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('index') }}">首頁</a></li>
             <li class="breadcrumb-item">午餐系統</li>
+            <li class="breadcrumb-item">學生訂餐管理</li>
             <li class="breadcrumb-item active" aria-current="page">各班問題反應</li>
         </ol>
     </nav>
