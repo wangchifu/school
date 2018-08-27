@@ -121,7 +121,7 @@
                         <hr>
                     @endforeach
                     <input type="hidden" name="semester" value="{{ $semester }}">
-                    <a href="#" class="btn btn-success" onclick="bbconfirm_Form('store','你確定你的訂餐日？')">確定送出</a>
+                    <a href="#" class="btn btn-success" id="b_submit" onclick="bbconfirm_Form('store','你確定你的訂餐日？請不要F5重新整理！避免重複訂餐！')">確定送出</a>
 
                 </div>
             </div>
@@ -129,4 +129,9 @@
         </div>
     </div>
 </div>
+<script>
+    $("#b_submit").click(function(){
+        $("#b_submit").hide();
+    });
+</script>
 @endsection
