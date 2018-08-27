@@ -78,7 +78,8 @@
                                 {{ count( $lunch_tea_orders) }} 次
                             </td>
                             <td>
-                                {{ count( $lunch_tea_orders) * $lunch_setup->tea_money }} 元
+                                {{ round(count( $lunch_tea_orders) * $lunch_setup->tea_money) }} 元
+                                <small>({{ count( $lunch_tea_orders) * $lunch_setup->tea_money }})</small>
                             </td>
                         </tr>
                     <?php

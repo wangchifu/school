@@ -53,8 +53,10 @@ foreach($user_datas as $k1 => $v1){
                 ";
                 }
                 $total_money = $tea_money * $count;
-                $cht_monty = num2str($total_money);
-                $total_money2 = number_format($total_money);
+
+                $total_money2 = round($total_money);
+
+                $cht_monty = num2str($total_money2);
       $table .="
                 </table>
                 </td>

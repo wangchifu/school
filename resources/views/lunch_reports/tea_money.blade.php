@@ -33,7 +33,7 @@
             <table class="table table-bordered">
                 <thead>
                 <tr class="bg-primary">
-                    <th>姓名</th><th>訂餐日數</th><th>收費</th>
+                    <th>姓名</th><th>訂餐日數</th><th>小計</th><th>收費</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -49,12 +49,18 @@
                         <td>
                             {{ $v*$tea_money }}
                         </td>
+                        <td>
+                            {{ round($v*$tea_money) }}
+                        </td>
                     </tr>
-                    <?php $i+=$v*$tea_money; $num++;?>
+                    <?php $i+=round($v*$tea_money); $num++;?>
                 @endforeach
                 <tr>
                     <td>
                         合計
+                    </td>
+                    <td>
+
                     </td>
                     <td>
 

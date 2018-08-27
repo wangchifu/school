@@ -11,6 +11,17 @@ use Illuminate\Http\Request;
 
 class LunchReportController extends Controller
 {
+    public function factory()
+    {
+        //是否為管理者
+        $admin = check_admin(3);
+        if($admin == "0"){
+            $words = "你不是管理員！";
+            return view('layouts.error',compact('words'));
+        }
+
+        return view('lunch_reports.factory');
+    }
     public function for_factory(Request $request)
     {
         //目前是哪一個學期

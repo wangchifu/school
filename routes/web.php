@@ -314,9 +314,21 @@ Route::group(['middleware' => 'auth'],function() {
     Route::post('lunch_specials/change_stu_begin_store','LunchSpecialController@change_stu_begin_store')->name('lunch_specials.change_stu_begin_store');
     Route::get('lunch_specials/change_one_stu','LunchSpecialController@change_one_stu')->name('lunch_specials.change_one_stu');
     Route::post('lunch_specials/change_one_stu_store','LunchSpecialController@change_one_stu_store')->name('lunch_specials.change_one_stu_store');
+    Route::get('lunch_specials/back_one_stu','LunchSpecialController@back_one_stu')->name('lunch_specials.back_one_stu');
+    Route::post('lunch_specials/back_one_stu_store','LunchSpecialController@back_one_stu_store')->name('lunch_specials.back_one_stu_store');
+    Route::get('lunch_specials/back_one_class','LunchSpecialController@back_one_class')->name('lunch_specials.back_one_class');
+    Route::post('lunch_specials/back_one_class_store','LunchSpecialController@back_one_class_store')->name('lunch_specials.back_one_class_store');
+    Route::get('lunch_specials/back_one_year','LunchSpecialController@back_one_year')->name('lunch_specials.back_one_year');
+    Route::post('lunch_specials/back_one_year_store','LunchSpecialController@back_one_year_store')->name('lunch_specials.back_one_year_store');
+    Route::get('lunch_specials/back_one_year_no_money','LunchSpecialController@back_one_year_no_money')->name('lunch_specials.back_one_year_no_money');
+    Route::post('lunch_specials/back_one_year_no_money_store','LunchSpecialController@back_one_year_no_money_store')->name('lunch_specials.back_one_year_no_money_store');
+    Route::get('lunch_specials/back_all_school','LunchSpecialController@back_all_school')->name('lunch_specials.back_all_school');
+    Route::post('lunch_specials/back_all_school_store','LunchSpecialController@back_all_school_store')->name('lunch_specials.back_all_school_store');
+
 
 
     //報表
+    Route::any('lunch/report_factory','LunchReportController@factory')->name('lunch_reports.factory');
     Route::any('lunch_reports/tea_everyday','LunchReportController@tea_everyday')->name('lunch_reports.tea_everyday');
     Route::any('lunch_reports/tea_money','LunchReportController@tea_money')->name('lunch_reports.tea_money');
     Route::get('lunch_reports/{order_id}/tea_money_print','LunchReportController@tea_money_print')->name('lunch_reports.tea_money_print');

@@ -27,29 +27,31 @@
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="{{ route('lunch_specials.change_one_stu') }}">單一學生更改葷素</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">x單一學生退訂餐</a>
+            <a class="dropdown-item" href="{{ route('lunch_specials.back_one_stu') }}">單一學生退訂餐</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">x班級單日退餐退費</a>
+            <a class="dropdown-item" href="{{ route('lunch_specials.back_one_class') }}">班級單日退餐退費</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">x學年單日退餐退費</a>
+            <a class="dropdown-item" href="{{ route('lunch_specials.back_one_year') }}">學年單日退餐退費</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">x學年單日退餐不退費</a>
+            <a class="dropdown-item" href="{{ route('lunch_specials.back_one_year_no_money') }}">學年單日退餐不退費</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">x全校教職員生退餐退費</a>
+            <a class="dropdown-item" href="{{ route('lunch_specials.back_all_school') }}">全校教職員生退餐退費</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">轉出生處理</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">轉入生處理</a>
         </div>
     </li>
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle {{ $active['report'] }}" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">報表輸出</a>
         <div class="dropdown-menu">
-            <a class="dropdown-item" href="{{ route('lunch_reports.for_factory') }}" target="_blank">給廠商報表</a>
+            <a class="dropdown-item" href="{{ route('lunch_reports.factory') }}">給廠商報表</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="{{ route('lunch_reports.tea_everyday') }}">教職逐日訂餐報表</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="{{ route('lunch_reports.tea_money') }}">教職收費單</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="{{ route('lunch_reports.stu') }}">學生訂餐報表</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">x給出納報表</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="#">x給主計報表</a>
         </div>
