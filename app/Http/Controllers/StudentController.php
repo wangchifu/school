@@ -80,30 +80,58 @@ class StudentController extends Controller
                         }
                         if (substr($YearClass->year_class, 0, 1) == 2){
                             $year_class['二年級']++;
-                            $year_stud['二年級'] += $YearClass->semester_students->count();
+                            foreach($YearClass->semester_students as $semester_student){
+                                if($semester_student->at_school==1){
+                                    $year_stud['二年級']++;
+                                }
+                            }
                         }
                         if (substr($YearClass->year_class, 0, 1) == 3){
                             $year_class['三年級']++;
-                            $year_stud['三年級'] += $YearClass->semester_students->count();
+                            foreach($YearClass->semester_students as $semester_student){
+                                if($semester_student->at_school==1){
+                                    $year_stud['三年級']++;
+                                }
+                            }
                         }
                         if (substr($YearClass->year_class, 0, 1) == 4){
                             $year_class['四年級']++;
-                            $year_stud['四年級'] += $YearClass->semester_students->count();
+                            foreach($YearClass->semester_students as $semester_student){
+                                if($semester_student->at_school==1){
+                                    $year_stud['四年級']++;
+                                }
+                            }
                         }
                         if (substr($YearClass->year_class, 0, 1) == 5){
                             $year_class['五年級']++;
-                            $year_stud['五年級'] += $YearClass->semester_students->count();
+                            foreach($YearClass->semester_students as $semester_student){
+                                if($semester_student->at_school==1){
+                                    $year_stud['五年級']++;
+                                }
+                            }
                         }
                         if (substr($YearClass->year_class, 0, 1) == 6){
                             $year_class['六年級']++;
-                            $year_stud['六年級'] += $YearClass->semester_students->count();
+                            foreach($YearClass->semester_students as $semester_student){
+                                if($semester_student->at_school==1){
+                                    $year_stud['六年級']++;
+                                }
+                            }
                         }
                         if (substr($YearClass->year_class, 0, 1) == 9){
                             $year_class['特教班']++;
-                            $year_stud['特教班'] += $YearClass->semester_students->count();
+                            foreach($YearClass->semester_students as $semester_student){
+                                if($semester_student->at_school==1){
+                                    $year_stud['特教班']++;
+                                }
+                            }
                         }
                         $year_class['總共']++;
-                        $year_stud['總共'] += $YearClass->semester_students->count();
+                        foreach($YearClass->semester_students as $semester_student){
+                            if($semester_student->at_school==1){
+                                $year_stud['總共']++;
+                            }
+                        }
                         $num = 0;
                         $boy = 0;
                         $girl = 0;
