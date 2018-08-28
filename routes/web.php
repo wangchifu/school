@@ -324,7 +324,12 @@ Route::group(['middleware' => 'auth'],function() {
     Route::post('lunch_specials/back_one_year_no_money_store','LunchSpecialController@back_one_year_no_money_store')->name('lunch_specials.back_one_year_no_money_store');
     Route::get('lunch_specials/back_all_school','LunchSpecialController@back_all_school')->name('lunch_specials.back_all_school');
     Route::post('lunch_specials/back_all_school_store','LunchSpecialController@back_all_school_store')->name('lunch_specials.back_all_school_store');
-
+    //轉出生處理
+    Route::get('lunch_specials/out_stu','LunchSpecialController@out_stu')->name('lunch_specials.out_stu');
+    Route::post('lunch_specials/out_stu_store','LunchSpecialController@out_stu_store')->name('lunch_specials.out_stu_store');
+    //轉入生處理
+    Route::get('lunch_specials/in_stu','LunchSpecialController@in_stu')->name('lunch_specials.in_stu');
+    Route::post('lunch_specials/in_stu_store','LunchSpecialController@in_stu_store')->name('lunch_specials.in_stu_store');
 
 
     //報表

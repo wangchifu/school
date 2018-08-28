@@ -37,9 +37,9 @@
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="{{ route('lunch_specials.back_all_school') }}">全校教職員生退餐退費</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">轉出生處理</a>
+            <a class="dropdown-item" href="{{ route('lunch_specials.out_stu') }}">轉出生處理</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">轉入生處理</a>
+            <a class="dropdown-item" href="{{ route('lunch_specials.in_stu') }}">轉入生處理</a>
         </div>
     </li>
     <li class="nav-item dropdown">

@@ -251,6 +251,7 @@ class LunchStudentController extends Controller
             $stu_data[substr($stu->student_num,3,2)]['name'] = $stu->student->name;
             $stu_data[substr($stu->student_num,3,2)]['sex'] = $stu->student->sex;
             $stu_data[substr($stu->student_num,3,2)]['id'] = $stu->student->id;
+            $stu_data[substr($stu->student_num,3,2)]['out_in'] = $stu->out_in;
         }
 
         $class_orders = LunchStuOrder::where('semester','=',$semester)

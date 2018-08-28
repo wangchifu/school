@@ -22,7 +22,7 @@ class CreateLunchStuDates extends Migration
             $table->unsignedInteger('student_id');
             $table->unsignedInteger('class_id');
             $table->string('num');
-            $table->unsignedInteger('p_id');//101一般,201~210弱勢,301轉入,401轉出
+            $table->unsignedInteger('p_id');//101一般,201~210弱勢,轉入加98，如98101,轉出加99，如99201
             $table->unsignedInteger('eat_style');
             $table->timestamps();
         });

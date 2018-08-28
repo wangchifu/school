@@ -42,9 +42,13 @@
             @elseif($v['sex']==2)
                 <?php $color="text-danger";$icon="girl.gif"; ?>
             @endif
+            <?php
+            $out = ($v['out_in'] == "out")?"<span class='btn btn-warning btn-sm'>轉出</span>":"";
+            $in = ($v['out_in'] == "in")?"<span class='btn btn-info btn-sm'>轉入</span>":"";
+            ?>
             <tr>
                 <td>{{ $k }}</td>
-                <td><img src="{{ asset('img/'.$icon) }}"><span class="{{ $color }}">{{ $v['name'] }}</span></td>
+                <td><img src="{{ asset('img/'.$icon) }}"><span class="{{ $color }}">{{ $v['name'] }}</span>{!! $out !!}{!! $in !!}</td>
                 <td>
                     @if($order_data[$v['id']]['eat_style']=="1")
                         <span class="btn btn-danger btn-sm" >葷食</span><img src="{{ asset('img/meat.png') }}" width="16">

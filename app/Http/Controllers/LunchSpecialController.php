@@ -6,6 +6,7 @@ use App\LunchStuDate;
 use App\LunchStuOrder;
 use App\LunchTeaDate;
 use App\SemesterStudent;
+use App\Student;
 use App\YearClass;
 use Illuminate\Http\Request;
 
@@ -455,5 +456,195 @@ class LunchSpecialController extends Controller
             ->update($att2);
 
         return redirect()->route('lunch_specials.back_all_school');
+    }
+
+    public function out_stu()
+    {
+        //是否為管理者
+        $admin = check_admin(3);
+        if($admin == "0"){
+            $words = "你不是管理員！";
+            return view('layouts.error',compact('words'));
+        }
+
+
+        //目前是哪一個學期
+        $semester = get_semester();
+        //供餐日期
+        $lunch_order_dates = get_lunch_order_dates($semester);
+        $date_data=[];
+        foreach($lunch_order_dates as $k=>$v){
+            if($v==1){
+                $date_data[$k] = $k;
+            }
+        }
+
+        $data = [
+            'date_data'=>$date_data,
+        ];
+        return view('lunch_specials.out_stu',$data);
+    }
+
+    public function out_stu_store(Request $request)
+    {
+        //目前是哪一個學期
+        $semester = get_semester();
+
+        $order_date = $request->input('order_date');
+
+        $class_num = $request->input('class_num');
+        $select_class = substr($class_num,0,3);
+        $year_class = YearClass::where('semester',$semester)
+            ->where('year_class',$select_class)
+            ->first();
+        $year_class_id = $year_class->id;
+        $this_student = SemesterStudent::where('year_class_id',$year_class_id)
+            ->where('num',substr($class_num,3,2))
+            ->first();
+        $student_id = $this_student->student_id;
+
+        //學期轉出
+        $semester_student = SemesterStudent::where('semester',$semester)
+            ->where('student_id',$student_id)->first();
+        $att['at_school'] = "0";
+        $semester_student->update($att);
+
+        //處理午餐
+        $stu_order = LunchStuOrder::where('semester',$semester)
+            ->where('student_id',$student_id)
+            ->first();
+        $att2['p_id'] = "99".$stu_order->p_id;
+        $att2['enable'] = "abs";
+        LunchStuDate::where('semester',$semester)
+            ->where('student_id',$student_id)
+            ->where('order_date','>=',$order_date)
+            ->update($att2);
+
+        //轉出標記
+        $att3['out_in'] = "out";
+        $att3['change_date'] = $order_date;
+        $stu_order = LunchStuOrder::where('semester',$semester)
+            ->where('student_id',$student_id)
+            ->first();
+        $stu_order->update($att3);
+
+
+        return redirect()->route('lunch_specials.out_stu');
+    }
+
+    public function in_stu()
+    {
+        //是否為管理者
+        $admin = check_admin(3);
+        if($admin == "0"){
+            $words = "你不是管理員！";
+            return view('layouts.error',compact('words'));
+        }
+
+
+        //目前是哪一個學期
+        $semester = get_semester();
+        //供餐日期
+        $lunch_order_dates = get_lunch_order_dates($semester);
+        $date_data=[];
+        foreach($lunch_order_dates as $k=>$v){
+            if($v==1){
+                $date_data[$k] = $k;
+            }
+        }
+
+        $data = [
+            'date_data'=>$date_data,
+        ];
+        return view('lunch_specials.in_stu',$data);
+    }
+
+    public function in_stu_store(Request $request)
+    {
+        //目前是哪一個學期
+        $semester = get_semester();
+
+        $order_date = $request->input('order_date');
+
+        //班級代碼
+        $year_class = YearClass::where('semester',$semester)
+            ->where('year_class',substr($request->input('class_num'),0,3))
+            ->first();
+
+        //查有學生資料嗎
+        $student = Student::where('sn', '=', $request->input('sn'))
+            ->first();
+        if (!empty($student)) {
+            //有無學期資料了
+            $semester_student = SemesterStudent::where('semester', '=', $semester)
+                ->where('student_id', '=', $student->id)
+                ->first();
+            //若無，就新增學期資料
+            if (empty($semester_student)) {
+                $att['semester'] = $semester;
+                $att['student_id'] = $student->id;
+                $att['year_class_id'] = $year_class->id;
+                $att['num'] = substr($request->input('class_num'), 3, 2);
+                $att['at_school'] = "1";
+                SemesterStudent::create($att);
+            }
+            $student_id = $student->id;
+
+        } else {
+            //沒學生資料，就增加
+            $att2['sn'] = $request->input('sn');
+            $att2['name'] = $request->input('name');
+            $att2['sex'] = $request->input('sex');
+            //新增學生
+            $add_student = Student::create($att2);
+
+            //新增此學期資料
+            $att3['semester'] = $semester;
+            $att3['student_id'] = $add_student->id;
+            $att3['year_class_id'] = $year_class->id;
+            $att3['num'] = substr($request->input('class_num'), 3, 2);
+            $att3['at_school'] = "1";
+            SemesterStudent::create($att3);
+            $student_id = $add_student->id;
+        }
+
+        //新增訂餐資料
+        $order_dates = get_lunch_order_dates($semester);
+        $order_id_array = get_lunch_order_array($semester);
+        $order_array_id = array_flip($order_id_array);
+
+        $att4['semester'] = $semester;
+        $att4['student_id'] = $student_id;
+        $att4['student_num'] = $request->input('class_num');
+        $att4['eat_style'] = $request->input('eat_style');
+        $att4['p_id'] = $request->input('p_id');
+        $att4['out_in'] = "in";
+        $att4['change_date'] = $order_date;
+        LunchStuOrder::create($att4);
+
+        foreach($order_dates as $k=>$v){
+            $att5['order_date'] = $k;
+
+            if($v==0){
+                $att5['enable'] = "not";
+            }elseif($v==1){
+                if($k < $order_date){
+                    $att5['enable'] = "no_eat";
+                }else{
+                    $att5['enable'] = "eat";
+                }
+            }
+
+            $att5['semester'] = $semester;
+            $att5['lunch_order_id'] = $order_array_id[substr($k,0,7)];
+            $att5['student_id'] = $student_id;
+            $att5['class_id'] = substr($request->input('class_num'),0,3);
+            $att5['num'] = substr($request->input('class_num'),3,2);
+            $att5['eat_style'] = $request->input('eat_style');
+            $att5['p_id'] = $request->input('p_id');
+
+            LunchStuDate::create($att5);
+        }
+        return redirect()->route('lunch_specials.in_stu');
     }
 }

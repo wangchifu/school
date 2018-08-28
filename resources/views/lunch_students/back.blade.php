@@ -57,10 +57,18 @@
             @foreach($stu_data as $k1=>$v1)
             <tr>
                 <td nowrap>
+                    <?php
+                        $out = ($v1['out_in'] == "out")?"<span class='btn btn-warning btn-sm'>轉出</span>":"";
+                        $in = ($v1['out_in'] == "in")?"<span class='btn btn-info btn-sm'>轉入</span>":"";
+                    ?>
                     @if($v1['sex']==1)
                         {{ $k1 }} <span class="text-primary">{{ $v1['name'] }}</span>
+                        {!! $out !!}
+                        {!! $in !!}
                     @elseif($v1['sex']==2)
                         {{ $k1 }} <span class="text-danger">{{ $v1['name'] }}</span>
+                        {!! $out !!}
+                        {!! $in !!}
                     @endif
 
                 </td>
