@@ -71,7 +71,12 @@ class StudentController extends Controller
                     if ($YearClass->semester == $semester) {
                         if (substr($YearClass->year_class, 0, 1) == 1){
                             $year_class['一年級']++;
-                            $year_stud['一年級'] += $YearClass->semester_students->count();
+                            foreach($YearClass->semester_students as $semester_student){
+                                if($semester_student->at_school==1){
+                                    $year_stud['一年級']++;
+                                }
+                            }
+                            //$year_stud['一年級'] += $YearClass->semester_students->count();
                         }
                         if (substr($YearClass->year_class, 0, 1) == 2){
                             $year_class['二年級']++;

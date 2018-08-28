@@ -53,6 +53,8 @@
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="{{ route('lunch_reports.stu') }}">學生訂餐報表</a>
             <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">x學生身份統計</a>
+            <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="#">x給主計報表</a>
         </div>
     </li>
