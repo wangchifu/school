@@ -34,7 +34,7 @@
                     @if(!empty($calendar_data[$calendar_week->id][$k]))
                         <?php $i=1; ?>
                         @foreach($calendar_data[$calendar_week->id][$k] as $k=>$v)
-                            <small class="text-dark">{{ $i }}.{{ $v['content'] }}</small>
+                            <small class="text-dark">{{ $i }}.{{ $v['content'] }}</small><br>
                             <?php $i++; ?>
                         @endforeach
                     @endif

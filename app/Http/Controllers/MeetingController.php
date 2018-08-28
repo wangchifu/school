@@ -67,7 +67,9 @@ class MeetingController extends Controller
 
         $has_report = 0;
         foreach($reports as $report){
-            $has_report = (auth()->user()->id == $report->user_id)?"1":"0";
+            if($has_report==0) {
+                $has_report = (auth()->user()->id == $report->user_id) ? "1" : "0";
+            }
         }
 
         $open_date = str_replace('-','',$meeting->open_date);
