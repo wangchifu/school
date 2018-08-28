@@ -31,7 +31,7 @@
                     <div class="card my-4">
                         <h3 class="card-header">
                             {{ $i }}.{{ $report->job_title }}
-                            @if($has_report == "1" and $report->user_id = auth()->user()->id and $die_line =="0")
+                            @if($has_report == "1" and $report->user_id == auth()->user()->id and $die_line =="0")
                                 <a href="{{ route('meetings_reports.edit',$report->id) }}" class="btn btn-info btn-sm"><i class="fas fa-edit"></i> 修改</a>
                                 <a href="#" class="btn btn-danger btn-sm" onclick="bbconfirm_Form('delete{{ $report->id }}','當真要刪除？')"><i class="fas fa-trash"></i> 刪除</a>
                                 {{ Form::open(['route' => ['meetings_reports.destroy',$report->id], 'method' => 'DELETE','id'=>'delete'.$report->id,'onsubmit'=>'return false;']) }}
