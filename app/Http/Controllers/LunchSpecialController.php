@@ -647,4 +647,64 @@ class LunchSpecialController extends Controller
         }
         return redirect()->route('lunch_specials.in_stu');
     }
+
+    public function num_stu()
+    {
+        //是否為管理者
+        $admin = check_admin(3);
+        if($admin == "0"){
+            $words = "你不是管理員！";
+            return view('layouts.error',compact('words'));
+        }
+
+
+        return view('lunch_specials.num_stu');
+    }
+
+    public function num_stu_store(Request $request)
+    {
+        //是否為管理者
+        $admin = check_admin(3);
+        if($admin == "0"){
+            $words = "你不是管理員！";
+            return view('layouts.error',compact('words'));
+        }
+
+
+        //目前是哪一個學期
+        $semester = get_semester();
+        $sn = $request->input('sn');
+        $student_num = $request->input('student_num');
+        $name = $request->input('name');
+
+        $student = Student::where('sn',$sn)
+            ->where('name',$name)
+            ->first();
+
+
+        if(!empty($student->id)){
+            $student_id = $student->id;
+            $att1['num'] = substr($student_num,3,2);
+            SemesterStudent::where('semester',$semester)
+                ->where('student_id',$student_id)
+                ->update($att1);
+
+            $att2['student_num'] = $student_num;
+            LunchStuOrder::where('semester',$semester)
+                ->where('student_id',$student_id)
+                ->update($att2);
+
+            $att3['num'] = substr($student_num,3,2);
+            LunchStuDate::where('semester',$semester)
+                ->where('student_id',$student_id)
+                ->update($att3);
+
+        }else{
+            $words = "查無此人！";
+            return view('layouts.error',compact('words'));
+        }
+
+        return redirect()->route('lunch_specials.num_stu');
+
+    }
 }

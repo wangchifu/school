@@ -40,6 +40,8 @@
             <a class="dropdown-item" href="{{ route('lunch_specials.out_stu') }}">轉出生處理</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="{{ route('lunch_specials.in_stu') }}">轉入生處理</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="{{ route('lunch_specials.num_stu') }}">學生更改座號</a>
         </div>
     </li>
     <li class="nav-item dropdown">
@@ -53,9 +55,7 @@
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="{{ route('lunch_reports.stu') }}">學生訂餐報表</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">x學生身份統計</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">x給主計報表</a>
+            <a class="dropdown-item" href="{{ route('lunch_reports.stu_p_id') }}">學生身份統計</a>
         </div>
     </li>
     <li class="nav-item">

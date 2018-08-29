@@ -340,4 +340,57 @@ class LunchReportController extends Controller
         return view('lunch_reports.stu',$data);
 
     }
+
+    public function stu_p_id()
+    {
+        //是否為管理者
+        $admin = check_admin(3);
+        if($admin == "0"){
+            $words = "你不是管理員！";
+            return view('layouts.error',compact('words'));
+        }
+        //目前是哪一個學期
+        $semester = get_semester();
+        $stu_p_ids = LunchStuOrder::where('semester',$semester)
+            ->where('eat_style','!=','3')
+            ->get();
+        //dd($stu_p_ids);
+        $stu_p_id_data = [];
+        foreach($stu_p_ids as $stu_p_id){
+            $class_id = substr($stu_p_id->student_num,0,3);
+            if($stu_p_id->out_in != "out"){
+                if(!isset($stu_p_id_data[$class_id]['s101'])) $stu_p_id_data[$class_id]['s101'] = 0;
+                if(!isset($stu_p_id_data[$class_id]['s201'])) $stu_p_id_data[$class_id]['s201'] = 0;
+                if(!isset($stu_p_id_data[$class_id]['s202'])) $stu_p_id_data[$class_id]['s202'] = 0;
+                if(!isset($stu_p_id_data[$class_id]['s203'])) $stu_p_id_data[$class_id]['s203'] = 0;
+                if(!isset($stu_p_id_data[$class_id]['s204'])) $stu_p_id_data[$class_id]['s204'] = 0;
+                if(!isset($stu_p_id_data[$class_id]['s205'])) $stu_p_id_data[$class_id]['s205'] = 0;
+                if(!isset($stu_p_id_data[$class_id]['s206'])) $stu_p_id_data[$class_id]['s206'] = 0;
+                if(!isset($stu_p_id_data[$class_id]['s207'])) $stu_p_id_data[$class_id]['s207'] = 0;
+                if(!isset($stu_p_id_data[$class_id]['s208'])) $stu_p_id_data[$class_id]['s208'] = 0;
+                if(!isset($stu_p_id_data[$class_id]['s209'])) $stu_p_id_data[$class_id]['s209'] = 0;
+                if(!isset($stu_p_id_data[$class_id]['s210'])) $stu_p_id_data[$class_id]['s210'] = 0;
+                if($stu_p_id->p_id==101) $stu_p_id_data[$class_id]['s101']++;
+                if($stu_p_id->p_id==201) $stu_p_id_data[$class_id]['s201']++;
+                if($stu_p_id->p_id==202) $stu_p_id_data[$class_id]['s202']++;
+                if($stu_p_id->p_id==203) $stu_p_id_data[$class_id]['s203']++;
+                if($stu_p_id->p_id==204) $stu_p_id_data[$class_id]['s204']++;
+                if($stu_p_id->p_id==205) $stu_p_id_data[$class_id]['s205']++;
+                if($stu_p_id->p_id==206) $stu_p_id_data[$class_id]['s206']++;
+                if($stu_p_id->p_id==207) $stu_p_id_data[$class_id]['s207']++;
+                if($stu_p_id->p_id==208) $stu_p_id_data[$class_id]['s208']++;
+                if($stu_p_id->p_id==209) $stu_p_id_data[$class_id]['s209']++;
+                if($stu_p_id->p_id==210) $stu_p_id_data[$class_id]['s210']++;
+            }
+
+        }
+        if(!empty($stu_p_id_data)){
+            ksort($stu_p_id_data);
+        }
+        $data = [
+            'stu_p_id_data'=>$stu_p_id_data,
+        ];
+
+        return view('lunch_reports.stu_p_id',$data);
+    }
 }

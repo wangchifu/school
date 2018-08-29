@@ -330,6 +330,8 @@ Route::group(['middleware' => 'auth'],function() {
     //轉入生處理
     Route::get('lunch_specials/in_stu','LunchSpecialController@in_stu')->name('lunch_specials.in_stu');
     Route::post('lunch_specials/in_stu_store','LunchSpecialController@in_stu_store')->name('lunch_specials.in_stu_store');
+    Route::get('lunch_specials/num_stu','LunchSpecialController@num_stu')->name('lunch_specials.num_stu');
+    Route::post('lunch_specials/num_stu_store','LunchSpecialController@num_stu_store')->name('lunch_specials.num_stu_store');
 
 
     //報表
@@ -338,6 +340,7 @@ Route::group(['middleware' => 'auth'],function() {
     Route::any('lunch_reports/tea_money','LunchReportController@tea_money')->name('lunch_reports.tea_money');
     Route::get('lunch_reports/{order_id}/tea_money_print','LunchReportController@tea_money_print')->name('lunch_reports.tea_money_print');
     Route::any('lunch_reports/stu','LunchReportController@stu')->name('lunch_reports.stu');
+    Route::get('lunch_reports/stu_p_id','LunchReportController@stu_p_id')->name('lunch_reports.stu_p_id');
 
 
 
