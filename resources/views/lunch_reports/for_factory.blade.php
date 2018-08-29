@@ -90,7 +90,7 @@
                         <img src="{{ asset('img/plus.png') }}" width="16">：代表該班導師有訂餐！
                         <table class="table table-bordered">
                             <thead>
-                            <tr>
+                            <tr style="background: #CCEEFF">
                                 <th rowspan="2" nowrap>班級</th>
                                 @foreach($this_order_dates as $k=>$v)
                                     <th colspan="2">{{ substr($v,5,5) }}</th>
@@ -98,14 +98,14 @@
                             </tr>
                 <tr>
                     @foreach($this_order_dates as $k=>$v)
-                        <th>葷</th><th>素</th>
+                        <th style="background: #FFCCCC">葷</th><th style="background: #EEFFBB">素</th>
                     @endforeach
                 </tr>
                 </thead>
                 <tbody>
                 @foreach($order_data as $k1=>$v1)
                     @if($k1 == "201" or $k1 == "301" or $k1 == "401" or $k1 == "501" or $k1 == "601")
-                        <tr>
+                        <tr style="background:#CCEEFF;">
                             <th>班級</th>
                             @foreach($this_order_dates as $k=>$v)
                                 <th colspan="2">{{ substr($v,5,5) }}</th>
@@ -134,23 +134,27 @@
                             }
 
                             if($stu_default[$k1]['m'] != $v1[$v2]['m']){
-                                $bg_m = "red";
-                                $text_m ="white";
+                                $bg_m = "";
+                                $text_m ="red";
+                                $font_weight_m = 900;
                             }else{
                                 $bg_m = "";
                                 $text_m ="";
+                                $font_weight_m = "";
                             }
 
                             if($stu_default[$k1]['g'] != $v1[$v2]['g']){
-                                $bg_g = "green";
-                                $text_g ="white";
+                                $bg_g = "";
+                                $text_g ="greed";
+                                $font_weight_g = 900;
                             }else{
                                 $bg_g = "";
                                 $text_g ="";
+                                $font_weight_g = "";
                             }
 
                             ?>
-                            <td bgcolor="{{ $bg_m }}" style="color:{{ $text_m }}" nowrap>{{ $v1[$v2]['m'] }}<br>{!! $tea_img_m !!}</td><td bgcolor="{{ $bg_g }}" style="color:{{ $text_g }}">{{ $v1[$v2]['g'] }}<br>{!! $tea_img_g !!}</td>
+                            <td bgcolor="{{ $bg_m }}" style="color:{{ $text_m }};font-weight: {{ $font_weight_m }};" nowrap>{{ $v1[$v2]['m'] }}<br>{!! $tea_img_m !!}</td><td bgcolor="{{ $bg_g }}" style="color:{{ $text_g }};font-weight: {{ $font_weight_g }};">{{ $v1[$v2]['g'] }}<br>{!! $tea_img_g !!}</td>
                             <?php
                             $m[$v2] += $v1[$v2]['m'];
                             $g[$v2] += $v1[$v2]['g'];
