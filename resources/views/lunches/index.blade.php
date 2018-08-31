@@ -83,7 +83,7 @@
                             </td>
                         </tr>
                     <?php
-                        $total_money += count( $lunch_tea_orders) * $lunch_setup->tea_money;
+                        $total_money += round(count( $lunch_tea_orders) * $lunch_setup->tea_money);
                     ?>
                 @endforeach
                 </table>

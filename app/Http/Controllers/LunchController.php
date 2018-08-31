@@ -87,6 +87,15 @@ class LunchController extends Controller
      */
     public function store(Request $request)
     {
+        $semester = $request->input('semester');
+        $check_tea = LunchTeaDate::where('semester',$semester)
+            ->where('user_id',auth()->user()->id)
+            ->first();
+        if(!empty($check_tea)){
+            $words = "你已經訂過餐了！";
+            return view('layouts.error', compact('words'));
+        }
+
         $order_date = $request->input('order_date');
         $semester_dates = get_semester_dates($request->input('semester'));
 
