@@ -54,6 +54,11 @@
             </td>
             @foreach($question as $k3=>$v3)
                 <td>
+                    <?php
+                        if(empty($answer[$k2][$v3['id']])){
+                            $answer[$k2][$v3['id']] = null;
+                        }
+                    ?>
                     {!! nl2br($answer[$k2][$v3['id']]) !!}
                 </td>
             @endforeach
