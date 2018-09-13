@@ -53,10 +53,16 @@
         @endif
     </div>
     @endforeach
+
+
+    <button type="reset" class="btn btn-dark btn-sm"><i class="fas fa-undo"></i> 重寫</button>
+    <br>
+    <br>
     <input type="hidden" name="test_id" value="{{ $test->id }}">
     {{ Form::close() }}
     @if(!empty($questions))
     <a href="#" class="btn btn-primary" onclick="bbconfirm_Form('store','確定送出？')"><i class="fas fa-save"></i> 儲存答案</a>
     @endif
 </div>
+
 @endsection
