@@ -31,7 +31,8 @@
     <table class="table table-striped">
         <thead>
         <tr>
-            <th nowrap width="60"> # </th>
+            <th width="10">序</th>
+            <th nowrap width="60">姓名</th>
             <?php $i =1; ?>
             @foreach($question as $k1=>$v1)
                 <th>
@@ -44,8 +45,12 @@
         </tr>
         </thead>
         <tbody>
+        <?php $j=1; ?>
         @foreach($user as $k2=>$v2)
         <tr>
+            <td>
+                {{ $j }}
+            </td>
             <td nowrap>
                 <?php $user = explode('-',$v2); ?>
                 <a href="#" data-container="body" data-toggle="popover" data-placement="bottom" data-content="{{ $user[0]}}">
@@ -63,6 +68,7 @@
                 </td>
             @endforeach
         </tr>
+            <?php $j++; ?>
         @endforeach
         </tbody>
     </table>

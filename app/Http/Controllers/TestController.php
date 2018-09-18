@@ -125,8 +125,13 @@ class TestController extends Controller
             $a = Answer::where('user_id',auth()->user()->id)
                 ->where('question_id',$q->id)
                 ->first();
-            $questions[$q->order_by]['answer'] = $a->answer;
-            $questions[$q->order_by]['answer_id'] = $a->id;
+            $questions[$q->order_by]['answer'] = "";
+            $questions[$q->order_by]['answer_id'] = "";
+            if(!empty($a)){
+                $questions[$q->order_by]['answer'] = $a->answer;
+                $questions[$q->order_by]['answer_id'] = $a->id;
+            }
+
         }
         ksort($questions);
         $data = [

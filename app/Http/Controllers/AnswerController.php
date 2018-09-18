@@ -40,25 +40,32 @@ class AnswerController extends Controller
     {
         $att= [];
         $create = [];
-        foreach($request->input('answer') as $k=>$v){
-            $question = Question::where('id','=',$k)->first();
-            if($question->type =="checkbox"){
-                foreach($v as $k1=>$v1){
-                    $att['answer'] .= $v1.",";
+        if(!empty($request->input('answer'))){
+            foreach($request->input('answer') as $k=>$v){
+                $question = Question::where('id','=',$k)->first();
+                if($question->type =="checkbox"){
+                    $att['answer'] = "";
+                    foreach($v as $k1=>$v1){
+                        $att['answer'] .= $v1.",";
+                    }
+                    $att['answer'] = substr($att['answer'],0,-1);
+                }else{
+                    $att['answer'] = $v;
                 }
-                $att['answer'] = substr($att['answer'],0,-1);
-            }else{
-                $att['answer'] = $v;
+
+                $att['question_id'] = $k;
+                $att['user_id'] = auth()->user()->id;
+                $att['test_id'] = $request->input('test_id');
+                array_push($create,$att);
+
+                $att['answer'] = "";
             }
-
-            $att['question_id'] = $k;
-            $att['user_id'] = auth()->user()->id;
-            $att['test_id'] = $request->input('test_id');
-            array_push($create,$att);
-
-            $att['answer'] = "";
+            Answer::insert($create);
+        }else{
+            $words = "你沒有選任何答案！";
+            return view('layouts.error',compact('words'));
         }
-        Answer::insert($create);
+
 
         return redirect()->route('tests.index');
     }
