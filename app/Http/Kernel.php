@@ -61,5 +61,6 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'admin' => \App\Http\Middleware\AdminMiddleware::class, //管理員中介層
         'exec' => \App\Http\Middleware\ExecMiddleware::class, //行政人員中介層
+        'teach_section' => \App\Http\Middleware\TeachSectionMiddleware::class, //教學組長中介層
     ];
 }

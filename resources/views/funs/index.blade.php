@@ -33,18 +33,7 @@
                 {{ $i }}
                </td>
                <td>
-                   @if($fun->type == "1")
-                       <p class="text-primary">{{ $fun_type[1] }}</p>
-                   @endif
-                   @if($fun->type == "2")
-                       <p class="text-secondary">{{ $fun_type[2] }}</p>
-                   @endif
-                   @if($fun->type == "3")
-                       <p class="text-info">{{ $fun_type[3] }}</p>
-                   @endif
-                   @if($fun->type == "4")
-                       <p class="text-success">{{ $fun_type[3] }}</p>
-                   @endif
+                   {{ $fun_type[$fun->type] }}
                </td>
                <td>
                     {{ $fun->user->name }}({{ $fun->user->username }})

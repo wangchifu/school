@@ -151,6 +151,14 @@ $logo = str_replace('/','&',$logo);
                 @if($check['rewards'])
                   <a class="dropdown-item" href="{{ route('rewards.index') }}"><i class="fas fa-certificate"></i> 學生獎狀</a>
                 @endif
+                @auth
+                  <?php
+                      $teach_section = check_admin(5);
+                  ?>
+                  @if($teach_section)
+                    <a class="dropdown-item" href="{{ route('teach_section.index') }}"><i class="fas fa-user-times"></i> 教學組</a>
+                  @endif
+                @endauth
               </div>
             </li>
               <?php
