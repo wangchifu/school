@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\MonthSetup;
 use App\SubstituteTeacher;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TeachSectionController extends Controller
 {
@@ -67,9 +70,98 @@ class TeachSectionController extends Controller
 
     public function month_setup()
     {
-        return view('teach_sections.month_setup');
+        $semester = get_semester();
+        /*
+        $ms = DB::table('month_setups')
+            ->select(DB::raw('semester'))
+            ->groupBy('semester')
+            ->get();
+        $semesters = [];
+        foreach($ms as $m){
+            $semesters[$m->semester] = $m->semester;
+        }
+        */
+
+        $types=[
+            'winter_summer'=>'寒(暑)假',
+            'holiday'=>'國定假日',
+            'typhoon'=>'颱風假',
+        ];
+
+        $month_setups = MonthSetup::where('semester',$semester)
+            ->orderBy('event_date')
+            ->get();
+
+
+        $data = [
+            'types'=>$types,
+            'semester'=>$semester,
+            //'semesters'=>$semesters,
+            'month_setups'=>$month_setups
+        ];
+        return view('teach_sections.month_setup',$data);
     }
 
+    public function month_setup_store(Request $request)
+    {
+        $start = $request->input('holiday1');
+        $stop = $request->input('holiday2');
+
+        $att['semester'] = $request->input('semester');
+        $att['type'] = $request->input('type');
+        $dt1 =  Carbon::createFromFormat('Y-m-d', $start);
+        $dt2 =  Carbon::createFromFormat('Y-m-d', $stop);
+
+        do{
+            if($dt1->isWeekday()){
+                $att['event_date'] = substr($dt1->toDateTimeString(),0,10);
+                MonthSetup::create($att);
+            }
+            $dt1->addDay();
+        }while($dt2->gte($dt1));
+
+        return redirect()->route('month_setup.index');
+    }
+
+    public function month_setup_store2(Request $request)
+    {
+
+        $att['semester'] = $request->input('semester');
+        $att['type'] = "workday";
+
+        $att['event_date'] = $request->input('workday1');
+        $att['another_date'] = $request->input('workday2');
+
+        MonthSetup::create($att);
+
+        return redirect()->route('month_setup.index');
+    }
+
+    public function month_setup_destroy(MonthSetup $month_setup)
+    {
+        $month_setup->delete();
+        return redirect()->route('month_setup.index');
+    }
+
+    public function c_group()
+    {
+        return view('teach_sections.c_group');
+    }
+
+    public function support()
+    {
+        return view('teach_sections.support');
+    }
+
+    public function taxation()
+    {
+        return view('teach_sections.taxation');
+    }
+
+    public function over()
+    {
+        return view('teach_sections.over');
+    }
 
     public function create()
     {

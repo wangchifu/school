@@ -42,7 +42,7 @@ $logo = str_replace('/','&',$logo);
     <link href="{{ asset('theme/css/scrolling-nav.css') }}" rel="stylesheet">
 
     <!-- icons -->
-    <link href="{{ asset('fontawesome/css/fontawesome-all.css') }}" rel="stylesheet">
+    <link href="{{ asset('fontawesome/css/all.min.css') }}" rel="stylesheet">
 
     <script src="{{ asset('theme/vendor/jquery/jquery.min.js') }}"></script>
 
