@@ -23,6 +23,9 @@
                         類別
                     </td>
                     <td>
+                        鐘點費
+                    </td>
+                    <td>
                         起日
                     </td>
                     <td>
@@ -35,6 +38,9 @@
                     </td>
                     <td>
                         輔導團案
+                    </td>
+                    <td>
+                        <input type="text" name="money" class="form-control">
                     </td>
                     <td>
                         <input id="datepicker1" width="276" name="start_date" value="{{ date('Y-m-d') }}">

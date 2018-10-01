@@ -59,10 +59,10 @@
                     ?>
                     <tr>
                         <td>
-                            {{ $ori_teacher->name }}
+                            {{ $sub_teacher->name }}
                         </td>
                         <td>
-                            {{ $sub_teacher->name }}
+                            {{ $ori_teacher->name }}
                         </td>
                         <td>
                             {{ $ori_sub->ps }}

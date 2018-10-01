@@ -258,15 +258,40 @@ class TeachSectionController extends Controller
         $start_date = $request->input('start_date');
         $stop_date = $request->input('stop_date');
 
+        $money = $request->input('money');
+
         $ori_subs = OriSub::where('semester',$semester)
             ->where('type','c_group')
             ->get();
 
+        foreach($ori_subs as $ori_sub){
+            $dt1 =  Carbon::createFromFormat('Y-m-d', $start_date);
+            $dt2 =  Carbon::createFromFormat('Y-m-d', $stop_date);
+            if(empty($total_sections[$ori_sub->id])) $total_sections[$ori_sub->id] = 0;
+            $sections = unserialize($ori_sub->sections);
+
+            do{
+                $w = get_date_w(substr($dt1->toDateTimeString(),0,10));
+                //當日的每一節是否有課
+                if(!empty($sections[$w])) {
+                    foreach ($sections[$w] as $k => $v) {
+                        if ($v == "on") {
+                            $total_sections[$ori_sub->id]++;
+                        }
+                    }
+                }
+                $dt1->addDay();
+            }while($dt2->gte($dt1));
+
+        }
+
         $data = [
             'semester'=>$semester,
+            'money'=>$money,
             'start_date'=>$start_date,
             'stop_date'=>$stop_date,
             'ori_subs'=>$ori_subs,
+            'total_sections'=>$total_sections,
         ];
 
         return view('teach_sections.c_group_report2',$data);
