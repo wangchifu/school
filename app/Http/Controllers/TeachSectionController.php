@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\MonthSetup;
+use App\OriSub;
 use App\SubstituteTeacher;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -145,8 +147,137 @@ class TeachSectionController extends Controller
 
     public function c_group()
     {
-        return view('teach_sections.c_group');
+        $select_users = User::where('disable',null)
+            ->orderBy('order_by')
+            ->pluck('name','id')
+            ->toArray();
+
+        $semester= get_semester();
+
+        $ori_subs = OriSub::where('semester',$semester)
+            ->get();
+
+        $semester= get_semester();
+
+        $data = [
+            'select_users'=>$select_users,
+            'semester'=>$semester,
+            'ori_subs'=>$ori_subs,
+        ];
+
+        return view('teach_sections.c_group',$data);
     }
+
+    public function c_group_store(Request $request)
+    {
+        $att['semester'] = $request->input('semester');
+        $att['type'] = $request->input('type');
+        $att['ori_teacher'] = $request->input('ori_teacher');
+        $att['sub_teacher'] = $request->input('sub_teacher');
+        $att['ps'] = $request->input('ps');
+
+        $sub1 = $request->input('sub1');
+        $sub2 = $request->input('sub2');
+        $sub3 = $request->input('sub3');
+        $sub4 = $request->input('sub4');
+        $sub5 = $request->input('sub5');
+        $s = 0;
+        for($i=1;$i<8;$i++){
+            if(empty($sub1[$i])){
+                $sub[1][$i] = null;
+            }else{
+                $sub[1][$i] = "on";
+                $s++;
+            }
+        }
+
+        for($i=1;$i<8;$i++){
+            if(empty($sub2[$i])){
+                $sub[2][$i] = null;
+            }else{
+                $sub[2][$i] = "on";
+                $s++;
+            }
+        }
+
+        for($i=1;$i<8;$i++){
+            if(empty($sub3[$i])){
+                $sub[3][$i] = null;
+            }else{
+                $sub[3][$i] = "on";
+                $s++;
+            }
+        }
+
+        for($i=1;$i<8;$i++){
+            if(empty($sub4[$i])){
+                $sub[4][$i] = null;
+            }else{
+                $sub[4][$i] = "on";
+                $s++;
+            }
+        }
+
+        for($i=1;$i<8;$i++){
+            if(empty($sub5[$i])){
+                $sub[5][$i] = null;
+            }else{
+                $sub[5][$i] = "on";
+                $s++;
+            }
+        }
+
+        $att['sections'] = serialize($sub);
+        $att['section'] = $s;
+
+        OriSub::create($att);
+        return redirect()->route('c_group.index');
+    }
+
+    public function c_group_show(OriSub $ori_sub)
+    {
+        $data = [
+            'ori_sub'=>$ori_sub,
+        ];
+
+        return view('teach_sections.c_group_show',$data);
+    }
+
+    public function c_group_report()
+    {
+        $semester= get_semester();
+        $data = [
+            'semester'=>$semester
+        ];
+        return view('teach_sections.c_group_report1',$data);
+    }
+
+    public function c_group_send_report(Request $request)
+    {
+        $semester= get_semester();
+        $start_date = $request->input('start_date');
+        $stop_date = $request->input('stop_date');
+
+        $ori_subs = OriSub::where('semester',$semester)
+            ->where('type','c_group')
+            ->get();
+
+        $data = [
+            'semester'=>$semester,
+            'start_date'=>$start_date,
+            'stop_date'=>$stop_date,
+            'ori_subs'=>$ori_subs,
+        ];
+
+        return view('teach_sections.c_group_report2',$data);
+    }
+
+    public function c_group_delete(OriSub $ori_sub)
+    {
+        $ori_sub->delete();
+        return redirect()->route('c_group.index');
+    }
+
 
     public function support()
     {
