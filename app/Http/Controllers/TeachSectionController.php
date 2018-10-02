@@ -264,6 +264,13 @@ class TeachSectionController extends Controller
             ->where('type','c_group')
             ->get();
 
+        $month_setups = MonthSetup::where('semester',$semester)
+            ->get();
+        foreach($month_setups as $month_setup){
+            $special_date[$month_setup->event_date]['type'] = $month_setup->type;
+            $special_date[$month_setup->event_date]['another_date'] = $month_setup->another_date;
+        }
+
         foreach($ori_subs as $ori_sub){
             $dt1 =  Carbon::createFromFormat('Y-m-d', $start_date);
             $dt2 =  Carbon::createFromFormat('Y-m-d', $stop_date);
@@ -271,15 +278,33 @@ class TeachSectionController extends Controller
             $sections = unserialize($ori_sub->sections);
 
             do{
-                $w = get_date_w(substr($dt1->toDateTimeString(),0,10));
-                //當日的每一節是否有課
-                if(!empty($sections[$w])) {
-                    foreach ($sections[$w] as $k => $v) {
+                $d1 = substr($dt1->toDateTimeString(),0,10);
+                $w = get_date_w($d1);
+                //查看當日是否有上課
+                if(empty($special_date[$d1]['type'])) $special_date[$d1]['type']=null;
+
+                //如果是null...不是winter_summer 及 holiday，就是工作日
+                if($special_date[$d1]['type'] == null ){
+                    //當日的每一節是否有課
+                    if(!empty($sections[$w])) {
+                        foreach ($sections[$w] as $k => $v) {
+                            if ($v == "on") {
+                                $total_sections[$ori_sub->id]++;
+                            }
+                        }
+                    }
+                }
+                //如果是workday補上課日，要補上課的節數
+                if($special_date[$d1]['type'] == 'workday' ){
+                    $another_date = $special_date[$d1]['another_date'];
+                    $w2 = get_date_w($another_date);
+                    foreach ($sections[$w2] as $k => $v) {
                         if ($v == "on") {
                             $total_sections[$ori_sub->id]++;
                         }
                     }
                 }
+
                 $dt1->addDay();
             }while($dt2->gte($dt1));
 

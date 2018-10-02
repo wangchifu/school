@@ -19,6 +19,7 @@ Route::group(['middleware' => 'teach_section'],function(){
     Route::get('c_group/{ori_sub}/delete' , 'TeachSectionController@c_group_delete')->name('c_group.delete');
     Route::get('c_group/report' , 'TeachSectionController@c_group_report')->name('c_group.report');
     Route::post('c_group/send_report' , 'TeachSectionController@c_group_send_report')->name('c_group.send_report');
+    Route::post('c_group/print' , 'TeachSectionController@c_group_print')->name('c_group.print');
 
 
 

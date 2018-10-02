@@ -329,7 +329,7 @@ class LunchReportController extends Controller
         }else{
             //部分補助
         }
-
+        ksort($stu_data);
         $data = [
             'this_order_id' => $this_order_id,
             'order_id'=>$order_id,
