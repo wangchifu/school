@@ -259,6 +259,7 @@ class TeachSectionController extends Controller
         $stop_date = $request->input('stop_date');
 
         $money = $request->input('money');
+        $title = $request->input('title');
 
         $ori_subs = OriSub::where('semester',$semester)
             ->where('type','c_group')
@@ -312,6 +313,7 @@ class TeachSectionController extends Controller
 
         $data = [
             'semester'=>$semester,
+            'title'=>$title,
             'money'=>$money,
             'start_date'=>$start_date,
             'stop_date'=>$stop_date,
@@ -320,6 +322,40 @@ class TeachSectionController extends Controller
         ];
 
         return view('teach_sections.c_group_report2',$data);
+    }
+
+    public function c_group_print(Request $request)
+    {
+        $title = $request->input('title');
+
+        $tea = $request->input('tea');
+        $set_date = $request->input('set_date');
+        $section = $request->input('section');
+        $total_sections = $request->input('total_sections');
+        $money = $request->input('money');
+        $ori_money = $request->input('ori_money');
+        $laubo = $request->input('laubo');
+        $zenbo = $request->input('zenbo');
+        $laute = $request->input('laute');
+        $real_money = $request->input('real_money');
+        $ps = $request->input('ps');
+
+
+        $data = [
+            'title'=>$title,
+            'tea'=>$tea,
+            'set_date'=>$set_date,
+            'section'=>$section,
+            'total_sections'=>$total_sections,
+            'money'=>$money,
+            'ori_money'=>$ori_money,
+            'laubo'=>$laubo,
+            'zenbo'=>$zenbo,
+            'laute'=>$laute,
+            'real_money'=>$real_money,
+            'ps'=>$ps,
+        ];
+        return view('teach_sections.c_group_print',$data);
     }
 
     public function c_group_delete(OriSub $ori_sub)

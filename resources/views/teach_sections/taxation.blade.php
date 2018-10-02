@@ -18,10 +18,10 @@
         <a href="{{ route('month_setup.index') }}" class="btn btn-info">月份設定</a>
         <a href="{{ route('c_group.index') }}" class="btn btn-secondary">輔導團案</a>
         <a href="{{ route('support.index') }}" class="btn btn-secondary">支援教師</a>
-        <a href="{{ route('taxation.index') }}" class="btn btn-secondary active">課稅方案</a>
+        <a href="{{ route('taxation.index') }}" class="btn btn-secondary active">兼課教師</a>
+        <a href="" class="btn btn-secondary">短期代理</a>
         <a href="{{ route('over.index') }}" class="btn btn-secondary">超鐘點案</a>
         <a href="#" class="btn btn-danger">請假排代</a>
-        <a href="#" class="btn btn-primary">報表輸出</a>
     </div>
     <hr>
     <div class="card">

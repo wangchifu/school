@@ -23,6 +23,9 @@
                         類別
                     </td>
                     <td>
+                        報表名稱
+                    </td>
+                    <td width="100">
                         鐘點費
                     </td>
                     <td>
@@ -40,10 +43,13 @@
                         輔導團案
                     </td>
                     <td>
+                        <input type="text" name="title" class="form-control" value="彰化縣和東國民小學107年9月輔導團代課教師鐘點費請領清冊">
+                    </td>
+                    <td>
                         <input type="text" name="money" class="form-control">
                     </td>
                     <td>
-                        <input id="datepicker1" width="276" name="start_date" value="{{ date('Y-m-d') }}">
+                        <input id="datepicker1" width="150" name="start_date" value="{{ date('Y-m-d') }}">
                         <script src="{{ asset('gijgo/js/messages/messages.zh-TW.js') }}"></script>
                         <script>
                             $('#datepicker1').datepicker({
@@ -54,7 +60,7 @@
                         </script>
                     </td>
                     <td>
-                        <input id="datepicker2" width="276" name="stop_date" value="{{ date('Y-m-d') }}">
+                        <input id="datepicker2" width="150" name="stop_date" value="{{ date('Y-m-d') }}">
                         <script src="{{ asset('gijgo/js/messages/messages.zh-TW.js') }}"></script>
                         <script>
                             $('#datepicker2').datepicker({
