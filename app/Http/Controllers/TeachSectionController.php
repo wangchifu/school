@@ -155,9 +155,9 @@ class TeachSectionController extends Controller
         $semester= get_semester();
 
         $ori_subs = OriSub::where('semester',$semester)
+            ->where('type','c_group')
             ->get();
 
-        $semester= get_semester();
 
         $data = [
             'select_users'=>$select_users,
@@ -375,9 +375,110 @@ class TeachSectionController extends Controller
         return view('teach_sections.taxation');
     }
 
+    public function short()
+    {
+        return view('teach_sections.short');
+    }
+
     public function over()
     {
         return view('teach_sections.over');
+    }
+
+    public function teacher_abs()
+    {
+        $select_users = User::where('disable',null)
+            ->orderBy('order_by')
+            ->pluck('name','id')
+            ->toArray();
+
+        $semester= get_semester();
+
+        $substitute_teachers = SubstituteTeacher::where('active','1')
+            ->pluck('teacher_name','id')
+            ->toArray();
+
+        $data = [
+            'select_users'=>$select_users,
+            'substitute_teachers'=>$substitute_teachers,
+            'semester'=>$semester,
+        ];
+
+        return view('teach_sections.teacher_abs',$data);
+    }
+
+    public function teacher_abs_store(Request $request)
+    {
+        dd($request->all());
+        $att['semester'] = $request->input('semester');
+        $att['type'] = $request->input('type');
+        $att['ori_teacher'] = $request->input('ori_teacher');
+        $att['sub_teacher'] = $request->input('sub_teacher');
+        $att['ps'] = $request->input('ps');
+        $att['abs_date'] = $request->input('abs_date');
+
+        $sub1 = $request->input('sub1');
+        $sub2 = $request->input('sub2');
+        $sub3 = $request->input('sub3');
+        $sub4 = $request->input('sub4');
+        $sub5 = $request->input('sub5');
+        $s = 0;
+        for($i=1;$i<8;$i++){
+            if(empty($sub1[$i])){
+                $sub[1][$i] = null;
+            }else{
+                $sub[1][$i] = "on";
+                $s++;
+            }
+        }
+
+        for($i=1;$i<8;$i++){
+            if(empty($sub2[$i])){
+                $sub[2][$i] = null;
+            }else{
+                $sub[2][$i] = "on";
+                $s++;
+            }
+        }
+
+        for($i=1;$i<8;$i++){
+            if(empty($sub3[$i])){
+                $sub[3][$i] = null;
+            }else{
+                $sub[3][$i] = "on";
+                $s++;
+            }
+        }
+
+        for($i=1;$i<8;$i++){
+            if(empty($sub4[$i])){
+                $sub[4][$i] = null;
+            }else{
+                $sub[4][$i] = "on";
+                $s++;
+            }
+        }
+
+        for($i=1;$i<8;$i++){
+            if(empty($sub5[$i])){
+                $sub[5][$i] = null;
+            }else{
+                $sub[5][$i] = "on";
+                $s++;
+            }
+        }
+
+        $att['sections'] = serialize($sub);
+        $att['section'] = $s;
+
+        OriSub::create($att);
+        return redirect()->route('teacher_abs.index');
+    }
+
+    public function class_teacher()
+    {
+
+        return view('teach_sections.class_teacher');
     }
 
     public function create()

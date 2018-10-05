@@ -21,9 +21,10 @@
         <a href="{{ route('c_group.index') }}" class="btn btn-secondary">輔導團案</a>
         <a href="{{ route('support.index') }}" class="btn btn-secondary">支援教師</a>
         <a href="{{ route('taxation.index') }}" class="btn btn-secondary">兼課教師</a>
-        <a href="" class="btn btn-secondary">短期代理</a>
+        <a href="{{ route('short.index') }}" class="btn btn-secondary">短期代理</a>
         <a href="{{ route('over.index') }}" class="btn btn-secondary">超鐘點案</a>
-        <a href="#" class="btn btn-danger">請假排代</a>
+        <a href="{{ route('teacher_abs.index') }}" class="btn btn-danger">請假排代</a>
+        <a href="{{ route('class_teacher.index') }}" class="btn btn-dark">導師請假</a>
     </div>
     <hr>
     <div class="card">

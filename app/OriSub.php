@@ -13,6 +13,7 @@ class OriSub extends Model
         'type',
         'sections',
         'section',
-        'ps'
+        'ps',
+        'abs_date',
     ];
 }

@@ -17,8 +17,8 @@
         <a href="{{ route('substitute_teacher.index') }}" class="btn btn-success">代課名單</a>
         <a href="{{ route('month_setup.index') }}" class="btn btn-info">月份設定</a>
         <a href="{{ route('c_group.index') }}" class="btn btn-secondary">輔導團案</a>
-        <a href="{{ route('support.index') }}" class="btn btn-secondary active">支援教師</a>
-        <a href="{{ route('taxation.index') }}" class="btn btn-secondary">兼課教師</a>
+        <a href="{{ route('support.index') }}" class="btn btn-secondary">支援教師</a>
+        <a href="{{ route('taxation.index') }}" class="btn btn-secondary active">兼課教師</a>
         <a href="{{ route('short.index') }}" class="btn btn-secondary">短期代理</a>
         <a href="{{ route('over.index') }}" class="btn btn-secondary">超鐘點案</a>
         <a href="{{ route('teacher_abs.index') }}" class="btn btn-danger">請假排代</a>
@@ -27,7 +27,7 @@
     <hr>
     <div class="card">
         <div class="card-header">
-            <h3>支援教師</h3>
+            <h3>導師請假</h3>
         </div>
         <div class="card-body">
             
