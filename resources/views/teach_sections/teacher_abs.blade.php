@@ -57,10 +57,37 @@
                 </tr>
                 </thead>
                 <tbody>
+                @foreach($ori_subs as $ori_sub)
+                    <?php
+                        $ori_teacher = \App\User::where('id',$ori_sub->ori_teacher)->first();
+                        $sub_teacher = \App\SubstituteTeacher::where('id',$ori_sub->sub_teacher)->first();
+                    ?>
+                    <tr>
+                        <td>
+                            {{ $sub_teacher->teacher_name }}
+                        </td>
+                        <td>
+                            {{ $ori_sub->abs_date }}
+                        </td>
+                        <td>
+                            {{ $ori_teacher->name }}
+                        </td>
+                        <td>
+                            {{ $ori_sub->ps }}
+                        </td>
+                        <td>
+                            {{ $ori_sub->section }} <a href="{{ route('teacher_abs.show',$ori_sub->id) }}" class="btn btn-info btn-sm" target="_blank">詳細</a>
+                        </td>
+                        <td>
+                            <a href="{{ route('teacher_abs.delete',$ori_sub->id) }}" class="btn btn-danger btn-sm" onclick="return confirm('確定刪除？')">刪除</a>
+                        </td>
+                    </tr>
+                @endforeach
                 </tbody>
             </table>
             <hr>
             <h2>新增</h2>
+            {{ Form::open(['route'=>'teacher_abs.store','method'=>'POST']) }}
             <table class="table table-striped">
                 <thead>
                 <tr>
@@ -85,7 +112,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                {{ Form::open(['route'=>'teacher_abs.store','method'=>'POST']) }}
+
                 <tr>
                     <td>
                         {{ Form::select('sub_teacher',$substitute_teachers,null,['class'=>'form-control']) }}
@@ -159,12 +186,10 @@
                 </tr>
                 <input type="hidden" name="type" value="teacher_abs">
                 <input type="hidden" name="semester" value="{{ $semester }}">
-                {{ Form::close() }}
-                </tbody>
-                <tbody>
 
                 </tbody>
             </table>
+            {{ Form::close() }}
         </div>
     </div>
 </div>

@@ -127,7 +127,6 @@ class TeachSectionController extends Controller
 
     public function month_setup_store2(Request $request)
     {
-
         $att['semester'] = $request->input('semester');
         $att['type'] = "workday";
 
@@ -398,10 +397,15 @@ class TeachSectionController extends Controller
             ->pluck('teacher_name','id')
             ->toArray();
 
+        $ori_subs = OriSub::where('semester',$semester)
+            ->where('type','teacher_abs')
+            ->get();
+
         $data = [
             'select_users'=>$select_users,
             'substitute_teachers'=>$substitute_teachers,
             'semester'=>$semester,
+            'ori_subs'=>$ori_subs,
         ];
 
         return view('teach_sections.teacher_abs',$data);
@@ -409,7 +413,6 @@ class TeachSectionController extends Controller
 
     public function teacher_abs_store(Request $request)
     {
-        dd($request->all());
         $att['semester'] = $request->input('semester');
         $att['type'] = $request->input('type');
         $att['ori_teacher'] = $request->input('ori_teacher');
@@ -474,6 +477,22 @@ class TeachSectionController extends Controller
         OriSub::create($att);
         return redirect()->route('teacher_abs.index');
     }
+
+    public function teacher_abs_show(OriSub $ori_sub)
+    {
+        $data = [
+            'ori_sub'=>$ori_sub,
+        ];
+
+        return view('teach_sections.teacher_abs_show',$data);
+    }
+
+    public function teacher_abs_delete(OriSub $ori_sub)
+    {
+        $ori_sub->delete();
+        return redirect()->route('teacher_abs.index');
+    }
+
 
     public function class_teacher()
     {
