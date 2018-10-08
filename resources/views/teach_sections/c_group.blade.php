@@ -25,7 +25,7 @@
         <a href="{{ route('class_teacher.index') }}" class="btn btn-dark">導師請假</a>
     </div>
     <hr>
-    <a href="{{ route('c_group.report') }}" class="btn btn-primary" target="_blank"><i class="fas fa-file"></i> 輔導團報表產生器</a>
+    <a href="{{ route('c_group.report') }}" class="btn btn-primary" target="_blank"><i class="fas fa-file"></i> 「輔導團案」報表產生器</a>
     <div class="card">
         <div class="card-header">
             <h3>{{ $semester }}輔導團案</h3>

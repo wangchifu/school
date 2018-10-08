@@ -3,13 +3,11 @@
 @section('page-title', '教學組-代課課表')
 
 @section('content')
-<script src="{{ asset('gijgo/js/gijgo.min.js') }}" type="text/javascript"></script>
-<link href="{{ asset('gijgo/css/gijgo.min.css') }}" rel="stylesheet" type="text/css">
 <br><br><br>
 <div class="container">
-    <h1>輔導團月結報表-步驟二</h1>
+    <h1>「輔導團案」月結報表-步驟二</h1>
         {{ Form::open(['route'=>'c_group.print','method'=>'POST']) }}
-        <input type="text" name="title" class="form-control" value="彰化縣和東國民小學107年9月輔導團代課教師鐘點費請領清冊">
+        <input type="text" name="title" class="form-control" value="彰化縣和東國民小學{{ $title }}" readonly>
         <br>
         <table class="table table-striped table-bordered">
         <thead>

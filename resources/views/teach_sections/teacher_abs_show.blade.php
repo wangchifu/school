@@ -20,22 +20,10 @@ $sections = unserialize($ori_sub->sections);
             <table class="table table-striped table-bordered">
                 <tr>
                     <td>
-
+                        節次
                     </td>
                     <td>
-                        一
-                    </td>
-                    <td>
-                        二
-                    </td>
-                    <td>
-                        三
-                    </td>
-                    <td>
-                        四
-                    </td>
-                    <td>
-                        五
+                        {{ get_chinese_weekday($ori_sub->abs_date) }}
                     </td>
                 </tr>
                 @for($i=1;$i<8;$i++)
@@ -43,15 +31,13 @@ $sections = unserialize($ori_sub->sections);
                         <td>
                             {{ $i }}
                         </td>
-                        @for($j=1;$j<6;$j++)
                         <td>
-                            @if($sections[$j][$i]=="on")
+                            @if($sections[$i]=="on")
                                 代
                             @else
 
                             @endif
                         </td>
-                        @endfor
                     </tr>
                 @endfor
             </table>

@@ -279,6 +279,7 @@ class TeachSectionController extends Controller
 
             do{
                 $d1 = substr($dt1->toDateTimeString(),0,10);
+
                 $w = get_date_w($d1);
                 //查看當日是否有上課
                 if(empty($special_date[$d1]['type'])) $special_date[$d1]['type']=null;
@@ -304,6 +305,26 @@ class TeachSectionController extends Controller
                         }
                     }
                 }
+
+
+
+                //該代課老師，是否有請假
+                $sub_abs = OriSub::where('semester',$semester)
+                    ->where('type','teacher_abs')
+                    ->where('ori_teacher',$ori_sub->sub_teacher)
+                    ->where('abs_date',$d1)
+                    ->first();
+
+                if(!empty($sub_abs)){
+                    $abs_sections = unserialize($sub_abs->sections);
+                    $w2 = get_date_w($d1);
+                    foreach ($sections[$w2] as $k => $v) {
+                        if ($v == "on" and $abs_sections[$k]=="on") {
+                            $total_sections[$ori_sub->id]--;
+                        }
+                    }
+                }
+
 
                 $dt1->addDay();
             }while($dt2->gte($dt1));
@@ -420,53 +441,13 @@ class TeachSectionController extends Controller
         $att['ps'] = $request->input('ps');
         $att['abs_date'] = $request->input('abs_date');
 
-        $sub1 = $request->input('sub1');
-        $sub2 = $request->input('sub2');
-        $sub3 = $request->input('sub3');
-        $sub4 = $request->input('sub4');
-        $sub5 = $request->input('sub5');
+        $sub = $request->input('sub');
         $s = 0;
         for($i=1;$i<8;$i++){
-            if(empty($sub1[$i])){
-                $sub[1][$i] = null;
+            if(empty($sub[$i])){
+                $sub[$i] = null;
             }else{
-                $sub[1][$i] = "on";
-                $s++;
-            }
-        }
-
-        for($i=1;$i<8;$i++){
-            if(empty($sub2[$i])){
-                $sub[2][$i] = null;
-            }else{
-                $sub[2][$i] = "on";
-                $s++;
-            }
-        }
-
-        for($i=1;$i<8;$i++){
-            if(empty($sub3[$i])){
-                $sub[3][$i] = null;
-            }else{
-                $sub[3][$i] = "on";
-                $s++;
-            }
-        }
-
-        for($i=1;$i<8;$i++){
-            if(empty($sub4[$i])){
-                $sub[4][$i] = null;
-            }else{
-                $sub[4][$i] = "on";
-                $s++;
-            }
-        }
-
-        for($i=1;$i<8;$i++){
-            if(empty($sub5[$i])){
-                $sub[5][$i] = null;
-            }else{
-                $sub[5][$i] = "on";
+                $sub[$i] = "on";
                 $s++;
             }
         }
@@ -491,6 +472,53 @@ class TeachSectionController extends Controller
     {
         $ori_sub->delete();
         return redirect()->route('teacher_abs.index');
+    }
+
+    public function teacher_abs_report()
+    {
+        $semester= get_semester();
+        $data = [
+            'semester'=>$semester
+        ];
+        return view('teach_sections.teacher_abs_report1',$data);
+    }
+
+    public function teacher_abs_send_report(Request $request)
+    {
+        $semester = get_semester();
+        $start_date = str_replace('-','',$request->input('start_date'));
+        $stop_date = str_replace('-','',$request->input('stop_date'));
+
+        $money = $request->input('money');
+        $title = $request->input('title');
+
+        $ori_subs = OriSub::where('semester',$semester)
+            ->where('type','teacher_abs')
+            ->orderBy('ori_teacher')
+            ->get();
+        $abs_data = [];
+        foreach($ori_subs as $ori_sub){
+            if(str_replace('-','',$ori_sub->abs_date) >= $start_date and str_replace('-','',$ori_sub->abs_date) <= $stop_date){
+                $ori_teacher = User::where('id',$ori_sub->ori_teacher)->first();
+                $sub_teacher = SubstituteTeacher::where('id',$ori_sub->sub_teacher)->first();
+                $abs_data[$ori_sub->id]['ori_teacher'] = $ori_teacher->name;
+                $abs_data[$ori_sub->id]['sub_teacher'] = $sub_teacher->teacher_name;
+                $abs_data[$ori_sub->id]['abs_date'] = $ori_sub->abs_date;
+                $abs_data[$ori_sub->id]['ps'] = $ori_sub->ps;
+                $abs_data[$ori_sub->id]['section'] = $ori_sub->section;
+
+            }
+
+        }
+
+        $data = [
+            'money'=>$money,
+            'title'=>$title,
+            'abs_data'=>$abs_data,
+        ];
+
+        return view('teach_sections.teacher_abs_report2',$data);
+
     }
 
 

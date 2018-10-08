@@ -20,13 +20,14 @@
         <a href="{{ route('month_setup.index') }}" class="btn btn-info">月份設定</a>
         <a href="{{ route('c_group.index') }}" class="btn btn-secondary">輔導團案</a>
         <a href="{{ route('support.index') }}" class="btn btn-secondary">支援教師</a>
-        <a href="{{ route('taxation.index') }}" class="btn btn-secondary active">兼課教師</a>
+        <a href="{{ route('taxation.index') }}" class="btn btn-secondary">兼課教師</a>
         <a href="{{ route('short.index') }}" class="btn btn-secondary">短期代理</a>
         <a href="{{ route('over.index') }}" class="btn btn-secondary">超鐘點案</a>
-        <a href="{{ route('teacher_abs.index') }}" class="btn btn-danger">請假排代</a>
+        <a href="{{ route('teacher_abs.index') }}" class="btn btn-danger active">請假排代</a>
         <a href="{{ route('class_teacher.index') }}" class="btn btn-dark">導師請假</a>
     </div>
     <hr>
+    <a href="{{ route('teacher_abs.report') }}" class="btn btn-primary" target="_blank"><i class="fas fa-file"></i> 「請假排代」報表產生器</a>
     <div class="card">
         <div class="card-header">
             <h3>請假排代</h3>
@@ -141,19 +142,7 @@
 
                                 </td>
                                 <td>
-                                    一
-                                </td>
-                                <td>
-                                    二
-                                </td>
-                                <td>
-                                    三
-                                </td>
-                                <td>
-                                    四
-                                </td>
-                                <td>
-                                    五
+                                    節次
                                 </td>
                             </tr>
                             @for($i=1;$i<8;$i++)
@@ -162,19 +151,7 @@
                                         {{ $i }}
                                     </td>
                                     <td>
-                                        <input type="checkbox" name="sub1[{{ $i }}]">
-                                    </td>
-                                    <td>
-                                        <input type="checkbox" name="sub2[{{ $i }}]">
-                                    </td>
-                                    <td>
-                                        <input type="checkbox" name="sub3[{{ $i }}]">
-                                    </td>
-                                    <td>
-                                        <input type="checkbox" name="sub4[{{ $i }}]">
-                                    </td>
-                                    <td>
-                                        <input type="checkbox" name="sub5[{{ $i }}]">
+                                        <input type="checkbox" name="sub[{{ $i }}]">
                                     </td>
                                 </tr>
                             @endfor

@@ -35,6 +35,8 @@ Route::group(['middleware' => 'teach_section'],function(){
     Route::post('teacher_abs/sore' , 'TeachSectionController@teacher_abs_store')->name('teacher_abs.store');
     Route::get('teacher_abs/{ori_sub}/show' , 'TeachSectionController@teacher_abs_show')->name('teacher_abs.show');
     Route::get('teacher_abs/{ori_sub}/delete' , 'TeachSectionController@teacher_abs_delete')->name('teacher_abs.delete');
+    Route::get('teacher_abs/report' , 'TeachSectionController@teacher_abs_report')->name('teacher_abs.report');
+    Route::post('teacher_abs/send_report' , 'TeachSectionController@teacher_abs_send_report')->name('teacher_abs.send_report');
 
 
     Route::get('class_teacher' , 'TeachSectionController@class_teacher')->name('class_teacher.index');

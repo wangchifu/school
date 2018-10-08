@@ -7,13 +7,13 @@
 <link href="{{ asset('gijgo/css/gijgo.min.css') }}" rel="stylesheet" type="text/css">
 <br><br><br>
 <div class="container">
-    <h1>「輔導團案」月結報表-步驟一</h1>
+    <h1>「請假排代」月結報表-步驟一</h1>
     <div class="card">
         <div class="card-header">
             報表起迄
         </div>
         <div class="card-body">
-            {{ Form::open(['route'=>'c_group.send_report','method'=>'POST']) }}
+            {{ Form::open(['route'=>'teacher_abs.send_report','method'=>'POST']) }}
             <table class="table table-striped">
                 <tr>
                     <td width="100">
@@ -40,10 +40,10 @@
                         {{ $semester }}
                     </td>
                     <td>
-                        輔導團案
+                        請假排代
                     </td>
                     <td>
-                        <input type="text" name="title" class="form-control" value="107年9月輔導團代課教師鐘點費請領清冊">
+                        <input type="text" name="title" class="form-control" value="107年9月份請假排代課教師鐘點費請領清冊">
                     </td>
                     <td>
                         <input type="text" name="money" class="form-control" required>
