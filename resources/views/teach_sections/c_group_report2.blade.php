@@ -96,7 +96,7 @@
         </tr>
             <script>
                 function change_real{{ $ori_sub->id }}(obj){
-                    document.getElementById('real_money{{ $ori_sub->id }}').value=document.getElementById('ori_money{{ $ori_sub->id }}').value - obj.value;
+                    document.getElementById('real_money{{ $ori_sub->id }}').value=document.getElementById('real_money{{ $ori_sub->id }}').value - obj.value;
                 }
             </script>
         @endforeach

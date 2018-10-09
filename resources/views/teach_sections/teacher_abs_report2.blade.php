@@ -6,19 +6,19 @@
 <br><br><br>
 <div class="container">
     <h1>「請假代課」月結報表-步驟二</h1>
-        {{ Form::open(['route'=>'c_group.print','method'=>'POST']) }}
+        {{ Form::open(['route'=>'teacher_abs.print','method'=>'POST']) }}
         <input type="text" name="title" class="form-control" value="彰化縣和東國民小學{{ $title }}" readonly>
         <br>
         <table class="table table-striped table-bordered">
         <thead>
         <tr>
-            <th nowrap width="120">
+            <th nowrap width="100">
                 姓名
             </th>
-            <th nowrap width="160">
+            <th nowrap width="140">
                 上課期間
             </th>
-            <th nowrap>
+            <th nowrap width="100">
                 請假者
             </th>
             <th nowrap>
@@ -30,60 +30,69 @@
             <th>
                 鐘點費
             </th>
-            <th nowrap width="110">
+            <th nowrap width="100">
                 請領金額
             </th>
-            <th>
+            <th nowrap width="100">
                 請領合計
             </th>
-            <th nowrap>
+            <th nowrap width="100">
                 勞保
             </th>
-            <th nowrap>
+            <th width="100">
                 二代健保自付補充
             </th>
-            <th nowrap>
+            <th nowrap width="100">
                 實領金額
             </th>
         </tr>
         </thead>
         <tbody>
         @foreach($abs_data as $k=>$v)
+            @foreach($v as $k1=>$v1)
             <tr>
                 <td>
-                    {{ $v['sub_teacher'] }}
+                    <input type="text" name="sub_tea[{{ $k }}][{{ $k1 }}]" value="{{ $v1['sub_teacher'] }}" class="form-control" readonly>
                 </td>
                 <td>
-                    {{ $v['abs_date'] }}
+                    <input type="text" name="abs_date[{{ $k }}][{{ $k1 }}]" value="{{ $v1['abs_date'] }}" class="form-control" readonly>
                 </td>
                 <td>
-                    {{ $v['ori_teacher'] }}
+                    <input type="text" name="ori_tea[{{ $k }}][{{ $k1 }}]" value="{{ $v1['ori_teacher'] }}" class="form-control" readonly>
                 </td>
                 <td>
-                    {{ $v['ps'] }}
+                    <input type="text" name="ps[{{ $k }}][{{ $k1 }}]" value="{{ $v1['ps'] }}" class="form-control" readonly>
                 </td>
                 <td>
-                    {{ $v['section'] }}
+                    <input type="text" name="section[{{ $k }}][{{ $k1 }}]" value="{{ $v1['section'] }}" class="form-control" readonly>
                 </td>
                 <td>
-                    {{ $money }}
+                    {{ Form::text('money',$money,['class' => 'form-control', 'readonly' => 'readonly']) }}
                 </td>
                 <td>
-                    {{ $v['section']*$money }}
+                    <input type="text" name="ori_money[{{ $k }}][{{ $k1 }}]" value="{{ $v1['section']*$money }}" class="form-control" readonly>
                 </td>
-                <td>
-
-                </td>
-                <td>
-
-                </td>
-                <td>
-
-                </td>
-                <td>
-
-                </td>
+                @if($k1==1)
+                    <td rowspan="{{ count($v) }}">
+                        <input type="text" name="ori_total_money[{{ $k }}]" id="ori_money{{ $k }}" class="form-control" value="{{ $total_section[$k]*$money }}" readonly>
+                    </td>
+                    <td rowspan="{{ count($v) }}">
+                        {{ Form::text('laubo['.$k.']',0,['id'=>'laubo'.$k,'class' => 'form-control','onchange'=>'change_real'.$k.'(this)']) }}
+                    </td>
+                    <td rowspan="{{ count($v) }}">
+                        {{ Form::text('zenbo['.$k.']',0,['id'=>'zenbo'.$k,'class' => 'form-control','onchange'=>'change_real'.$k.'(this)']) }}
+                    </td>
+                    <td rowspan="{{ count($v) }}">
+                        {{ Form::text('real_money['.$k.']',$total_section[$k]*$money,['id'=>'real_money'.$k,'class' => 'form-control', 'readonly' => 'readonly']) }}
+                    </td>
+                @endif
             </tr>
+            @endforeach
+            <script>
+                function change_real{{ $k }}(obj){
+                    document.getElementById('real_money{{ $k }}').value=document.getElementById('real_money{{ $k }}').value - obj.value;
+                }
+            </script>
         @endforeach
         </tbody>
         </table>

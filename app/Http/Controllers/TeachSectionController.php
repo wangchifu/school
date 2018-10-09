@@ -494,31 +494,88 @@ class TeachSectionController extends Controller
 
         $ori_subs = OriSub::where('semester',$semester)
             ->where('type','teacher_abs')
-            ->orderBy('ori_teacher')
+            ->orderBy('sub_teacher')
             ->get();
         $abs_data = [];
+        $last_name = "";
         foreach($ori_subs as $ori_sub){
             if(str_replace('-','',$ori_sub->abs_date) >= $start_date and str_replace('-','',$ori_sub->abs_date) <= $stop_date){
+
                 $ori_teacher = User::where('id',$ori_sub->ori_teacher)->first();
                 $sub_teacher = SubstituteTeacher::where('id',$ori_sub->sub_teacher)->first();
+                $teacher_name = $sub_teacher->teacher_name;
+                if($teacher_name != $last_name){
+                    $i = 1;
+                }
+                $abs_data[$teacher_name][$i]['ori_teacher'] = $ori_teacher->name;
+                $abs_data[$teacher_name][$i]['sub_teacher'] = $sub_teacher->teacher_name;
+                $abs_data[$teacher_name][$i]['abs_date'] = $ori_sub->abs_date;
+                $abs_data[$teacher_name][$i]['ps'] = $ori_sub->ps;
+                $abs_data[$teacher_name][$i]['section'] = $ori_sub->section;
+                $last_name = $teacher_name;
+                $i++;
+                /**
                 $abs_data[$ori_sub->id]['ori_teacher'] = $ori_teacher->name;
                 $abs_data[$ori_sub->id]['sub_teacher'] = $sub_teacher->teacher_name;
                 $abs_data[$ori_sub->id]['abs_date'] = $ori_sub->abs_date;
                 $abs_data[$ori_sub->id]['ps'] = $ori_sub->ps;
                 $abs_data[$ori_sub->id]['section'] = $ori_sub->section;
-
+                 * */
             }
 
         }
+
+        foreach($abs_data as $k=>$v){
+            foreach($v as $k1=>$v1){
+                if(empty($total_section[$k])) $total_section[$k] = 0;
+                $total_section[$k] += $v1['section'];
+            }
+        }
+
 
         $data = [
             'money'=>$money,
             'title'=>$title,
             'abs_data'=>$abs_data,
+            'total_section'=>$total_section,
         ];
 
         return view('teach_sections.teacher_abs_report2',$data);
 
+    }
+
+    public function teacher_abs_print(Request $request)
+    {
+        $title = $request->input('title');
+
+        $sub_tea = $request->input('sub_tea');
+        $abs_date = $request->input('abs_date');
+        $ori_tea = $request->input('ori_tea');
+        $ps = $request->input('ps');
+        $section = $request->input('section');
+        $money = $request->input('money');
+        $ori_money = $request->input('ori_money');
+        $ori_total_money = $request->input('ori_total_money');
+        $laubo = $request->input('laubo');
+        $zenbo = $request->input('zenbo');
+        $real_money = $request->input('real_money');
+
+        $data = [
+            'title'=>$title,
+            'sub_tea'=>$sub_tea,
+            'abs_date'=>$abs_date,
+            'ori_tea'=>$ori_tea,
+            'ps'=>$ps,
+            'section'=>$section,
+            'money'=>$money,
+            'ori_money'=>$ori_money,
+            'ori_total_money'=>$ori_total_money,
+            'laubo'=>$laubo,
+            'zenbo'=>$zenbo,
+            'real_money'=>$real_money,
+
+        ];
+        return view('teach_sections.teacher_abs_print',$data);
     }
 
 
