@@ -320,6 +320,8 @@ Route::group(['middleware' => 'auth'],function() {
     Route::post('lunch_specials/change_one_stu_store','LunchSpecialController@change_one_stu_store')->name('lunch_specials.change_one_stu_store');
     Route::get('lunch_specials/back_one_stu','LunchSpecialController@back_one_stu')->name('lunch_specials.back_one_stu');
     Route::post('lunch_specials/back_one_stu_store','LunchSpecialController@back_one_stu_store')->name('lunch_specials.back_one_stu_store');
+    Route::get('lunch_specials/back_big_stu','LunchSpecialController@back_big_stu')->name('lunch_specials.back_big_stu');
+    Route::post('lunch_specials/back_big_stu_store','LunchSpecialController@back_big_stu_store')->name('lunch_specials.back_big_stu_store');
     Route::get('lunch_specials/back_one_class','LunchSpecialController@back_one_class')->name('lunch_specials.back_one_class');
     Route::post('lunch_specials/back_one_class_store','LunchSpecialController@back_one_class_store')->name('lunch_specials.back_one_class_store');
     Route::get('lunch_specials/back_one_year','LunchSpecialController@back_one_year')->name('lunch_specials.back_one_year');

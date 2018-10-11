@@ -29,6 +29,8 @@
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="{{ route('lunch_specials.back_one_stu') }}">單一學生退訂餐</a>
             <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="{{ route('lunch_specials.back_big_stu') }}">大量學生退訂餐</a>
+            <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="{{ route('lunch_specials.back_one_class') }}">班級單日退餐退費</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="{{ route('lunch_specials.back_one_year') }}">學年單日退餐退費</a>
