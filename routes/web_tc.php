@@ -26,6 +26,14 @@ Route::group(['middleware' => 'teach_section'],function(){
     Route::get('support' , 'TeachSectionController@support')->name('support.index');
 
     Route::get('taxation' , 'TeachSectionController@taxation')->name('taxation.index');
+    Route::post('taxation/store' , 'TeachSectionController@taxation_store')->name('taxation.store');
+    Route::get('taxation/{ori_sub}/show' , 'TeachSectionController@taxation_show')->name('taxation.show');
+    Route::get('taxation/{ori_sub}/delete' , 'TeachSectionController@taxation_delete')->name('taxation.delete');
+    Route::get('taxation/report' , 'TeachSectionController@taxation_report')->name('taxation.report');
+    Route::post('taxation/send_report' , 'TeachSectionController@taxation_send_report')->name('taxation.send_report');
+    Route::post('taxation/print' , 'TeachSectionController@taxation_print')->name('taxation.print');
+
+
 
     Route::get('short' , 'TeachSectionController@short')->name('short.index');
 

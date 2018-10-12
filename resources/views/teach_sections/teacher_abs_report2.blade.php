@@ -4,7 +4,7 @@
 
 @section('content')
 <br><br><br>
-<div class="container">
+<div class="container-fluid">
     <h1>「請假代課」月結報表-步驟二</h1>
         {{ Form::open(['route'=>'teacher_abs.print','method'=>'POST']) }}
         <input type="text" name="title" class="form-control" value="彰化縣和東國民小學{{ $title }}" readonly>

@@ -5,44 +5,50 @@
 @section('content')
 <br><br><br>
 <div class="container-fluid">
-    <h1>「輔導團案」月結報表-步驟二</h1>
-        {{ Form::open(['route'=>'c_group.print','method'=>'POST']) }}
+    <h1>「兼課教師」(課稅方案)月結報表-步驟二</h1>
+        {{ Form::open(['route'=>'taxation.print','method'=>'POST']) }}
         <input type="text" name="title" class="form-control" value="彰化縣和東國民小學{{ $title }}" readonly>
         <br>
         <table class="table table-striped table-bordered">
         <thead>
         <tr>
-            <th nowrap width="120">
+            <th nowrap width="100">
                 姓名
             </th>
-            <th nowrap width="160">
+            <th nowrap width="100">
+                健保月保<br>金額
+            </th>
+            <th nowrap width="145">
                 上課期間
             </th>
-            <th nowrap>
-                每週節數
+            <th nowrap width="70">
+                每週<br>節數
             </th>
-            <th nowrap>
-                合計節數
+            <th nowrap width="70">
+                合計<br>節數
             </th>
-            <th nowrap width="90">
+            <th nowrap width="100">
                 鐘點費
             </th>
-            <th nowrap width="110">
+            <th nowrap width="100">
                 請領金額
             </th>
-            <th nowrap>
+            <th nowrap width="100">
                 勞保自付
             </th>
-            <th nowrap>
+            <th nowrap width="100">
                 健保自付
             </th>
-            <th nowrap>
+            <th nowrap width="100">
                 勞退自付
             </th>
-            <th nowrap width="110">
+            <th nowrap width="100">
+                2代健保<br>自付
+            </th>
+            <th nowrap width="100">
                 實領金額
             </th>
-            <th nowrap width="180">
+            <th nowrap>
                 備註
             </th>
         </tr>
@@ -51,11 +57,13 @@
         @foreach($ori_subs as $ori_sub)
             <?php
             $ori_teacher = \APP\User::where('id',$ori_sub->ori_teacher)->first();
-            $sub_teacher = \APP\User::where('id',$ori_sub->sub_teacher)->first();
             ?>
         <tr>
             <td nowrap>
-                <input type="text" name="tea[{{ $ori_sub->id }}]" value="{{ $sub_teacher->name }}" class="form-control" readonly>
+                <input type="text" name="tea[{{ $ori_sub->id }}]" value="{{ $ori_teacher->name }}" class="form-control" readonly>
+            </td>
+            <td>
+                {{ Form::text('zenbom['.$ori_sub->id.']',0,['id'=>'zenbom'.$ori_sub->id,'class' => 'form-control']) }}
             </td>
             <td nowrap>
                 <input type="text" name="set_date" value="{{ substr($start_date,5,5) }}~{{ substr($stop_date,5,5) }}" class="form-control" readonly>
@@ -83,6 +91,9 @@
             </td>
             <td>
                 {{ Form::text('laute['.$ori_sub->id.']',0,['id'=>'laubote'.$ori_sub->id,'class' => 'form-control','onchange'=>'change_real'.$ori_sub->id.'(this)']) }}
+            </td>
+            <td>
+                {{ Form::text('zenbo2['.$ori_sub->id.']',0,['id'=>'zenbo2'.$ori_sub->id,'class' => 'form-control','onchange'=>'change_real'.$ori_sub->id.'(this)']) }}
             </td>
             <td>
                 <?php
