@@ -13,11 +13,12 @@
         foreach($has_classes as $k1=>$v1){
             $year_class = back_cht_year_class($k1);
             foreach($lists as $k2=>$v2){
-                $name = $winners[$k1][$k2]['name'];
-                $content = str_replace('{班級}',$year_class,$v2['description']);
-                $content = str_replace('{姓名}',$name,$content);
-                $content = str_replace('{換行}',"<br>",$content);
-                $data .= "
+                if(isset($winners[$k1][$k2]['name'])){
+                    $name = $winners[$k1][$k2]['name'];
+                    $content = str_replace('{班級}',$year_class,$v2['description']);
+                    $content = str_replace('{姓名}',$name,$content);
+                    $content = str_replace('{換行}',"<br>",$content);
+                    $data .= "
                 <div style=\"font-family:標楷體;font-size:70px;margin-top:220px;margin-left:100px;line-height: 120px;position:relative;height:1230px;\">
                 <br>
                 " . $content ."
@@ -26,6 +27,8 @@
 		        </div>
 		        <p style=\"page-break-after:always\"></p>
                 ";
+                }
+
             }
         }
 
