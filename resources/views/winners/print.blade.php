@@ -19,7 +19,7 @@
                     $content = str_replace('{姓名}',$name,$content);
                     $content = str_replace('{換行}',"<br>",$content);
                     $data .= "
-                <div style=\"font-family:標楷體;font-size:70px;margin-top:220px;margin-left:100px;line-height: 120px;position:relative;height:1230px;\">
+                <div style=\"font-family:標楷體;font-size:70px;margin-top:220px;margin-left:120px;margin-right:120px;line-height: 120px;position:relative;height:1230px;\">
                 <br>
                 " . $content ."
 
