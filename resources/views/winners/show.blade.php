@@ -21,9 +21,13 @@
                     @foreach($has_classes as $k1=>$v1)
                         <h4>{{ back_cht_year_class($k1) }}</h4>
                         @foreach($lists as $k2=>$v2)
+                            @if(isset($winners[$k1][$k2]['name']))
                             <h5>{{ $v2['title'] }}：{{ $winners[$k1][$k2]['name'] }}</h5>
+                            @endif
                         @endforeach
+                        @if(isset($winners[$k1][$k2]['teacher']))
                         <small class="text-primary">({{ $winners[$k1][$k2]['teacher'] }} 填報)</small>
+                        @endif
                         <hr>
                     @endforeach
                 </div>
