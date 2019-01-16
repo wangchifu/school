@@ -37,7 +37,7 @@
             @if($has_week)
             @can('create',\App\Post::class)
                 <td>
-                <a href="{{ route('calendars.create',$this_semester) }}" class="btn btn-success btn-sm"><i class="fas fa-plus"></i> 新增{{ $this_semester }}學期行事</a>
+                <a href="{{ route('calendars.create',$this_semester) }}" class="btn btn-success btn-sm"><i class="fas fa-plus"></i> 新增{{ $semester }}學期行事</a>
                 </td>
             @endcan
             @endif
