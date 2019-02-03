@@ -55,7 +55,7 @@
                     @endif
                 </td>
                 <td>
-                    @if($lunch_setup->tea_open)
+                    @if($lunch_setup->disable)
                         <strong class="text-danger">期末結算，師生停止退餐</strong>
                     @else
                         <strong class="text-primary">最晚前 <span class="text-danger">{{ $lunch_setup->die_line }}</span> 天可退餐</strong>
