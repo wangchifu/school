@@ -31,7 +31,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $posts = Post::orderBy('created_at','DESC')
+        $posts = Post::orderBy('top','DESC')
+            ->orderBy('created_at','DESC')
             ->paginate(15);
 
         //$users = User::where('disable',null)->orderBy('order_by')->get();

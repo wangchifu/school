@@ -14,6 +14,7 @@ class Post extends Model
         'user_id',
         'views',
         'insite',
+        'top',
     ];
 
     public function user()

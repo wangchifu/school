@@ -155,6 +155,9 @@
 
                 <tr>
                     <td>
+                        @if($post->top)
+                            <p class="badge badge-danger">置頂</p>
+                        @endif
                         {{ $post->id }}
                     </td>
                     <td width="120">

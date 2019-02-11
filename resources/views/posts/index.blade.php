@@ -56,7 +56,10 @@
         ?>
         @foreach($posts as $post)
             <tr>
-                <td width="120">
+                <td width="150">
+                    @if($post->top)
+                        <p class="badge badge-danger">置頂</p>
+                    @endif
                     {{ substr($post->created_at,0,10) }}
                 </td>
                 <td>
